@@ -595,7 +595,6 @@ Row(
       child: GestureDetector(
         onTap: () {
           statusController.mealzoId.value = searchController.text.trim();
-
           statusController.getStatusMealzoId();
         },
         child: const Icon(Icons.send, color: Colors.grey),
