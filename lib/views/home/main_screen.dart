@@ -353,6 +353,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
 
+SizedBox(width: 8,),
                       Container(
                         width: 115,
                         padding: const EdgeInsets.all(12),
@@ -462,6 +463,7 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+SizedBox(width: 8,),
 
                       Container(
                         width: 115,
