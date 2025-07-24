@@ -3,31 +3,22 @@ import 'package:get/get.dart';
 import 'package:onoff/components/imageUrlConst.dart';
 import 'package:onoff/components/widgets.dart';
 
-
-
-
-
 final GlobalKey<ScaffoldState> _key = GlobalKey();
-
-
-
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
     return Scaffold(
-        key: _key,
+      key: _key,
 
-
-  
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            
             InkWell(
               onTap: () {
                 _key.currentState!.openDrawer();
@@ -35,27 +26,79 @@ class HomeScreen extends StatelessWidget {
               child: Icon(Icons.menu, size: 30),
             ),
 
+            SizedBox(width: Get.width / 3.4),
 
+            Image.asset(
+              ImageUrlConst.baner,
+              height: 40,
+              width: 100,
+              fit: BoxFit.cover,
+            ),
           ],
         ),
       ),
 
-
       drawer: Drawer(
-        
-        child: SafeArea(child: Text('data')),
+        child: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              SizedBox(
+                width: Get.width,
+                height: 150,
 
+                child: Center(
+                  child: Image.asset(ImageUrlConst.onoff, fit: BoxFit.cover),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              ListTile(
+                leading: Icon(Icons.home, color: Colors.grey),
+                title: Text('Home'),
+                onTap: () {
+                  Get.back();
+                },
+              ),
+              Divider(color: Colors.grey.shade300, thickness: 1),
+
+              ListTile(
+                leading: Icon(Icons.web, color: Colors.grey),
+                title: Text('Website'),
+                onTap: () {
+                  Get.back();
+                },
+              ),
+              Divider(color: Colors.grey.shade300, thickness: 1),
+              SizedBox(height: size.height / 1.9),
+
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    'Version 0.0.1',
+                    style: TextStyle(
+                      color: Colors.grey.shade500,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(width: 12),
+
+                  Text('Powered by R&D Team', style: TextStyle(color: Colors.grey.shade500)),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
-
-
 
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-
-
               Container(
                 width: Get.width,
                 height: 150,
@@ -78,23 +121,28 @@ class HomeScreen extends StatelessWidget {
                                 height: 30,
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade200,
-                                  borderRadius: BorderRadius.all(Radius.circular(8))
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
                                 ),
-                                child: Icon(Icons.ad_units_rounded,)),
-                              SizedBox(width: 8,),
-                              Text('Total Device', style: TextStyle(fontWeight: FontWeight.bold),),
+                                child: Icon(Icons.ad_units_rounded),
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                'Total Device',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                             ],
                           ),
-                          Text('256', style: TextStyle(fontWeight: FontWeight.bold),),
+                          Text(
+                            '256',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ],
                       ),
                     ),
 
-
-
-
-
-                      Padding(
+                    Padding(
                       padding: const EdgeInsets.fromLTRB(16, 8, 16, 2),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,21 +154,31 @@ class HomeScreen extends StatelessWidget {
                                 height: 30,
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade200,
-                                  borderRadius: BorderRadius.all(Radius.circular(8))
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
                                 ),
-                                child: Icon(Icons.ad_units_rounded, color: Colors.red,)),
-                              SizedBox(width: 8,),
-                              Text('Total Off Device', style: TextStyle(fontWeight: FontWeight.bold),),
+                                child: Icon(
+                                  Icons.ad_units_rounded,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                'Total Off Device',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                             ],
                           ),
-                          Text('256', style: TextStyle(fontWeight: FontWeight.bold),),
+                          Text(
+                            '256',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ],
                       ),
                     ),
 
-
-
-                      Padding(
+                    Padding(
                       padding: const EdgeInsets.fromLTRB(16, 8, 16, 2),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,25 +190,32 @@ class HomeScreen extends StatelessWidget {
                                 height: 30,
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade200,
-                                  borderRadius: BorderRadius.all(Radius.circular(8))
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
                                 ),
-                                child: Icon(Icons.ad_units_rounded, color: Colors.green,)),
-                              SizedBox(width: 8,),
-                              Text('Total On Device', style: TextStyle(fontWeight: FontWeight.bold),),
+                                child: Icon(
+                                  Icons.ad_units_rounded,
+                                  color: Colors.green,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                'Total On Device',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                             ],
                           ),
-                          Text('256', style: TextStyle(fontWeight: FontWeight.bold),),
+                          Text(
+                            '256',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ],
                       ),
                     ),
                   ],
-                )
+                ),
               ),
-
-
-
-
-
 
               const SizedBox(height: 16),
 

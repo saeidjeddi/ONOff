@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:onoff/views/home/main_screen.dart';
+import 'package:onoff/views/splash_screen.dart';
 
 
 
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
 
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: HomeScreen(),
+      home: SplashScreen(),
     );
   }
 }
