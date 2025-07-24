@@ -1,13 +1,11 @@
 import 'package:get/get.dart';
 
 class PaginatedResponse {
-  final Pages pages;
   final int totalPages;
-  final int currentPage;
+  late final int currentPage;
   final List<RestaurantResult> results;
 
   PaginatedResponse({
-    required this.pages,
     required this.totalPages,
     required this.currentPage,
     required this.results,
@@ -15,7 +13,6 @@ class PaginatedResponse {
 
   factory PaginatedResponse.fromJson(Map<String, dynamic> json) {
     return PaginatedResponse(
-      pages: Pages.fromJson(json['pages']),
       totalPages: json['totalPages'],
       currentPage: json['currentPage'],
       results: List<RestaurantResult>.from(
@@ -25,7 +22,6 @@ class PaginatedResponse {
 
   Map<String, dynamic> toJson() {
     return {
-      'pages': pages.toJson(),
       'totalPages': totalPages,
       'currentPage': currentPage,
       'results': results.map((x) => x.toJson()).toList(),
@@ -33,29 +29,6 @@ class PaginatedResponse {
   }
 }
 
-class Pages {
-  final String? next;
-  final String? previous;
-
-  Pages({
-    this.next,
-    this.previous,
-  });
-
-  factory Pages.fromJson(Map<String, dynamic> json) {
-    return Pages(
-      next: json['next'],
-      previous: json['previous'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'next': next,
-      'previous': previous,
-    };
-  }
-}
 
 class RestaurantResult {
   final int mealzoId;

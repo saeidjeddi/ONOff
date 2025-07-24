@@ -12,13 +12,28 @@ class HomeScreen extends StatelessWidget {
 
   CountController countController = Get.put(CountController());
   StatusController statusController = Get.put(StatusController());
+  final TextEditingController searchController = TextEditingController();
+
+
+  
+void submitSearch() {
+  final id = searchController.text.trim();
+  if (id.isEmpty) {
+    statusController.getStatusPage();
+    return;
+  }
+
+  statusController.mealzoId.value = id;
+  statusController.getStatusMealzoId();
+}
+
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
     countController.getCount();
-    statusController.getStatus();
+    statusController.getStatusPage();
 
     return Scaffold(
       key: _key,
@@ -353,7 +368,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
 
-SizedBox(width: 8,),
+                      SizedBox(width: 8),
                       Container(
                         width: 115,
                         padding: const EdgeInsets.all(12),
@@ -463,7 +478,7 @@ SizedBox(width: 8,),
                           ],
                         ),
                       ),
-SizedBox(width: 8,),
+                      SizedBox(width: 8),
 
                       Container(
                         width: 115,
@@ -580,74 +595,97 @@ SizedBox(width: 8,),
 
                 SizedBox(height: 32),
 
-                Row(
-                  children: [
-                    SearchBox(),
-                    const SizedBox(width: 12),
 
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Icon(Icons.send, color: Colors.grey),
-                    ),
-                  ],
-                ),
+Row(
+  children: [
+    SearchBox(
+      controller: searchController,
+      onSubmit: submitSearch,
+    ),
+    const SizedBox(width: 12),
+    Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: GestureDetector(
+        onTap: submitSearch,
+        child: const Icon(Icons.send, color: Colors.grey),
+      ),
+    ),
+  ],
+),
                 const SizedBox(height: 16),
 
-                ListView.builder(
-                  padding: const EdgeInsets.all(12),
-                  itemCount: statusController.restaurantResults.length,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      elevation: 2,
-                      margin: const EdgeInsets.only(bottom: 12),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              statusController
-                                  .restaurantResults[index]
-                                  .mealzoName,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                if (statusController.loading == false) ...[
+                  ListView.builder(
+                    padding: const EdgeInsets.all(12),
+                    itemCount: statusController.restaurantResults.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 2,
+                        margin: const EdgeInsets.only(bottom: 12),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                statusController
+                                    .restaurantResults[index]
+                                    .mealzoName,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 12),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Just Eat:"),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    if (statusController
-                                            .restaurantResults[index]
-                                            .companies
-                                            .justeat
-                                            ?.deviceAvailability ==
-                                        true) ...[
-                                      Text(
-                                        statusController
-                                                    .restaurantResults[index]
-                                                    .companies
-                                                    .justeat!
-                                                    .data
-                                                    ?.isOpen ==
-                                                true
-                                            ? "online"
-                                            : "offline",
-                                        style: TextStyle(
+                              const SizedBox(height: 12),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("Just Eat:"),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      if (statusController
+                                              .restaurantResults[index]
+                                              .companies
+                                              .justeat
+                                              ?.deviceAvailability ==
+                                          true) ...[
+                                        Text(
+                                          statusController
+                                                      .restaurantResults[index]
+                                                      .companies
+                                                      .justeat!
+                                                      .data
+                                                      ?.isOpen ==
+                                                  true
+                                              ? "online"
+                                              : "offline",
+                                          style: TextStyle(
+                                            color:
+                                                statusController
+                                                        .restaurantResults[index]
+                                                        .companies
+                                                        .justeat!
+                                                        .data
+                                                        ?.isOpen ==
+                                                    true
+                                                ? Colors.green
+                                                : Colors.red,
+                                          ),
+                                        ),
+                                        SizedBox(width: 16),
+                                        Icon(
+                                          Icons.brightness_1_sharp,
                                           color:
                                               statusController
                                                       .restaurantResults[index]
@@ -659,60 +697,61 @@ SizedBox(width: 8,),
                                               ? Colors.green
                                               : Colors.red,
                                         ),
-                                      ),
-                                      SizedBox(width: 16),
-                                      Icon(
-                                        Icons.brightness_1_sharp,
-                                        color:
-                                            statusController
-                                                    .restaurantResults[index]
-                                                    .companies
-                                                    .justeat!
-                                                    .data
-                                                    ?.isOpen ==
-                                                true
-                                            ? Colors.green
-                                            : Colors.red,
-                                      ),
-                                    ] else ...[
-                                      Text(
-                                        "Not Device",
-                                        style: TextStyle(color: Colors.grey),
-                                      ),
-                                      SizedBox(width: 16),
-                                      Icon(
-                                        Icons.brightness_1_sharp,
-                                        color: Colors.grey,
-                                      ),
+                                      ] else ...[
+                                        Text(
+                                          "Not Device",
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                        SizedBox(width: 16),
+                                        Icon(
+                                          Icons.brightness_1_sharp,
+                                          color: Colors.grey,
+                                        ),
+                                      ],
                                     ],
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Uber Eats:"),
-                                Row(
-                                  children: [
-                                    if (statusController
-                                            .restaurantResults[index]
-                                            .companies
-                                            .ubereats
-                                            ?.deviceAvailability ==
-                                        true) ...[
-                                      Text(
-                                        statusController
-                                                    .restaurantResults[index]
-                                                    .companies
-                                                    .ubereats!
-                                                    .data
-                                                    ?.isOpen ==
-                                                true
-                                            ? "online"
-                                            : "offline",
-                                        style: TextStyle(
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("Uber Eats:"),
+                                  Row(
+                                    children: [
+                                      if (statusController
+                                              .restaurantResults[index]
+                                              .companies
+                                              .ubereats
+                                              ?.deviceAvailability ==
+                                          true) ...[
+                                        Text(
+                                          statusController
+                                                      .restaurantResults[index]
+                                                      .companies
+                                                      .ubereats!
+                                                      .data
+                                                      ?.isOpen ==
+                                                  true
+                                              ? "online"
+                                              : "offline",
+                                          style: TextStyle(
+                                            color:
+                                                statusController
+                                                        .restaurantResults[index]
+                                                        .companies
+                                                        .ubereats!
+                                                        .data
+                                                        ?.isOpen ==
+                                                    true
+                                                ? Colors.green
+                                                : Colors.red,
+                                          ),
+                                        ),
+                                        SizedBox(width: 16),
+                                        Icon(
+                                          Icons.brightness_1_sharp,
                                           color:
                                               statusController
                                                       .restaurantResults[index]
@@ -724,60 +763,61 @@ SizedBox(width: 8,),
                                               ? Colors.green
                                               : Colors.red,
                                         ),
-                                      ),
-                                      SizedBox(width: 16),
-                                      Icon(
-                                        Icons.brightness_1_sharp,
-                                        color:
-                                            statusController
-                                                    .restaurantResults[index]
-                                                    .companies
-                                                    .ubereats!
-                                                    .data
-                                                    ?.isOpen ==
-                                                true
-                                            ? Colors.green
-                                            : Colors.red,
-                                      ),
-                                    ] else ...[
-                                      Text(
-                                        "Not Device",
-                                        style: TextStyle(color: Colors.grey),
-                                      ),
-                                      SizedBox(width: 16),
-                                      Icon(
-                                        Icons.brightness_1_sharp,
-                                        color: Colors.grey,
-                                      ),
+                                      ] else ...[
+                                        Text(
+                                          "Not Device",
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                        SizedBox(width: 16),
+                                        Icon(
+                                          Icons.brightness_1_sharp,
+                                          color: Colors.grey,
+                                        ),
+                                      ],
                                     ],
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Food Hub:"),
-                                Row(
-                                  children: [
-                                    if (statusController
-                                            .restaurantResults[index]
-                                            .companies
-                                            .foodhub
-                                            ?.deviceAvailability ==
-                                        true) ...[
-                                      Text(
-                                        statusController
-                                                    .restaurantResults[index]
-                                                    .companies
-                                                    .foodhub!
-                                                    .data
-                                                    ?.isOpen ==
-                                                true
-                                            ? "online"
-                                            : "offline",
-                                        style: TextStyle(
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("Food Hub:"),
+                                  Row(
+                                    children: [
+                                      if (statusController
+                                              .restaurantResults[index]
+                                              .companies
+                                              .foodhub
+                                              ?.deviceAvailability ==
+                                          true) ...[
+                                        Text(
+                                          statusController
+                                                      .restaurantResults[index]
+                                                      .companies
+                                                      .foodhub!
+                                                      .data
+                                                      ?.isOpen ==
+                                                  true
+                                              ? "online"
+                                              : "offline",
+                                          style: TextStyle(
+                                            color:
+                                                statusController
+                                                        .restaurantResults[index]
+                                                        .companies
+                                                        .foodhub!
+                                                        .data
+                                                        ?.isOpen ==
+                                                    true
+                                                ? Colors.green
+                                                : Colors.red,
+                                          ),
+                                        ),
+                                        SizedBox(width: 16),
+                                        Icon(
+                                          Icons.brightness_1_sharp,
                                           color:
                                               statusController
                                                       .restaurantResults[index]
@@ -789,55 +829,69 @@ SizedBox(width: 8,),
                                               ? Colors.green
                                               : Colors.red,
                                         ),
-                                      ),
-                                      SizedBox(width: 16),
-                                      Icon(
-                                        Icons.brightness_1_sharp,
-                                        color:
-                                            statusController
-                                                    .restaurantResults[index]
-                                                    .companies
-                                                    .foodhub!
-                                                    .data
-                                                    ?.isOpen ==
-                                                true
-                                            ? Colors.green
-                                            : Colors.red,
-                                      ),
-                                    ] else ...[
-                                      Text(
-                                        "Not Device",
-                                        style: TextStyle(color: Colors.grey),
-                                      ),
-                                      SizedBox(width: 16),
-                                      Icon(
-                                        Icons.brightness_1_sharp,
-                                        color: Colors.grey,
-                                      ),
+                                      ] else ...[
+                                        Text(
+                                          "Not Device",
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                        SizedBox(width: 16),
+                                        Icon(
+                                          Icons.brightness_1_sharp,
+                                          color: Colors.grey,
+                                        ),
+                                      ],
                                     ],
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-
+                      );
+                    },
+                  ),
+                ] else ...[
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
+                ],
 
                 Padding(
                   padding: const EdgeInsets.only(left: 16, right: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_ios)),
-                      Text('20'),
-                      IconButton(onPressed: (){}, icon: Icon(Icons.arrow_forward_ios))
+                      if (statusController.page.value > 1) ...[
+                        IconButton(
+                          onPressed: () {
+                            if (statusController.page.value > 1) {
+                              statusController.page.value--;
+                              statusController.getStatusPage();
+                            }
+                          },
+                          icon: Icon(Icons.arrow_back_ios),
+                        ),
+                      ],
+
+                      Text(
+                        '${statusController.page.value} of ${statusController.statusInfo.value.totalPages}',
+                      ),
+                if (statusController.page.value < statusController.statusInfo.value.totalPages) ...[
+
+                      IconButton(
+                        onPressed: () {
+                         if (statusController.page.value < statusController.statusInfo.value.totalPages){
+                           statusController.page.value++;
+                          statusController.getStatusPage();
+                         }
+                        },
+                        icon: Icon(Icons.arrow_forward_ios),
+                      ),
+                ]
                     ],
                   ),
-                )
+                ),
               ],
             ),
           );
@@ -846,3 +900,5 @@ SizedBox(width: 8,),
     );
   }
 }
+
+class $ {}

@@ -1,33 +1,39 @@
-
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import 'package:onoff/controller/status_controller.dart';
 
 class SearchBox extends StatelessWidget {
-  const SearchBox({
-    super.key,
-  });
+  final TextEditingController controller;
+  final void Function()? onSubmit;
+
+
+  const SearchBox({super.key, required this.controller, this.onSubmit});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12),
+
         decoration: BoxDecoration(
           color: Colors.grey.shade100,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: Colors.grey.shade200),
         ),
-        child: const TextField(
+
+        child: TextField(
+          controller: controller,
           decoration: InputDecoration(
-            icon: Icon(CupertinoIcons.search, color: Colors.grey),
-            hintText: 'Search Shop ...',
+            hintText: 'Enter Mealzo ID',
             hintStyle: TextStyle(color: Colors.grey),
             border: InputBorder.none,
           ),
+           onSubmitted: (_) {
+          if (onSubmit != null) onSubmit!();
+        },
         ),
+        
       ),
     );
   }

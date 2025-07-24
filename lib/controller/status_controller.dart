@@ -3,30 +3,55 @@ import 'package:onoff/components/api_url.dart';
 import 'package:onoff/models/status_model.dart';
 import 'package:onoff/services/dio_service.dart';
 
-class StatusController extends GetxController{
-    RxBool loding = false.obs;
-    Rx<PaginatedResponse> statusInfo = PaginatedResponse(
-      pages: Pages(next: null, previous: null),
-      totalPages: 0,
-      currentPage: 0,
-      results: [],
-    ).obs;
+class StatusController extends GetxController {
+  RxBool loading = false.obs;
+  Rx<PaginatedResponse> statusInfo = PaginatedResponse(
+    totalPages: 0,
+    currentPage: 0,
+    results: [],
+  ).obs;
 
-    RxList<RestaurantResult> restaurantResults = <RestaurantResult>[].obs;
+  RxList<RestaurantResult> restaurantResults = <RestaurantResult>[].obs;
+  RxInt page = RxInt(1);
+  RxString mealzoId = ''.obs;
 
-    getStatus() async {
-      loding.value = true;
+  getStatusPage() async {
+    loading.value = true;
 
-      var response = await DioServices().getMethod(ApiUrl.getStatus);
-      if (response.statusCode == 200) {
-        statusInfo.value = PaginatedResponse.fromJson(response.data);
-        restaurantResults.value = statusInfo.value.results;
-      } else {
-        Get.snackbar('Error', 'Failed to fetch status data');
-      }
+    var response = await DioServices().getMethod(
+      '${ApiUrl.getStatus}?page=$page',
+    );
+    if (response.statusCode == 200) {
+      loading.value = true;
 
-      loding.value = false;
+      print(page.value);
+
+      statusInfo.value = PaginatedResponse.fromJson(response.data);
+      restaurantResults.value = statusInfo.value.results;
+    } else {
+      Get.snackbar('Error', 'Failed to fetch status data');
     }
 
+    loading.value = false;
+  }
 
+  getStatusMealzoId() async {
+    loading.value = true;
+
+    var response = await DioServices().getMethod(
+      '${ApiUrl.getStatus}?mealzoId=$mealzoId',
+    );
+    if (response.statusCode == 200) {
+      loading.value = true;
+
+      print(page.value);
+
+      statusInfo.value = PaginatedResponse.fromJson(response.data);
+      restaurantResults.value = statusInfo.value.results;
+    } else {
+      Get.snackbar('Error', 'Failed to fetch status data');
+    }
+
+    loading.value = false;
+  }
 }
