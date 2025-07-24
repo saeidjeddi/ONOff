@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:onoff/components/imageUrlConst.dart';
 import 'package:onoff/components/widgets.dart';
+import 'package:onoff/controller/count_controller.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey();
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+   HomeScreen({super.key});
+
+  CountController countController = Get.put(CountController());
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
+    countController.getCount();
 
     return Scaffold(
       key: _key,
@@ -95,7 +100,11 @@ class HomeScreen extends StatelessWidget {
       ),
 
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Obx((){
+          if (countController.loding.value == false) {
+            return Center(child: CircularProgressIndicator());
+          }
+          return SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
@@ -135,7 +144,7 @@ class HomeScreen extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            '256',
+                            countController.countInfo.value.allCount.toString(),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -171,7 +180,7 @@ class HomeScreen extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            '256',
+                            countController.countInfo.value.allOff.toString(),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -207,7 +216,7 @@ class HomeScreen extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            '256',
+                            countController.countInfo.value.allOn.toString(),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -225,17 +234,17 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: 110,
+                      width: 115,
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade300,
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.6),
-                            blurRadius: 16,
-                            spreadRadius: 3,
-                            offset: const Offset(1, 5),
+                            color: Colors.grey.withOpacity(0.8),
+                            blurRadius: 1,
+                            spreadRadius: 0.5,
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
@@ -255,57 +264,57 @@ class HomeScreen extends StatelessWidget {
 
                           Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
+                            children:  [
                               Text(
-                                'total:',
+                                'Total:',
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               SizedBox(width: 6),
-                              Text('60', style: TextStyle(fontSize: 13)),
+                              Text(countController.countInfo.value.foodhub.total.toString(), style: TextStyle(fontSize: 13)),
                             ],
                           ),
                           const SizedBox(height: 4),
 
                           Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
+                            children: [
                               Text(
-                                'on:',
+                                'On:',
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               SizedBox(width: 6),
-                              Text('30', style: TextStyle(fontSize: 13)),
+                              Text(countController.countInfo.value.foodhub.on.toString(), style: TextStyle(fontSize: 13)),
                             ],
                           ),
                           const SizedBox(height: 4),
 
                           Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
+                            children:  [
                               Text(
-                                'off:',
+                                'Off:',
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               SizedBox(width: 6),
-                              Text('45', style: TextStyle(fontSize: 13)),
+                              Text(countController.countInfo.value.foodhub.off.toString(), style: TextStyle(fontSize: 13)),
                             ],
                           ),
                           const SizedBox(height: 8),
 
                           Row(
-                            children: const [
+                            children:  [
                               Expanded(
                                 child: Text(
-                                  "23 Jul 2025 - 11:53",
+                                  countController.countInfo.value.foodhub.lastTime,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
@@ -322,17 +331,17 @@ class HomeScreen extends StatelessWidget {
                     ),
 
                     Container(
-                      width: 110,
+                      width: 115,
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade300,
                         borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
+                       boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.6),
-                            blurRadius: 16,
-                            spreadRadius: 3,
-                            offset: const Offset(1, 5),
+                            color: Colors.grey.withOpacity(0.8),
+                            blurRadius: 1,
+                            spreadRadius: 0.5,
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
@@ -352,7 +361,7 @@ class HomeScreen extends StatelessWidget {
 
                           Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
+                            children: [
                               Text(
                                 'Total : ',
                                 style: TextStyle(
@@ -360,14 +369,14 @@ class HomeScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text('60', style: TextStyle(fontSize: 13)),
+                              Text(countController.countInfo.value.justeat.total.toString(), style: TextStyle(fontSize: 13)),
                             ],
                           ),
                           const SizedBox(height: 4),
 
                           Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
+                            children:  [
                               Text(
                                 'On : ',
                                 style: TextStyle(
@@ -375,14 +384,14 @@ class HomeScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text('30', style: TextStyle(fontSize: 13)),
+                              Text(countController.countInfo.value.justeat.on.toString(), style: TextStyle(fontSize: 13)),
                             ],
                           ),
                           const SizedBox(height: 4),
 
                           Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
+                            children:  [
                               Text(
                                 'Off : ',
                                 style: TextStyle(
@@ -390,16 +399,16 @@ class HomeScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text('45', style: TextStyle(fontSize: 13)),
+                              Text(countController.countInfo.value.justeat.off.toString(), style: TextStyle(fontSize: 13)),
                             ],
                           ),
                           const SizedBox(height: 8),
 
                           Row(
-                            children: const [
+                            children:  [
                               Expanded(
                                 child: Text(
-                                  "23 Jul 2025 - 11:53",
+                                  countController.countInfo.value.justeat.lastTime,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
@@ -416,17 +425,17 @@ class HomeScreen extends StatelessWidget {
                     ),
 
                     Container(
-                      width: 110,
+                      width: 115,
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade300,
                         borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
+                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.6),
-                            blurRadius: 16,
-                            spreadRadius: 3,
-                            offset: const Offset(1, 5),
+                            color: Colors.grey.withOpacity(0.8),
+                            blurRadius: 1,
+                            spreadRadius: 0.5,
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
@@ -446,7 +455,7 @@ class HomeScreen extends StatelessWidget {
 
                           Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
+                            children:  [
                               Text(
                                 'Total : ',
                                 style: TextStyle(
@@ -454,14 +463,14 @@ class HomeScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text('60', style: TextStyle(fontSize: 13)),
+                              Text(countController.countInfo.value.ubereats.total.toString(), style: TextStyle(fontSize: 13)),
                             ],
                           ),
                           const SizedBox(height: 4),
 
                           Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
+                            children:  [
                               Text(
                                 'On : ',
                                 style: TextStyle(
@@ -469,14 +478,14 @@ class HomeScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text('30', style: TextStyle(fontSize: 13)),
+                              Text(countController.countInfo.value.ubereats.on.toString(), style: TextStyle(fontSize: 13)),
                             ],
                           ),
                           const SizedBox(height: 4),
 
                           Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
+                            children:  [
                               Text(
                                 'Off : ',
                                 style: TextStyle(
@@ -484,16 +493,16 @@ class HomeScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text('45', style: TextStyle(fontSize: 13)),
+                              Text(countController.countInfo.value.ubereats.off.toString(), style: TextStyle(fontSize: 13)),
                             ],
                           ),
                           const SizedBox(height: 8),
 
                           Row(
-                            children: const [
+                            children: [
                               Expanded(
                                 child: Text(
-                                  "23 Jul 2025 - 11:53",
+                                  countController.countInfo.value.ubereats.lastTime,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
@@ -512,7 +521,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 16),
+              SizedBox(height: 32),
 
               Row(
                 children: [
@@ -626,7 +635,9 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
-        ),
+          );
+          
+        })
       ),
     );
   }
