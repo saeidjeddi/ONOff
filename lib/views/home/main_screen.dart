@@ -674,7 +674,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                     ] else ...[
                                       Text(
-                                        "Not available",
+                                        "Not Device",
                                         style: TextStyle(color: Colors.grey),
                                       ),
                                       SizedBox(width: 16),
@@ -739,7 +739,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                     ] else ...[
                                       Text(
-                                        "Not available",
+                                        "Not Device",
                                         style: TextStyle(color: Colors.grey),
                                       ),
                                       SizedBox(width: 16),
@@ -804,7 +804,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                     ] else ...[
                                       Text(
-                                        "Not available",
+                                        "Not Device",
                                         style: TextStyle(color: Colors.grey),
                                       ),
                                       SizedBox(width: 16),
@@ -823,6 +823,19 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                 ),
+
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_ios)),
+                      Text('20'),
+                      IconButton(onPressed: (){}, icon: Icon(Icons.arrow_forward_ios))
+                    ],
+                  ),
+                )
               ],
             ),
           );
