@@ -1,7 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:onoff/components/imageUrlConst.dart';
 import 'package:onoff/components/widgets.dart';
+
+
+
+
+
+final GlobalKey<ScaffoldState> _key = GlobalKey();
+
+
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,24 +18,139 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _key,
+
+
+  
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            
+            InkWell(
+              onTap: () {
+                _key.currentState!.openDrawer();
+              },
+              child: Icon(Icons.menu, size: 30),
+            ),
+
+
+          ],
+        ),
+      ),
+
+
+      drawer: Drawer(
+        
+        child: SafeArea(child: Text('data')),
+
+      ),
+
+
+
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
+
+
               Container(
                 width: Get.width,
                 height: 150,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.blue.shade100,
+                  color: const Color.fromARGB(255, 238, 239, 240),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Text(
-                  'Featured Products',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade200,
+                                  borderRadius: BorderRadius.all(Radius.circular(8))
+                                ),
+                                child: Icon(Icons.ad_units_rounded,)),
+                              SizedBox(width: 8,),
+                              Text('Total Device', style: TextStyle(fontWeight: FontWeight.bold),),
+                            ],
+                          ),
+                          Text('256', style: TextStyle(fontWeight: FontWeight.bold),),
+                        ],
+                      ),
+                    ),
+
+
+
+
+
+                      Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade200,
+                                  borderRadius: BorderRadius.all(Radius.circular(8))
+                                ),
+                                child: Icon(Icons.ad_units_rounded, color: Colors.red,)),
+                              SizedBox(width: 8,),
+                              Text('Total Off Device', style: TextStyle(fontWeight: FontWeight.bold),),
+                            ],
+                          ),
+                          Text('256', style: TextStyle(fontWeight: FontWeight.bold),),
+                        ],
+                      ),
+                    ),
+
+
+
+                      Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade200,
+                                  borderRadius: BorderRadius.all(Radius.circular(8))
+                                ),
+                                child: Icon(Icons.ad_units_rounded, color: Colors.green,)),
+                              SizedBox(width: 8,),
+                              Text('Total On Device', style: TextStyle(fontWeight: FontWeight.bold),),
+                            ],
+                          ),
+                          Text('256', style: TextStyle(fontWeight: FontWeight.bold),),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
               ),
+
+
+
+
+
 
               const SizedBox(height: 16),
 
@@ -37,71 +161,286 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     Container(
                       width: 110,
-                      height: 150,
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.blue.shade100,
+                        color: Colors.grey.shade300,
                         borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            blurRadius: 16,
+                            spreadRadius: 3,
+                            offset: const Offset(1, 5),
+                          ),
+                        ],
                       ),
-                      child: const Text(
-                        'Featured Products',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.asset(
+                              ImageUrlConst.foodHub,
+                              height: 60,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Text(
+                                'total:',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(width: 6),
+                              Text('60', style: TextStyle(fontSize: 13)),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Text(
+                                'on:',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(width: 6),
+                              Text('30', style: TextStyle(fontSize: 13)),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Text(
+                                'off:',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(width: 6),
+                              Text('45', style: TextStyle(fontSize: 13)),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+
+                          Row(
+                            children: const [
+                              Expanded(
+                                child: Text(
+                                  "23 Jul 2025 - 11:53",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontSize: 9,
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-Container(
-  width: 110,
-  height: 150,
-  padding: const EdgeInsets.all(12),
-  decoration: BoxDecoration(
-    color: Colors.blue.shade100,
-    borderRadius: BorderRadius.circular(12),
-  ),
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Image.asset(
-        'assets/icon/foodhub.png',
-        width: 80, // ✅ اندازه مناسب برای داخل 110 پیکسل
-        height: 40,
-        fit: BoxFit.contain,
-      ),
-      const SizedBox(height: 12),
-      Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          Text(
-            'total :',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(width: 6),
-         Text("60")
-        ],
-      ),
-    ],
-  ),
-),
-
 
                     Container(
                       width: 110,
-                      height: 150,
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.blue.shade100,
+                        color: Colors.grey.shade300,
                         borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            blurRadius: 16,
+                            spreadRadius: 3,
+                            offset: const Offset(1, 5),
+                          ),
+                        ],
                       ),
-                      child: const Text(
-                        'Featured Products',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.asset(
+                              ImageUrlConst.justEat,
+                              height: 60,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Text(
+                                'Total : ',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text('60', style: TextStyle(fontSize: 13)),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Text(
+                                'On : ',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text('30', style: TextStyle(fontSize: 13)),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Text(
+                                'Off : ',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text('45', style: TextStyle(fontSize: 13)),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+
+                          Row(
+                            children: const [
+                              Expanded(
+                                child: Text(
+                                  "23 Jul 2025 - 11:53",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontSize: 9,
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Container(
+                      width: 110,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            blurRadius: 16,
+                            spreadRadius: 3,
+                            offset: const Offset(1, 5),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.asset(
+                              ImageUrlConst.uberEats,
+                              height: 60,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Text(
+                                'Total : ',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text('60', style: TextStyle(fontSize: 13)),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Text(
+                                'On : ',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text('30', style: TextStyle(fontSize: 13)),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Text(
+                                'Off : ',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text('45', style: TextStyle(fontSize: 13)),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+
+                          Row(
+                            children: const [
+                              Expanded(
+                                child: Text(
+                                  "23 Jul 2025 - 11:53",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontSize: 9,
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -130,9 +469,8 @@ Container(
               ListView.builder(
                 padding: const EdgeInsets.all(12),
                 itemCount: 6,
-                shrinkWrap: true, // برای گرفتن ارتفاع موردنیاز فقط برای آیتم‌ها
-                physics:
-                    const NeverScrollableScrollPhysics(), // جلوگیری از اسکرول داخل اسکرول
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return Card(
                     shape: RoundedRectangleBorder(
