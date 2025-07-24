@@ -15,19 +15,6 @@ class HomeScreen extends StatelessWidget {
   final TextEditingController searchController = TextEditingController();
 
 
-  
-void submitSearch() {
-  final id = searchController.text.trim();
-  if (id.isEmpty) {
-    statusController.getStatusPage();
-    return;
-  }
-
-  statusController.mealzoId.value = id;
-  statusController.getStatusMealzoId();
-}
-
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -595,13 +582,9 @@ void submitSearch() {
 
                 SizedBox(height: 32),
 
-
 Row(
   children: [
-    SearchBox(
-      controller: searchController,
-      onSubmit: submitSearch,
-    ),
+    SearchBox(controller: searchController),
     const SizedBox(width: 12),
     Container(
       padding: const EdgeInsets.all(8),
@@ -610,7 +593,11 @@ Row(
         borderRadius: BorderRadius.circular(12),
       ),
       child: GestureDetector(
-        onTap: submitSearch,
+        onTap: () {
+          statusController.mealzoId.value = searchController.text.trim();
+
+          statusController.getStatusMealzoId();
+        },
         child: const Icon(Icons.send, color: Colors.grey),
       ),
     ),

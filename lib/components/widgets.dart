@@ -5,10 +5,8 @@ import 'package:onoff/controller/status_controller.dart';
 
 class SearchBox extends StatelessWidget {
   final TextEditingController controller;
-  final void Function()? onSubmit;
 
-
-  const SearchBox({super.key, required this.controller, this.onSubmit});
+  const SearchBox({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +27,7 @@ class SearchBox extends StatelessWidget {
             hintStyle: TextStyle(color: Colors.grey),
             border: InputBorder.none,
           ),
-           onSubmitted: (_) {
-          if (onSubmit != null) onSubmit!();
-        },
         ),
-        
       ),
     );
   }
