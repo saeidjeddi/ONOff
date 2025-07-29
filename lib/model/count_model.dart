@@ -30,13 +30,13 @@ class CountModel {
 
 class Foodhub {
   final int total;
-  final int on;
+  final int onD;
   final int off;
   final String lastTime;
 
   Foodhub({
     required this.total,
-    required this.on,
+    required this.onD,
     required this.off,
     required this.lastTime,
   });
@@ -44,7 +44,7 @@ class Foodhub {
   factory Foodhub.fromJson(Map<String, dynamic> json) {
     return Foodhub(
       total: json['total'],
-      on: json['on'],
+      onD: json['on'],
       off: json['off'],
       lastTime: json['last_time'],
     );
@@ -53,13 +53,13 @@ class Foodhub {
 
 class Justeat {
   final int total;
-  final int on;
+  final int onD;
   final int off;
   final String lastTime;
 
   Justeat({
     required this.total,
-    required this.on,
+    required this.onD,
     required this.off,
     required this.lastTime,
   });
@@ -67,7 +67,7 @@ class Justeat {
   factory Justeat.fromJson(Map<String, dynamic> json) {
     return Justeat(
       total: json['total'],
-      on: json['on'],
+      onD: json['on'],
       off: json['off'],
       lastTime: json['last_time'],
     );
@@ -76,13 +76,13 @@ class Justeat {
 
 class Ubereats {
   final int total;
-  final int on;
+  final int onD;
   final int off;
   final String lastTime;
 
   Ubereats({
     required this.total,
-    required this.on,
+    required this.onD,
     required this.off,
     required this.lastTime,
   });
@@ -90,12 +90,11 @@ class Ubereats {
   factory Ubereats.fromJson(Map<String, dynamic> json) {
     return Ubereats(
       total: json['total'],
-      on: json['on'],
+      onD: json['on'],
       off: json['off'],
       lastTime: json['last_time'],
     );
   }
 }
-
 
 

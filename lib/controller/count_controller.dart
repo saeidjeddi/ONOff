@@ -1,15 +1,16 @@
 import 'package:get/get.dart';
-import 'package:onoff/components/api_url.dart';
-import 'package:onoff/models/count_model.dart';
-import 'package:onoff/services/dio_service.dart';
+import 'package:onofflive/components/api_url.dart';
+import 'package:onofflive/model/count_model.dart';
+import 'package:onofflive/services/dio_service.dart';
+
 
 class CountController extends GetxController {
   RxBool loding = false.obs;
 
   Rx<CountModel> countInfo = CountModel(
-    foodhub: Foodhub(total: 0, on: 0, off: 0, lastTime: ''),
-    justeat: Justeat(total: 0, on: 0, off: 0, lastTime: ''),
-    ubereats: Ubereats(total: 0, on: 0, off: 0, lastTime: ''),
+    foodhub: Foodhub(total: 0, onD: 0, off: 0, lastTime: ''),
+    justeat: Justeat(total: 0, onD: 0, off: 0, lastTime: ''),
+    ubereats: Ubereats(total: 0, onD: 0, off: 0, lastTime: ''),
     allCount: 0,
     allOn: 0,
     allOff: 0,

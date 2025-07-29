@@ -1,4 +1,4 @@
-package com.example.onoff
+package com.example.onofflive
 
 import io.flutter.embedding.android.FlutterActivity
 
