@@ -5,10 +5,13 @@ class ConstImage {
   static const String desktopon = 'assets/icons/Desktopon.png';
   static const String desktopoff = 'assets/icons/Desktopoff.png';
   static const String foodhubPng = 'assets/images/foodhub.png';
-  static const String mealzoJpg = 'assets/images/mealzo.jpg';
+  static const String mealzoJpg = 'assets/images/mealzo.png';
   static const String justeatPng = 'assets/images/justEat.png';
   static const String ubereatsJpg = 'assets/images/uber.jpg';
   static const String loade = 'assets/images/loade.png';
+  static const String nextPage = 'assets/images/NextButton.png';
+  static const String nextPageB = 'assets/images/NextButtonBig.png';
+  static const String backPage = 'assets/images/BackButton.png';
   
 
 }

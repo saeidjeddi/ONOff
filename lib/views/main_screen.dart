@@ -67,487 +67,545 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Container(
-                height: size.height / 4,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 48,
-                            height: 48,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Image.asset(
-                              ConstImage.totalShop,
-                              height: 24,
-                              width: 24,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          const Text(
-                            'Total Shops',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            countController.countInfo.value.allCount.toString(),
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
+  height: size.height / 10,
+  padding: const EdgeInsets.all(12),
+  decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(8),
+    boxShadow: [
+      BoxShadow(
+        color: const Color.fromRGBO(255, 136, 0, 1).withOpacity(0.2),
+        spreadRadius: 0.5,
+        blurRadius: 2,
+        offset: const Offset(0, 0),
+      ),
+    ],
+  ),
+  child: Row(
+    children: [
+      Container(
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Center(
+          child: Image.asset(
+            ConstImage.totalShop,
+            height: 24,
+            width: 24,
+          ),
+        ),
+      ),
+      const SizedBox(width: 12),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+            'Total  Devices',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+            const Spacer(),
 
-                      SizedBox(height: 16),
+      Obx(() => Text(
+        countController.countInfo.value.allCount.toString(),
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black87,
+        ),
+      )),
+    ],
+  ),
+),
 
-                      Row(
-                        children: [
-                          Container(
-                            width: 48,
-                            height: 48,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Image.asset(
-                              ConstImage.desktopon,
-                              height: 24,
-                              width: 24,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          const Text(
-                            'Total On Devices',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            countController.countInfo.value.allOn.toString(),
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
+              SizedBox(height: size.height / 90),
 
-                      SizedBox(height: 16),
+Container(
+  height: size.height / 10,
+  padding: const EdgeInsets.all(12),
+  decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(8),
+    boxShadow: [
+      BoxShadow(
+        color: const Color.fromARGB(255, 116, 255, 52).withOpacity(0.2),
+        spreadRadius: 2,
+        blurRadius: 3,
+        offset: const Offset(0, 0),
+      ),
+    ],
+  ),
+  child: Row(
+    children: [
+      Container(
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Center(
+          child: Image.asset(
+            ConstImage.desktopon,
+            height: 24,
+            width: 24,
+          ),
+        ),
+      ),
+      const SizedBox(width: 12),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+            'Total On Devices',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+      const Spacer(),
+      Obx(() => Text(
+        countController.countInfo.value.allOn.toString(),
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black87,
+        ),
+      )),
+    ],
+  ),
+),
 
-                      Row(
-                        children: [
-                          Container(
-                            width: 48,
-                            height: 48,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Image.asset(
-                              ConstImage.desktopoff,
-                              height: 24,
-                              width: 24,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          const Text(
-                            'Total Off Devices',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            countController.countInfo.value.allOff.toString(),
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              SizedBox(height: size.height / 90),
+
+Container(
+  height: size.height / 10,
+  padding: const EdgeInsets.all(12),
+  decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(8),
+    boxShadow: [
+      BoxShadow(
+        color: const Color.fromARGB(255, 255, 0, 0).withOpacity(0.2),
+        spreadRadius: 0.5,
+        blurRadius: 2,
+        offset: const Offset(0, 0),
+      ),
+    ],
+  ),
+  child: Row(
+    children: [
+      Container(
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Center(
+          child: Image.asset(
+            ConstImage.desktopoff,
+            height: 24,
+            width: 24,
+          ),
+        ),
+      ),
+      const SizedBox(width: 12),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+            'Total Off Devices',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+      const Spacer(),
+      Obx(() => Text(
+        countController.countInfo.value.allOff.toString(),
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black87,
+        ),
+      )),
+    ],
+  ),
+),
+
+
 
               SizedBox(height: size.height / 40),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Get.defaultDialog(
-                        title: 'Mealzo',
-                        content: Text('No Data'),
-                      );
-                    },
-                    child: Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(32),
-                        image: DecorationImage(
-                          image: AssetImage(ConstImage.mealzoJpg),
-                          fit: BoxFit.cover,
+              Padding(
+                padding: const EdgeInsets.only(left: 32, right: 32),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.defaultDialog(
+                          title: 'Mealzo',
+                          content: Text('No Data'),
+                        );
+                      },
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(50),
+                          image: DecorationImage(
+                            image: AssetImage(ConstImage.mealzoJpg),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-              
-                  GestureDetector(
-                    onTap: () {
-                      Get.defaultDialog(
-                        title: 'Food Hub',
-                        content: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 16,
-                                right: 16,
+                
+                    GestureDetector(
+                      onTap: () {
+                        Get.defaultDialog(
+                          title: 'Food Hub',
+                          content: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  right: 16,
+                                ),
+                                child: Divider(
+                                  color: Colors.grey.shade300,
+                                  thickness: 1,
+                                ),
                               ),
-                              child: Divider(
-                                color: Colors.grey.shade300,
-                                thickness: 1,
+                
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Total :'),
+                                    Text(
+                                      countController
+                                          .countInfo
+                                          .value
+                                          .foodhub
+                                          .total
+                                          .toString(),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-              
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Total :'),
-                                  Text(
-                                    countController
-                                        .countInfo
-                                        .value
-                                        .foodhub
-                                        .total
-                                        .toString(),
-                                  ),
-                                ],
+                
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('On :'),
+                                    Text(
+                                      countController
+                                          .countInfo
+                                          .value
+                                          .foodhub
+                                          .onD
+                                          .toString(),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-              
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('On :'),
-                                  Text(
-                                    countController
-                                        .countInfo
-                                        .value
-                                        .foodhub
-                                        .onD
-                                        .toString(),
-                                  ),
-                                ],
+                
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Off :'),
+                                    Text(
+                                      countController
+                                          .countInfo
+                                          .value
+                                          .foodhub
+                                          .off
+                                          .toString(),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-              
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Off :'),
-                                  Text(
-                                    countController
-                                        .countInfo
-                                        .value
-                                        .foodhub
-                                        .off
-                                        .toString(),
-                                  ),
-                                ],
+                
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Last Update :'),
+                                    Text(
+                                      countController
+                                          .countInfo
+                                          .value
+                                          .foodhub
+                                          .lastTime,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-              
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Last Update :'),
-                                  Text(
-                                    countController
-                                        .countInfo
-                                        .value
-                                        .foodhub
-                                        .lastTime,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    child: Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(32),
-                        image: DecorationImage(
-                          image: AssetImage(ConstImage.foodhubPng),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-              
-                  GestureDetector(
-                    onTap: () {
-                      Get.defaultDialog(
-                        title: 'Uber Eats',
-                        content: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 16,
-                                right: 16,
-                              ),
-                              child: Divider(
-                                color: Colors.grey.shade300,
-                                thickness: 1,
-                              ),
-                            ),
-              
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Total :'),
-                                  Text(
-                                    countController
-                                        .countInfo
-                                        .value
-                                        .ubereats
-                                        .total
-                                        .toString(),
-                                  ),
-                                ],
-                              ),
-                            ),
-              
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('On :'),
-                                  Text(
-                                    countController
-                                        .countInfo
-                                        .value
-                                        .ubereats
-                                        .onD
-                                        .toString(),
-                                  ),
-                                ],
-                              ),
-                            ),
-              
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Off :'),
-                                  Text(
-                                    countController
-                                        .countInfo
-                                        .value
-                                        .ubereats
-                                        .off
-                                        .toString(),
-                                  ),
-                                ],
-                              ),
-                            ),
-              
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Last Update :'),
-                                  Text(
-                                    countController
-                                        .countInfo
-                                        .value
-                                        .ubereats
-                                        .lastTime,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    child: Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(32),
-                        image: DecorationImage(
-                          image: AssetImage(ConstImage.ubereatsJpg),
-                          fit: BoxFit.cover,
+                            ],
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(50),
+                          image: DecorationImage(
+                            image: AssetImage(ConstImage.foodhubPng),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-              
-                  GestureDetector(
-                    onTap: () {
-                      Get.defaultDialog(
-                        title: 'Just Eat',
-                        content: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 16,
-                                right: 16,
+                
+                    GestureDetector(
+                      onTap: () {
+                        Get.defaultDialog(
+                          title: 'Uber Eats',
+                          content: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  right: 16,
+                                ),
+                                child: Divider(
+                                  color: Colors.grey.shade300,
+                                  thickness: 1,
+                                ),
                               ),
-                              child: Divider(
-                                color: Colors.grey.shade300,
-                                thickness: 1,
+                
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Total :'),
+                                    Text(
+                                      countController
+                                          .countInfo
+                                          .value
+                                          .ubereats
+                                          .total
+                                          .toString(),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-              
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Total :'),
-                                  Text(
-                                    countController
-                                        .countInfo
-                                        .value
-                                        .justeat
-                                        .total
-                                        .toString(),
-                                  ),
-                                ],
+                
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('On :'),
+                                    Text(
+                                      countController
+                                          .countInfo
+                                          .value
+                                          .ubereats
+                                          .onD
+                                          .toString(),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-              
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('On :'),
-                                  Text(
-                                    countController
-                                        .countInfo
-                                        .value
-                                        .justeat
-                                        .onD
-                                        .toString(),
-                                  ),
-                                ],
+                
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Off :'),
+                                    Text(
+                                      countController
+                                          .countInfo
+                                          .value
+                                          .ubereats
+                                          .off
+                                          .toString(),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-              
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Off :'),
-                                  Text(
-                                    countController
-                                        .countInfo
-                                        .value
-                                        .justeat
-                                        .off
-                                        .toString(),
-                                  ),
-                                ],
+                
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Last Update :'),
+                                    Text(
+                                      countController
+                                          .countInfo
+                                          .value
+                                          .ubereats
+                                          .lastTime,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-              
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Last Update :'),
-                                  Text(
-                                    countController
-                                        .countInfo
-                                        .value
-                                        .justeat
-                                        .lastTime,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    child: Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(32),
-                        image: DecorationImage(
-                          image: AssetImage(ConstImage.justeatPng),
-                          fit: BoxFit.cover,
+                            ],
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(50),
+                          image: DecorationImage(
+                            image: AssetImage(ConstImage.ubereatsJpg),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                
+                    GestureDetector(
+                      onTap: () {
+                        Get.defaultDialog(
+                          title: 'Just Eat',
+                          content: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  right: 16,
+                                ),
+                                child: Divider(
+                                  color: Colors.grey.shade300,
+                                  thickness: 1,
+                                ),
+                              ),
+                
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Total :'),
+                                    Text(
+                                      countController
+                                          .countInfo
+                                          .value
+                                          .justeat
+                                          .total
+                                          .toString(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('On :'),
+                                    Text(
+                                      countController
+                                          .countInfo
+                                          .value
+                                          .justeat
+                                          .onD
+                                          .toString(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Off :'),
+                                    Text(
+                                      countController
+                                          .countInfo
+                                          .value
+                                          .justeat
+                                          .off
+                                          .toString(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Last Update :'),
+                                    Text(
+                                      countController
+                                          .countInfo
+                                          .value
+                                          .justeat
+                                          .lastTime,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(50),
+                          image: DecorationImage(
+                            image: AssetImage(ConstImage.justeatPng),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
 
               SizedBox(height: size.height / 40),
@@ -715,8 +773,8 @@ Row(
                                     children: [
                                       Column(
                                         children: [
-                                          Text('Mealzo'),
-                                          SizedBox(height: size.height / 60),
+                                          // Text('Mealzo'),
+                                          // SizedBox(height: size.height / 60),
 
                                           Text('JustEat'),
                                           SizedBox(height: size.height / 60),
@@ -734,26 +792,26 @@ Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            width: 90,
-                                            height: 20,
+                                          // Container(
+                                          //   width: 90,
+                                          //   height: 20,
 
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey[100],
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(8),
-                                              ),
-                                            ),
+                                          //   decoration: BoxDecoration(
+                                          //     color: Colors.grey[100],
+                                          //     borderRadius: BorderRadius.all(
+                                          //       Radius.circular(8),
+                                          //     ),
+                                          //   ),
 
-                                            child: Center(
-                                              // child: Text(
-                                              //   '● No Service',
-                                              //   style: TextStyle(
-                                              //     color: Colors.grey[500],
-                                              //   ),
-                                              // ),
-                                            ),
-                                          ),
+                                          //   child: Center(
+                                          //     child: Text(
+                                          //       '● No Service',
+                                          //       style: TextStyle(
+                                          //         color: Colors.grey[500],
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // ),
 
                                           // -----------------------------------------------------------------
                                           SizedBox(height: size.height / 60),
@@ -1005,7 +1063,66 @@ Row(
                   child: Center(child: Image.asset(ConstImage.loade)),
                 ),
               ],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (statusController.page.value > 1) ...[
+                       InkWell(
+                        onTap: () {
+                           if (statusController.page.value > 1) {
+                              statusController.page.value--;
+                              statusController.getStatusPage();
+                            }
+                        },
+                        child: Image.asset(ConstImage.backPage))
+                      ],
+
+                     
+                      if (statusController.page.value <
+                          statusController.statusInfo.value.totalPages) ...[
+                       InkWell(
+                        onTap: () {
+                           if (statusController.page.value <
+                                statusController.statusInfo.value.totalPages) {
+                              statusController.page.value++;
+                              statusController.getStatusPage();
+                            }
+                        },
+                        
+                          child: statusController.page.value == 1
+                              ? Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: Image.asset(ConstImage.nextPageB),
+                              )
+                              : Image.asset(ConstImage.nextPage),
+                        )
+                      ],
+
+                    ],
+                    
+                  ),
+                ),
+
+                SizedBox(height: 32,)
             ],
+
+            
           ),
         );
       }),
