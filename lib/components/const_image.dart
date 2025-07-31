@@ -12,6 +12,10 @@ class ConstImage {
   static const String nextPage = 'assets/images/NextButton.png';
   static const String nextPageB = 'assets/images/NextButtonBig.png';
   static const String backPage = 'assets/images/BackButton.png';
+  static const String userinfo = 'assets/icons/user.png';
+  static const String splash = 'assets/images/splash.png';
+  static const String jan = 'assets/images/jan.png';
+  static const String logo = 'assets/images/logo.png';
   
 
 }

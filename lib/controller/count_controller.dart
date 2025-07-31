@@ -3,9 +3,8 @@ import 'package:onofflive/components/api_url.dart';
 import 'package:onofflive/model/count_model.dart';
 import 'package:onofflive/services/dio_service.dart';
 
-
 class CountController extends GetxController {
-  RxBool loding = false.obs;
+  RxBool loading = false.obs;
 
   Rx<CountModel> countInfo = CountModel(
     foodhub: Foodhub(total: 0, onD: 0, off: 0, lastTime: ''),
@@ -16,16 +15,17 @@ class CountController extends GetxController {
     allOff: 0,
   ).obs;
 
-  getCount() async {
-    loding.value = true;
+  Future<bool> getCount() async {
+    loading.value = true;
 
     var response = await DioServices().getMethod(ApiUrl.getCount);
     if (response.statusCode == 200) {
       countInfo.value = CountModel.fromJson(response.data);
+      loading.value = false;
+      return true;
     } else {
-      Get.snackbar('Error', 'Failed to fetch count data');
+      loading.value = false;
+      return false;
     }
-
-
   }
 }
