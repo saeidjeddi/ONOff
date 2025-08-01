@@ -3,13 +3,15 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:onofflive/components/api_url.dart';
 import 'package:onofflive/components/const_image.dart';
 import 'package:onofflive/components/widgets.dart';
 import 'package:onofflive/controller/count_controller.dart';
 import 'package:onofflive/controller/status_controller.dart';
+import 'package:onofflive/controller/userInfo_controller.dart';
+import 'package:onofflive/views/login_screen.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,6 +25,7 @@ enum SearchType { id, name }
 class _HomeScreenState extends State<HomeScreen> {
   final CountController countController = Get.put(CountController());
   final StatusController statusController = Get.put(StatusController());
+  UserInfoController userInfoController = Get.put(UserInfoController());
   final TextEditingController searchController = TextEditingController();
   final box = GetStorage();
 
@@ -33,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     countController.getCount();
     statusController.getStatusPage();
+    userInfoController.getUserInfo();
   }
 
   @override
@@ -59,19 +63,144 @@ class _HomeScreenState extends State<HomeScreen> {
               Image.asset(ConstImage.baner, height: 48, width: 48),
               InkWell(
                 onTap: () {
-        _key.currentState!.openDrawer();
-
+                  _key.currentState!.openDrawer();
                 },
-                child: Image.asset(ConstImage.userinfo, height: 48, width: 48)),
+                child: Image.asset(ConstImage.userinfo, height: 48, width: 48),
+              ),
             ],
           ),
         ),
       ),
 
+      drawer: Obx(
+        () => Drawer(
+          child: SafeArea(
+            child: Column(
+              children: [
+                SizedBox(height: 16),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: size.width * .7,
+                      height: size.height * .2,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 236, 231, 231),
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                      ),
 
-drawer: Drawer(
-    child: SafeArea(child: Text('data')),
-  ),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Image.asset(
+                                  ConstImage.userinfo,
+                                  width: 60,
+                                  height: 60,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 200,
+
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 16),
+                                  child: Text(
+                                    userInfoController.userInfo.value.username!,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          SizedBox(height: 16),
+                          Container(
+                            width: 200,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              color: const Color.fromARGB(255, 244, 245, 210),
+                            ),
+
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.apartment_rounded,
+                                    color: Colors.green[900],
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                Text(
+                                  userInfoController.userInfo.value.department!,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: size.height / 45),
+
+                ListTile(
+                  leading: Icon(Icons.home, color: Colors.grey),
+                  title: Text('Home'),
+                  onTap: () {
+                    Get.back();
+                  },
+                ),
+                Divider(color: Colors.grey.shade300, thickness: 1),
+
+                ListTile(
+                  leading: Icon(Icons.web, color: Colors.grey),
+                  title: Text('Website'),
+                  onTap: () {
+                    myLaunchUrl(ApiUrl.getWebsite);
+                  },
+                ),
+                Divider(color: Colors.grey.shade300, thickness: 1),
+                SizedBox(height: size.height * .4),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 189, 13, 0),
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(
+                      vertical: 14,
+                      horizontal: size.width * .28,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onPressed: () {
+                    box.remove('token');
+                    Get.offAll(() => UsrLoginScreen());
+                  },
+                  child: Text('Log Out'),
+                ),
+
+                SizedBox(height: 16),
+
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: SizedBox(width: 300, child: Text('Version : 0.0.1')),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
       body: Obx(() {
         if (statusController.loading.value == true) {
           return Center(child: CircularProgressIndicator());
@@ -903,7 +1032,8 @@ drawer: Drawer(
                                                                 decoration:
                                                                     TextDecoration
                                                                         .underline,
-                                                                        decorationColor: Colors.blue,
+                                                                decorationColor:
+                                                                    Colors.blue,
                                                               ),
                                                             ),
                                                           ),
@@ -961,7 +1091,8 @@ drawer: Drawer(
                                                                 decoration:
                                                                     TextDecoration
                                                                         .underline,
-                                                                        decorationColor: Colors.blue,
+                                                                decorationColor:
+                                                                    Colors.blue,
                                                               ),
                                                             ),
                                                           ),
@@ -1019,14 +1150,14 @@ drawer: Drawer(
                                                                 decoration:
                                                                     TextDecoration
                                                                         .underline,
-                                                                        decorationColor: Colors.blue,
+                                                                decorationColor:
+                                                                    Colors.blue,
                                                               ),
                                                             ),
                                                           ),
                                                         ),
                                                       ],
                                                     ),
-
                                                   ],
                                                 ),
                                               ),

@@ -24,9 +24,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initApp() async {
-    // همزمان صبر کن تا 3 ثانیه بگذره و درخواست API بیاد
     final results = await Future.wait([
-      countController.getCount(), // این یک Future<bool> برمی‌گردونه
+      countController.getCount(), 
       Future.delayed(const Duration(seconds: 3)),
     ]);
 
