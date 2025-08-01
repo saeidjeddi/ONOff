@@ -49,7 +49,7 @@ class UsrLoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 16),
+                    SizedBox(height: size.height / 14),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [Image.asset(ConstImage.logo)],
