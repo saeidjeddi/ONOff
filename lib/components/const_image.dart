@@ -16,6 +16,7 @@ class ConstImage {
   static const String splash = 'assets/images/splash.png';
   static const String jan = 'assets/images/jan.png';
   static const String logo = 'assets/images/logo.png';
+  static const String noSearch = 'assets/images/SeoSearch.png';
   
 
 }

@@ -12,19 +12,20 @@ class UserInfoController extends GetxController {
 
   Rx<UserinfoModel> userInfo = UserinfoModel().obs;
 
-
-getUserInfo() async {
+  Future<bool> getUserInfo() async {
     loding.value = true;
     var response = await DioServices().getMethod(ApiUrl.getinfiuser);
     if (response.statusCode == 200) {
       userInfo.value = UserinfoModel.fromJson(response.data);
       loding.value = false;
-
+      return true;
     } else if (response.statusCode == 401) {
-      Get.snackbar("Error", response.data['detail']);
       // Get.off(LoginPage());
       loding.value = false;
-    } 
+      return false;
+    } else {
+      loding.value = false;
+      return false;
+    }
   }
-
-}
+  }

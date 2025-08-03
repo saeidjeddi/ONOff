@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:onofflive/components/const_image.dart';
 import 'package:onofflive/controller/count_controller.dart';
+import 'package:onofflive/controller/userInfo_controller.dart';
 import 'package:onofflive/views/login_screen.dart';
 import 'package:onofflive/views/main_screen.dart';
 
@@ -14,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final CountController countController = Get.put(CountController());
+  final UserInfoController userInfoController = Get.put(UserInfoController());
   final box = GetStorage();
 
   @override
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _initApp() async {
     final results = await Future.wait([
-      countController.getCount(), 
+      userInfoController.getUserInfo(), 
       Future.delayed(const Duration(seconds: 3)),
     ]);
 
