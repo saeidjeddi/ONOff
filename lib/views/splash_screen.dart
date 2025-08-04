@@ -8,7 +8,7 @@ import 'package:onofflive/views/login_screen.dart';
 import 'package:onofflive/views/main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
-  SplashScreen({super.key});
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();

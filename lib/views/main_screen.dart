@@ -865,458 +865,457 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ] else ...[
                  
-                  SizedBox(
-                    height: size.height * .25, 
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: statusController.restaurantResults.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            width: 300, 
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.2),
-                                  spreadRadius: 2,
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 3),
+                  ListView.builder(
+                    // scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: statusController.restaurantResults.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: 300, 
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.2),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                  
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Column(
+                                        children: [
+                                          SizedBox(
+                                            width: 200,
+                                            child: Text(
+                                              statusController
+                                                  .restaurantResults[index]
+                                                  .mealzoName,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w900,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 200,
+                                            child: Text(
+                                              "Shop Id : ${statusController.restaurantResults[index].mealzoId}",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w900,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
-
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Column(
-                                          children: [
-                                            SizedBox(
-                                              width: 200,
-                                              child: Text(
-                                                statusController
-                                                    .restaurantResults[index]
-                                                    .mealzoName,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w900,
-                                                ),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 200,
-                                              child: Text(
-                                                "Shop Id : ${statusController.restaurantResults[index].mealzoId}",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w900,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                  
+                                Divider(
+                                  color: const Color.fromARGB(
+                                    255,
+                                    29,
+                                    26,
+                                    26,
                                   ),
-
-                                  Divider(
-                                    color: const Color.fromARGB(
-                                      255,
-                                      29,
-                                      26,
-                                      26,
-                                    ),
+                                ),
+                  
+                                SizedBox(height: size.height / 60),
+                  
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    16,
+                                    0,
+                                    32,
+                                    0,
                                   ),
-
-                                  SizedBox(height: size.height / 60),
-
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                      16,
-                                      0,
-                                      32,
-                                      0,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            // Text('Mealzo'),
-                                            // SizedBox(height: size.height / 60),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  width: 24,
-                                                  height: 24,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                          Radius.circular(32),
-                                                        ),
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                        ConstImage.justeatPng,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          // Text('Mealzo'),
+                                          // SizedBox(height: size.height / 60),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                width: 24,
+                                                height: 24,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(32),
                                                       ),
-                                                      fit: BoxFit.contain,
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                      ConstImage.justeatPng,
                                                     ),
+                                                    fit: BoxFit.contain,
                                                   ),
                                                 ),
-                                                SizedBox(width: 8),
-                                                SizedBox(
-                                                  width: 100,
-                                                  child: Row(
-                                                    children: [
-                                                      if (statusController
-                                                              .restaurantResults[index]
-                                                              .companies
-                                                              .justeat
-                                                              ?.deviceAvailability ==
-                                                          true) ...[
-                                                        Container(
-                                                          width: 40,
-                                                          height: 20,
-
-                                                          decoration: BoxDecoration(
-                                                            color:
-                                                                statusController
+                                              ),
+                                              SizedBox(width: 8),
+                                              SizedBox(
+                                                width: 100,
+                                                child: Row(
+                                                  children: [
+                                                    if (statusController
+                                                            .restaurantResults[index]
+                                                            .companies
+                                                            .justeat
+                                                            ?.deviceAvailability ==
+                                                        true) ...[
+                                                      Container(
+                                                        width: 40,
+                                                        height: 20,
+                  
+                                                        decoration: BoxDecoration(
+                                                          color:
+                                                              statusController
+                                                                      .restaurantResults[index]
+                                                                      .companies
+                                                                      .justeat!
+                                                                      .data
+                                                                      ?.isOpen ==
+                                                                  false
+                                                              ? Colors
+                                                                    .red[100]
+                                                              : Colors
+                                                                    .green[100],
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                Radius.circular(
+                                                                  8,
+                                                                ),
+                                                              ),
+                                                        ),
+                  
+                                                        child: Center(
+                                                          child: Text(
+                                                            statusController
                                                                         .restaurantResults[index]
                                                                         .companies
                                                                         .justeat!
                                                                         .data
                                                                         ?.isOpen ==
                                                                     false
-                                                                ? Colors
-                                                                      .red[100]
-                                                                : Colors
-                                                                      .green[100],
-                                                            borderRadius:
-                                                                BorderRadius.all(
-                                                                  Radius.circular(
-                                                                    8,
-                                                                  ),
-                                                                ),
-                                                          ),
-
-                                                          child: Center(
-                                                            child: Text(
-                                                              statusController
+                                                                ? '● off'
+                                                                : '● On',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  statusController
                                                                           .restaurantResults[index]
                                                                           .companies
                                                                           .justeat!
                                                                           .data
                                                                           ?.isOpen ==
                                                                       false
-                                                                  ? '● off'
-                                                                  : '● On',
-                                                              style: TextStyle(
-                                                                color:
-                                                                    statusController
-                                                                            .restaurantResults[index]
-                                                                            .companies
-                                                                            .justeat!
-                                                                            .data
-                                                                            ?.isOpen ==
-                                                                        false
-                                                                    ? Colors
-                                                                          .red[900]
-                                                                    : Colors
-                                                                          .green[900],
-                                                              ),
+                                                                  ? Colors
+                                                                        .red[900]
+                                                                  : Colors
+                                                                        .green[900],
                                                             ),
                                                           ),
                                                         ),
-                                                      ] else ...[
-                                                        Container(
-                                                          width: 85,
-                                                          height: 20,
-
-                                                          decoration: BoxDecoration(
-                                                            color: Colors
-                                                                .grey[100],
-                                                            borderRadius:
-                                                                BorderRadius.all(
-                                                                  Radius.circular(
-                                                                    8,
-                                                                  ),
-                                                                ),
-                                                          ),
-
-                                                          child: Center(
-                                                            child: Text(
-                                                              '● No Device',
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .grey[700],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(height: size.height / 60),
-
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  width: 24,
-                                                  height: 24,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                          Radius.circular(32),
-                                                        ),
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                        ConstImage.ubereatsJpg,
                                                       ),
-                                                      fit: BoxFit.contain,
+                                                    ] else ...[
+                                                      Container(
+                                                        width: 85,
+                                                        height: 20,
+                  
+                                                        decoration: BoxDecoration(
+                                                          color: Colors
+                                                              .grey[100],
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                Radius.circular(
+                                                                  8,
+                                                                ),
+                                                              ),
+                                                        ),
+                  
+                                                        child: Center(
+                                                          child: Text(
+                                                            '● No Device',
+                                                            style: TextStyle(
+                                                              color: Colors
+                                                                  .grey[700],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: size.height / 60),
+                  
+                                          Row(
+                                            children: [
+                                              Container(
+                                                width: 24,
+                                                height: 24,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(32),
+                                                      ),
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                      ConstImage.ubereatsJpg,
                                                     ),
+                                                    fit: BoxFit.contain,
                                                   ),
                                                 ),
-
-                                                SizedBox(width: 8),
-
-                                                SizedBox(
-                                                  width: 100,
-                                                  child: Row(
-                                                    children: [
-                                                      if (statusController
-                                                              .restaurantResults[index]
-                                                              .companies
-                                                              .ubereats
-                                                              ?.deviceAvailability ==
-                                                          true) ...[
-                                                        Container(
-                                                          width: 40,
-                                                          height: 20,
-
-                                                          decoration: BoxDecoration(
-                                                            color:
-                                                                statusController
+                                              ),
+                  
+                                              SizedBox(width: 8),
+                  
+                                              SizedBox(
+                                                width: 100,
+                                                child: Row(
+                                                  children: [
+                                                    if (statusController
+                                                            .restaurantResults[index]
+                                                            .companies
+                                                            .ubereats
+                                                            ?.deviceAvailability ==
+                                                        true) ...[
+                                                      Container(
+                                                        width: 40,
+                                                        height: 20,
+                  
+                                                        decoration: BoxDecoration(
+                                                          color:
+                                                              statusController
+                                                                      .restaurantResults[index]
+                                                                      .companies
+                                                                      .ubereats!
+                                                                      .data
+                                                                      ?.isOpen ==
+                                                                  false
+                                                              ? Colors
+                                                                    .red[100]
+                                                              : Colors
+                                                                    .green[100],
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                Radius.circular(
+                                                                  8,
+                                                                ),
+                                                              ),
+                                                        ),
+                  
+                                                        child: Center(
+                                                          child: Text(
+                                                            statusController
                                                                         .restaurantResults[index]
                                                                         .companies
                                                                         .ubereats!
                                                                         .data
                                                                         ?.isOpen ==
                                                                     false
-                                                                ? Colors
-                                                                      .red[100]
-                                                                : Colors
-                                                                      .green[100],
-                                                            borderRadius:
-                                                                BorderRadius.all(
-                                                                  Radius.circular(
-                                                                    8,
-                                                                  ),
-                                                                ),
-                                                          ),
-
-                                                          child: Center(
-                                                            child: Text(
-                                                              statusController
+                                                                ? '● off'
+                                                                : '● On',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  statusController
                                                                           .restaurantResults[index]
                                                                           .companies
                                                                           .ubereats!
                                                                           .data
                                                                           ?.isOpen ==
                                                                       false
-                                                                  ? '● off'
-                                                                  : '● On',
-                                                              style: TextStyle(
-                                                                color:
-                                                                    statusController
-                                                                            .restaurantResults[index]
-                                                                            .companies
-                                                                            .ubereats!
-                                                                            .data
-                                                                            ?.isOpen ==
-                                                                        false
-                                                                    ? Colors
-                                                                          .red[900]
-                                                                    : Colors
-                                                                          .green[900],
-                                                              ),
+                                                                  ? Colors
+                                                                        .red[900]
+                                                                  : Colors
+                                                                        .green[900],
                                                             ),
                                                           ),
                                                         ),
-                                                      ] else ...[
-                                                        Container(
-                                                          width: 85,
-                                                          height: 20,
-
-                                                          decoration: BoxDecoration(
-                                                            color: Colors
-                                                                .grey[100],
-                                                            borderRadius:
-                                                                BorderRadius.all(
-                                                                  Radius.circular(
-                                                                    8,
-                                                                  ),
-                                                                ),
-                                                          ),
-
-                                                          child: Center(
-                                                            child: Text(
-                                                              '● No Device',
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .grey[700],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-
-                                            SizedBox(height: size.height / 60),
-
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  width: 24,
-                                                  height: 24,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                          Radius.circular(32),
-                                                        ),
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                        ConstImage.foodhubPng,
                                                       ),
-                                                      fit: BoxFit.contain,
+                                                    ] else ...[
+                                                      Container(
+                                                        width: 85,
+                                                        height: 20,
+                  
+                                                        decoration: BoxDecoration(
+                                                          color: Colors
+                                                              .grey[100],
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                Radius.circular(
+                                                                  8,
+                                                                ),
+                                                              ),
+                                                        ),
+                  
+                                                        child: Center(
+                                                          child: Text(
+                                                            '● No Device',
+                                                            style: TextStyle(
+                                                              color: Colors
+                                                                  .grey[700],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                  
+                                          SizedBox(height: size.height / 60),
+                  
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                width: 24,
+                                                height: 24,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(32),
+                                                      ),
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                      ConstImage.foodhubPng,
                                                     ),
+                                                    fit: BoxFit.contain,
                                                   ),
                                                 ),
-                                                SizedBox(width: 8),
-
-                                                SizedBox(
-                                                  width: 100,
-                                                  child: Row(
-                                                    children: [
-                                                      if (statusController
-                                                              .restaurantResults[index]
-                                                              .companies
-                                                              .foodhub
-                                                              ?.deviceAvailability ==
-                                                          true) ...[
-                                                        Container(
-                                                          width: 40,
-                                                          height: 20,
-
-                                                          decoration: BoxDecoration(
-                                                            color:
-                                                                statusController
+                                              ),
+                                              SizedBox(width: 8),
+                  
+                                              SizedBox(
+                                                width: 100,
+                                                child: Row(
+                                                  children: [
+                                                    if (statusController
+                                                            .restaurantResults[index]
+                                                            .companies
+                                                            .foodhub
+                                                            ?.deviceAvailability ==
+                                                        true) ...[
+                                                      Container(
+                                                        width: 40,
+                                                        height: 20,
+                  
+                                                        decoration: BoxDecoration(
+                                                          color:
+                                                              statusController
+                                                                      .restaurantResults[index]
+                                                                      .companies
+                                                                      .foodhub!
+                                                                      .data
+                                                                      ?.isOpen ==
+                                                                  false
+                                                              ? Colors
+                                                                    .red[100]
+                                                              : Colors
+                                                                    .green[100],
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                Radius.circular(
+                                                                  8,
+                                                                ),
+                                                              ),
+                                                        ),
+                  
+                                                        child: Center(
+                                                          child: Text(
+                                                            statusController
                                                                         .restaurantResults[index]
                                                                         .companies
                                                                         .foodhub!
                                                                         .data
                                                                         ?.isOpen ==
                                                                     false
-                                                                ? Colors
-                                                                      .red[100]
-                                                                : Colors
-                                                                      .green[100],
-                                                            borderRadius:
-                                                                BorderRadius.all(
-                                                                  Radius.circular(
-                                                                    8,
-                                                                  ),
-                                                                ),
-                                                          ),
-
-                                                          child: Center(
-                                                            child: Text(
-                                                              statusController
+                                                                ? '● off'
+                                                                : '● On',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  statusController
                                                                           .restaurantResults[index]
                                                                           .companies
                                                                           .foodhub!
                                                                           .data
                                                                           ?.isOpen ==
                                                                       false
-                                                                  ? '● off'
-                                                                  : '● On',
-                                                              style: TextStyle(
-                                                                color:
-                                                                    statusController
-                                                                            .restaurantResults[index]
-                                                                            .companies
-                                                                            .foodhub!
-                                                                            .data
-                                                                            ?.isOpen ==
-                                                                        false
-                                                                    ? Colors
-                                                                          .red[900]
-                                                                    : Colors
-                                                                          .green[900],
-                                                              ),
+                                                                  ? Colors
+                                                                        .red[900]
+                                                                  : Colors
+                                                                        .green[900],
                                                             ),
                                                           ),
                                                         ),
-                                                      ] else ...[
-                                                        Container(
-                                                          width: 85,
-                                                          height: 20,
-
-                                                          decoration: BoxDecoration(
-                                                            color: Colors
-                                                                .grey[100],
-                                                            borderRadius:
-                                                                BorderRadius.all(
-                                                                  Radius.circular(
-                                                                    8,
-                                                                  ),
+                                                      ),
+                                                    ] else ...[
+                                                      Container(
+                                                        width: 85,
+                                                        height: 20,
+                  
+                                                        decoration: BoxDecoration(
+                                                          color: Colors
+                                                              .grey[100],
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                Radius.circular(
+                                                                  8,
                                                                 ),
-                                                          ),
-
-                                                          child: Center(
-                                                            child: Text(
-                                                              '● No Device',
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .grey[700],
                                                               ),
+                                                        ),
+                  
+                                                        child: Center(
+                                                          child: Text(
+                                                            '● No Device',
+                                                            style: TextStyle(
+                                                              color: Colors
+                                                                  .grey[700],
                                                             ),
                                                           ),
                                                         ),
-                                                      ],
+                                                      ),
                                                     ],
-                                                  ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ] else ...[
@@ -1354,7 +1353,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       child: statusController.page.value == 1
                           ? Padding(
-                              padding: const EdgeInsets.only(left: 32),
+                              padding: const EdgeInsets.only(left: 16),
                               child: Image.asset(ConstImage.nextPageB),
                             )
                           : Image.asset(ConstImage.nextPage),
