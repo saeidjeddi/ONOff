@@ -14,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final UserInfoController userInfoController = Get.put(UserInfoController());
+  final userInfoController = Get.put(UserInfoController());
   final box = GetStorage();
 
   @override

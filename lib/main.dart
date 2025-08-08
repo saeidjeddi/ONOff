@@ -56,6 +56,14 @@ class MyApp extends StatelessWidget {
 
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
+      getPages:[
+        GetPage(
+        name: '/splash', 
+        page: () => SplashScreen()),
+
+      ],
+
+
     );
   }
 }

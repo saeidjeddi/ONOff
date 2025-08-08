@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:onofflive/components/api_url.dart';
 import 'package:onofflive/components/const_image.dart';
-import 'package:onofflive/components/widgets.dart';
 import 'package:onofflive/controller/count_controller.dart';
 import 'package:onofflive/controller/status_controller.dart';
 import 'package:onofflive/controller/userInfo_controller.dart';
@@ -25,9 +23,13 @@ class _HomeScreenState extends State<HomeScreen> {
   final StatusController statusController = Get.put(StatusController());
   UserInfoController userInfoController = Get.put(UserInfoController());
   final TextEditingController searchController = TextEditingController();
+
   final box = GetStorage();
 
   SearchType searchType = SearchType.id;
+
+  bool itemChecksAll = true;
+  bool itemChecks = false;
 
   @override
   void initState() {
@@ -51,13 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Image.asset(ConstImage.group, height: 24, width: 24),
-                  const SizedBox(width: 6),
-                  const Text('Devices', style: TextStyle(fontSize: 18)),
-                ],
-              ),
+              const Text('Devices', style: TextStyle(fontSize: 18)),
               Image.asset(ConstImage.baner, height: 48, width: 48),
               InkWell(
                 onTap: () {
@@ -93,13 +89,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(height: 16),
                           Row(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.asset(
-                                  ConstImage.userinfo,
-                                  width: 60,
-                                  height: 60,
-                                  fit: BoxFit.fill,
+                              SizedBox(
+                                width: 60,
+                                height: 60,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Image.asset(
+                                    ConstImage.userinfo,
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.fill,
+                                  ),
                                 ),
                               ),
                               SizedBox(
@@ -156,26 +156,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-
-                SizedBox(height: size.height / 45),
-
-                ListTile(
-                  leading: Icon(Icons.home, color: Colors.grey),
-                  title: Text('Home'),
-                  onTap: () {
-                    Get.back();
-                  },
-                ),
                 Divider(color: Colors.grey.shade300, thickness: 1),
 
-                ListTile(
-                  leading: Icon(Icons.web, color: Colors.grey),
-                  title: Text('Website'),
-                  onTap: () {
-                    myLaunchUrl(ApiUrl.getWebsite);
-                  },
-                ),
-                Divider(color: Colors.grey.shade300, thickness: 1),
+                SizedBox(height: size.height / 10),
+
                 SizedBox(height: size.height * .4),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -200,13 +184,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 Padding(
                   padding: const EdgeInsets.all(16),
-                  child: SizedBox(width: 300, child: Text('Version : 0.0.1')),
+                  child: SizedBox(width: 300, child: Text('Version : 0.0.2')),
                 ),
               ],
             ),
           ),
         ),
       ),
+
       body: Obx(() {
         if (statusController.loading.value == true) {
           return Center(child: CircularProgressIndicator());
@@ -216,553 +201,331 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(bottom: 8),
-                child: Text(
-                  'Devices Status',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-                ),
-              ),
-              Container(
-                height: size.height / 10,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color.fromRGBO(
-                        255,
-                        136,
-                        0,
-                        1,
-                      ).withOpacity(0.2),
-                      spreadRadius: 0.5,
-                      blurRadius: 2,
-                      offset: const Offset(0, 0),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      child: Center(
-                        child: Image.asset(
-                          ConstImage.totalShop,
-                          height: 24,
-                          width: 24,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          'Total  Devices',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-
-                    Obx(
-                      () => Text(
-                        countController.countInfo.value.allCount.toString(),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              SizedBox(height: size.height / 90),
-
-              Container(
-                height: size.height / 10,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color.fromARGB(
-                        255,
-                        116,
-                        255,
-                        52,
-                      ).withOpacity(0.2),
-                      spreadRadius: 2,
-                      blurRadius: 3,
-                      offset: const Offset(0, 0),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      child: Center(
-                        child: Image.asset(
-                          ConstImage.desktopon,
-                          height: 24,
-                          width: 24,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          'Total On Devices',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    Obx(
-                      () => Text(
-                        countController.countInfo.value.allOn.toString(),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              SizedBox(height: size.height / 90),
-
-              Container(
-                height: size.height / 10,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color.fromARGB(
-                        255,
-                        255,
-                        0,
-                        0,
-                      ).withOpacity(0.2),
-                      spreadRadius: 0.5,
-                      blurRadius: 2,
-                      offset: const Offset(0, 0),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      child: Center(
-                        child: Image.asset(
-                          ConstImage.desktopoff,
-                          height: 24,
-                          width: 24,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          'Total Off Devices',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    Obx(
-                      () => Text(
-                        countController.countInfo.value.allOff.toString(),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              SizedBox(height: size.height / 40),
-
               Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Get.defaultDialog(
-                          title: 'Mealzo',
-                          content: Text('No Data'),
-                        );
-                      },
-                      child: Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(50),
-                          image: DecorationImage(
-                            image: AssetImage(ConstImage.mealzoJpg),
-                            fit: BoxFit.cover,
+                child: Container(
+                  width: double.infinity,
+                  height: size.height / 10,
+
+                  decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Get.defaultDialog(
+                            title: 'Mealzo',
+                            content: Text('No Data'),
+                          );
+                        },
+                        child: Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(50),
+                            image: DecorationImage(
+                              image: AssetImage(ConstImage.mealzoJpg),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-                    GestureDetector(
-                      onTap: () {
-                        Get.defaultDialog(
-                          title: 'Food Hub',
-                          content: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 16,
-                                  right: 16,
+                      GestureDetector(
+                        onTap: () {
+                          Get.defaultDialog(
+                            title: 'Food Hub',
+                            content: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 16,
+                                    right: 16,
+                                  ),
+                                  child: Divider(
+                                    color: Colors.grey.shade300,
+                                    thickness: 1,
+                                  ),
                                 ),
-                                child: Divider(
-                                  color: Colors.grey.shade300,
-                                  thickness: 1,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      countController
-                                          .countInfo
-                                          .value
-                                          .foodhub
-                                          .total
-                                          .toString(),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Container(
-                                      width: size.width / 5,
-                                      height: size.height / 40,
-
-                                      decoration: BoxDecoration(
-                                        color: Colors.red[200],
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        countController
+                                            .countInfo
+                                            .value
+                                            .foodhub
+                                            .total
+                                            .toString(),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
+                                      Container(
+                                        width: size.width / 5,
+                                        height: size.height / 40,
 
-                                      child: Center(
-                                        child: Text(
-                                          '● On(${countController.countInfo.value.foodhub.off.toString()})',
-                                          style: TextStyle(
-                                            color: Colors.red[900],
+                                        decoration: BoxDecoration(
+                                          color: Colors.red[200],
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8),
+                                          ),
+                                        ),
+
+                                        child: Center(
+                                          child: Text(
+                                            '● Off(${countController.countInfo.value.foodhub.off.toString()})',
+                                            style: TextStyle(
+                                              color: Colors.red[900],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      width: size.width / 5,
-                                      height: size.height / 40,
+                                      Container(
+                                        width: size.width / 5,
+                                        height: size.height / 40,
 
-                                      decoration: BoxDecoration(
-                                        color: Colors.green[200],
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8),
+                                        decoration: BoxDecoration(
+                                          color: Colors.green[200],
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8),
+                                          ),
                                         ),
-                                      ),
 
-                                      child: Center(
-                                        child: Text(
-                                          '● On(${countController.countInfo.value.foodhub.onD.toString()})',
-                                          style: TextStyle(
-                                            color: Colors.green[900],
+                                        child: Center(
+                                          child: Text(
+                                            '● On(${countController.countInfo.value.foodhub.onD.toString()})',
+                                            style: TextStyle(
+                                              color: Colors.green[900],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
 
-                              SizedBox(height: 8),
-
-                              Text(
-                                countController.countInfo.value.foodhub.lastTime
-                                    .toString(),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      child: Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(50),
-                          image: DecorationImage(
-                            image: AssetImage(ConstImage.foodhubPng),
-                            fit: BoxFit.cover,
+                                SizedBox(height: 8),
+                              ],
+                            ),
+                          );
+                        },
+                        child: Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(50),
+                            image: DecorationImage(
+                              image: AssetImage(ConstImage.foodhubPng),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-                    GestureDetector(
-                      onTap: () {
-                        Get.defaultDialog(
-                          title: 'Uber Eats',
-                          content: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 16,
-                                  right: 16,
+                      GestureDetector(
+                        onTap: () {
+                          Get.defaultDialog(
+                            title: 'Uber Eats',
+                            content: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 16,
+                                    right: 16,
+                                  ),
+                                  child: Divider(
+                                    color: Colors.grey.shade300,
+                                    thickness: 1,
+                                  ),
                                 ),
-                                child: Divider(
-                                  color: Colors.grey.shade300,
-                                  thickness: 1,
-                                ),
-                              ),
 
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      countController
-                                          .countInfo
-                                          .value
-                                          .ubereats
-                                          .total
-                                          .toString(),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-
-                                    Container(
-                                      width: size.width / 5,
-                                      height: size.height / 40,
-
-                                      decoration: BoxDecoration(
-                                        color: Colors.red[200],
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        countController
+                                            .countInfo
+                                            .value
+                                            .ubereats
+                                            .total
+                                            .toString(),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
 
-                                      child: Center(
-                                        child: Text(
-                                          '● On(${countController.countInfo.value.ubereats.off.toString()})',
-                                          style: TextStyle(
-                                            color: Colors.red[900],
+                                      Container(
+                                        width: size.width / 5,
+                                        height: size.height / 40,
+
+                                        decoration: BoxDecoration(
+                                          color: Colors.red[200],
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8),
+                                          ),
+                                        ),
+
+                                        child: Center(
+                                          child: Text(
+                                            '● Off(${countController.countInfo.value.ubereats.off.toString()})',
+                                            style: TextStyle(
+                                              color: Colors.red[900],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      width: size.width / 5,
-                                      height: size.height / 40,
+                                      Container(
+                                        width: size.width / 5,
+                                        height: size.height / 40,
 
-                                      decoration: BoxDecoration(
-                                        color: Colors.green[200],
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8),
+                                        decoration: BoxDecoration(
+                                          color: Colors.green[200],
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8),
+                                          ),
                                         ),
-                                      ),
 
-                                      child: Center(
-                                        child: Text(
-                                          '● On(${countController.countInfo.value.ubereats.onD.toString()})',
-                                          style: TextStyle(
-                                            color: Colors.green[900],
+                                        child: Center(
+                                          child: Text(
+                                            '● On(${countController.countInfo.value.ubereats.onD.toString()})',
+                                            style: TextStyle(
+                                              color: Colors.green[900],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
 
-                              SizedBox(height: 8),
-
-                              Text(
-                                countController
-                                    .countInfo
-                                    .value
-                                    .ubereats
-                                    .lastTime
-                                    .toString(),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      child: Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(50),
-                          image: DecorationImage(
-                            image: AssetImage(ConstImage.ubereatsJpg),
-                            fit: BoxFit.cover,
+                                SizedBox(height: 8),
+                              ],
+                            ),
+                          );
+                        },
+                        child: Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(50),
+                            image: DecorationImage(
+                              image: AssetImage(ConstImage.ubereatsJpg),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-                    GestureDetector(
-                      onTap: () {
-                        Get.defaultDialog(
-                          title: 'Just Eat',
-                          content: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 16,
-                                  right: 16,
+                      GestureDetector(
+                        onTap: () {
+                          Get.defaultDialog(
+                            title: 'Just Eat',
+                            content: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 16,
+                                    right: 16,
+                                  ),
+                                  child: Divider(
+                                    color: Colors.grey.shade300,
+                                    thickness: 1,
+                                  ),
                                 ),
-                                child: Divider(
-                                  color: Colors.grey.shade300,
-                                  thickness: 1,
-                                ),
-                              ),
 
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      countController
-                                          .countInfo
-                                          .value
-                                          .justeat
-                                          .total
-                                          .toString(),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-
-                                    Container(
-                                      width: size.width / 5,
-                                      height: size.height / 40,
-
-                                      decoration: BoxDecoration(
-                                        color: Colors.red[200],
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        countController
+                                            .countInfo
+                                            .value
+                                            .justeat
+                                            .total
+                                            .toString(),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
 
-                                      child: Center(
-                                        child: Text(
-                                          '● On(${countController.countInfo.value.justeat.off.toString()})',
-                                          style: TextStyle(
-                                            color: Colors.red[900],
+                                      Container(
+                                        width: size.width / 5,
+                                        height: size.height / 40,
+
+                                        decoration: BoxDecoration(
+                                          color: Colors.red[200],
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8),
+                                          ),
+                                        ),
+
+                                        child: Center(
+                                          child: Text(
+                                            '● Off(${countController.countInfo.value.justeat.off.toString()})',
+                                            style: TextStyle(
+                                              color: Colors.red[900],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      width: size.width / 5,
-                                      height: size.height / 40,
+                                      Container(
+                                        width: size.width / 5,
+                                        height: size.height / 40,
 
-                                      decoration: BoxDecoration(
-                                        color: Colors.green[200],
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8),
+                                        decoration: BoxDecoration(
+                                          color: Colors.green[200],
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8),
+                                          ),
                                         ),
-                                      ),
 
-                                      child: Center(
-                                        child: Text(
-                                          '● On(${countController.countInfo.value.justeat.onD.toString()})',
-                                          style: TextStyle(
-                                            color: Colors.green[900],
+                                        child: Center(
+                                          child: Text(
+                                            '● On(${countController.countInfo.value.justeat.onD.toString()})',
+                                            style: TextStyle(
+                                              color: Colors.green[900],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-
-                              Text(
-                                countController.countInfo.value.justeat.lastTime
-                                    .toString(),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      child: Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(50),
-                          image: DecorationImage(
-                            image: AssetImage(ConstImage.justeatPng),
-                            fit: BoxFit.cover,
+                              ],
+                            ),
+                          );
+                        },
+                        child: Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(50),
+                            image: DecorationImage(
+                              image: AssetImage(ConstImage.justeatPng),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
 
@@ -791,6 +554,325 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                   const Text('by Shop Name'),
+
+                  SizedBox(width: size.width / 4.8),
+
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Get.bottomSheet(
+                            Container(
+                              width: double.infinity,
+                              height: size.height / 3,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(16),
+                                  topRight: Radius.circular(16),
+                                ),
+                              ),
+                              child: ListView(
+                                children: [
+                                  SizedBox(height: 6),
+
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(children: [Icon(Icons.tune)]),
+                                  ),
+                                  ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              ConstImage.foodhubPng,
+                                              width: 30,
+                                              height: 30,
+                                            ),
+                                            SizedBox(width: 16),
+                                            Text("ّFoodHub"),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    children: [
+                                      ListTile(
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              width: 40,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                color: Colors.greenAccent,
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(16),
+                                                ),
+                                              ),
+
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "On",
+                                                    style: TextStyle(
+                                                      color: Colors.green,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+
+                                            SizedBox(width: 16),
+
+                                            Container(
+                                              width: 40,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                color: Colors.redAccent[100],
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(16),
+                                                ),
+                                              ),
+
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "off",
+                                                    style: TextStyle(
+                                                      color: Colors.red[900],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(5),
+                                                ),
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                    ConstImage.ubereatsJpg,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+
+                                            SizedBox(width: 16),
+
+                                            Text("uberEats"),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    children: [
+                                      ListTile(
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              width: 40,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                color: Colors.greenAccent,
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(16),
+                                                ),
+                                              ),
+
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "on",
+                                                    style: TextStyle(
+                                                      color: Colors.green,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+
+                                            SizedBox(width: 16),
+
+                                            Container(
+                                              width: 40,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                color: Colors.redAccent[100],
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(16),
+                                                ),
+                                              ),
+
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "off",
+                                                    style: TextStyle(
+                                                      color: Colors.red[900],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                  ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(5),
+                                                ),
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                    ConstImage.justeatPng,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+
+                                            SizedBox(width: 16),
+
+                                            Text("Just Eats"),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    children: [
+                                      ListTile(
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              width: 40,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                color: Colors.greenAccent,
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(16),
+                                                ),
+                                              ),
+
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "on",
+                                                    style: TextStyle(
+                                                      color: Colors.green,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+
+                                            SizedBox(width: 16),
+
+                                            Container(
+                                              width: 40,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                color: Colors.redAccent[100],
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(16),
+                                                ),
+                                              ),
+
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "off",
+                                                    style: TextStyle(
+                                                      color: Colors.red[900],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Icon(Icons.filter_alt, size: 32),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
 
@@ -853,469 +935,472 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               // -------
-              SizedBox(height: size.height / 40),
+              SizedBox(height: size.height / 80),
+
               if (statusController.loading.value == false) ...[
                 if (statusController.restaurantResults.isEmpty &&
                     searchController.text.isNotEmpty) ...[
                   Padding(
                     padding: const EdgeInsets.all(32.0),
-                    child: Center(
-                      child: Image.asset(ConstImage.noSearch)
-                    ),
+                    child: Center(child: Image.asset(ConstImage.noSearch)),
                   ),
                 ] else ...[
-                 
-                  ListView.builder(
-                    // scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: statusController.restaurantResults.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 300, 
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.2),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                  
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          SizedBox(
-                                            width: 200,
-                                            child: Text(
-                                              statusController
-                                                  .restaurantResults[index]
-                                                  .mealzoName,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w900,
-                                              ),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 200,
-                                            child: Text(
-                                              "Shop Id : ${statusController.restaurantResults[index].mealzoId}",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w900,
+                  SizedBox(
+                    height: size.height / 3.5,
+
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+
+                      // shrinkWrap: true,
+                      //   physics: NeverScrollableScrollPhysics(),
+                      itemCount: statusController.restaurantResults.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: 300,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  spreadRadius: 2,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Column(
+                                          children: [
+                                            SizedBox(
+                                              width: 200,
+                                              child: Text(
+                                                statusController
+                                                    .restaurantResults[index]
+                                                    .mealzoName,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w900,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                  
-                                Divider(
-                                  color: const Color.fromARGB(
-                                    255,
-                                    29,
-                                    26,
-                                    26,
-                                  ),
-                                ),
-                  
-                                SizedBox(height: size.height / 60),
-                  
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                    16,
-                                    0,
-                                    32,
-                                    0,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        children: [
-                                          // Text('Mealzo'),
-                                          // SizedBox(height: size.height / 60),
-                                          Row(
-                                            children: [
-                                              Container(
-                                                width: 24,
-                                                height: 24,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                        Radius.circular(32),
-                                                      ),
-                                                  image: DecorationImage(
-                                                    image: AssetImage(
-                                                      ConstImage.justeatPng,
-                                                    ),
-                                                    fit: BoxFit.contain,
-                                                  ),
+                                            SizedBox(
+                                              width: 200,
+                                              child: Text(
+                                                "Shop Id : ${statusController.restaurantResults[index].mealzoId}",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w900,
                                                 ),
                                               ),
-                                              SizedBox(width: 8),
-                                              SizedBox(
-                                                width: 100,
-                                                child: Row(
-                                                  children: [
-                                                    if (statusController
-                                                            .restaurantResults[index]
-                                                            .companies
-                                                            .justeat
-                                                            ?.deviceAvailability ==
-                                                        true) ...[
-                                                      Container(
-                                                        width: 40,
-                                                        height: 20,
-                  
-                                                        decoration: BoxDecoration(
-                                                          color:
-                                                              statusController
-                                                                      .restaurantResults[index]
-                                                                      .companies
-                                                                      .justeat!
-                                                                      .data
-                                                                      ?.isOpen ==
-                                                                  false
-                                                              ? Colors
-                                                                    .red[100]
-                                                              : Colors
-                                                                    .green[100],
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                Radius.circular(
-                                                                  8,
-                                                                ),
-                                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Divider(
+                                    color: const Color.fromARGB(
+                                      255,
+                                      29,
+                                      26,
+                                      26,
+                                    ),
+                                  ),
+
+                                  SizedBox(height: size.height / 60),
+
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                      16,
+                                      0,
+                                      32,
+                                      0,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          children: [
+                                            // Text('Mealzo'),
+                                            // SizedBox(height: size.height / 60),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  width: 24,
+                                                  height: 24,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                          Radius.circular(32),
                                                         ),
-                  
-                                                        child: Center(
-                                                          child: Text(
-                                                            statusController
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                        ConstImage.justeatPng,
+                                                      ),
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 8),
+                                                SizedBox(
+                                                  width: 100,
+                                                  child: Row(
+                                                    children: [
+                                                      if (statusController
+                                                              .restaurantResults[index]
+                                                              .companies
+                                                              .justeat
+                                                              ?.deviceAvailability ==
+                                                          true) ...[
+                                                        Container(
+                                                          width: 40,
+                                                          height: 20,
+
+                                                          decoration: BoxDecoration(
+                                                            color:
+                                                                statusController
                                                                         .restaurantResults[index]
                                                                         .companies
                                                                         .justeat!
                                                                         .data
                                                                         ?.isOpen ==
                                                                     false
-                                                                ? '● off'
-                                                                : '● On',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  statusController
+                                                                ? Colors
+                                                                      .red[100]
+                                                                : Colors
+                                                                      .green[100],
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                  Radius.circular(
+                                                                    8,
+                                                                  ),
+                                                                ),
+                                                          ),
+
+                                                          child: Center(
+                                                            child: Text(
+                                                              statusController
                                                                           .restaurantResults[index]
                                                                           .companies
                                                                           .justeat!
                                                                           .data
                                                                           ?.isOpen ==
                                                                       false
-                                                                  ? Colors
-                                                                        .red[900]
-                                                                  : Colors
-                                                                        .green[900],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ] else ...[
-                                                      Container(
-                                                        width: 85,
-                                                        height: 20,
-                  
-                                                        decoration: BoxDecoration(
-                                                          color: Colors
-                                                              .grey[100],
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                Radius.circular(
-                                                                  8,
-                                                                ),
+                                                                  ? '● off'
+                                                                  : '● On',
+                                                              style: TextStyle(
+                                                                color:
+                                                                    statusController
+                                                                            .restaurantResults[index]
+                                                                            .companies
+                                                                            .justeat!
+                                                                            .data
+                                                                            ?.isOpen ==
+                                                                        false
+                                                                    ? Colors
+                                                                          .red[900]
+                                                                    : Colors
+                                                                          .green[900],
                                                               ),
-                                                        ),
-                  
-                                                        child: Center(
-                                                          child: Text(
-                                                            '● No Device',
-                                                            style: TextStyle(
-                                                              color: Colors
-                                                                  .grey[700],
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
+                                                      ] else ...[
+                                                        Container(
+                                                          width: 85,
+                                                          height: 20,
+
+                                                          decoration: BoxDecoration(
+                                                            color: Colors
+                                                                .grey[100],
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                  Radius.circular(
+                                                                    8,
+                                                                  ),
+                                                                ),
+                                                          ),
+
+                                                          child: Center(
+                                                            child: Text(
+                                                              '● No Device',
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .grey[700],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ],
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: size.height / 60),
-                  
-                                          Row(
-                                            children: [
-                                              Container(
-                                                width: 24,
-                                                height: 24,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                        Radius.circular(32),
-                                                      ),
-                                                  image: DecorationImage(
-                                                    image: AssetImage(
-                                                      ConstImage.ubereatsJpg,
-                                                    ),
-                                                    fit: BoxFit.contain,
                                                   ),
                                                 ),
-                                              ),
-                  
-                                              SizedBox(width: 8),
-                  
-                                              SizedBox(
-                                                width: 100,
-                                                child: Row(
-                                                  children: [
-                                                    if (statusController
-                                                            .restaurantResults[index]
-                                                            .companies
-                                                            .ubereats
-                                                            ?.deviceAvailability ==
-                                                        true) ...[
-                                                      Container(
-                                                        width: 40,
-                                                        height: 20,
-                  
-                                                        decoration: BoxDecoration(
-                                                          color:
-                                                              statusController
-                                                                      .restaurantResults[index]
-                                                                      .companies
-                                                                      .ubereats!
-                                                                      .data
-                                                                      ?.isOpen ==
-                                                                  false
-                                                              ? Colors
-                                                                    .red[100]
-                                                              : Colors
-                                                                    .green[100],
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                Radius.circular(
-                                                                  8,
-                                                                ),
-                                                              ),
+                                              ],
+                                            ),
+                                            SizedBox(height: size.height / 60),
+
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  width: 24,
+                                                  height: 24,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                          Radius.circular(32),
                                                         ),
-                  
-                                                        child: Center(
-                                                          child: Text(
-                                                            statusController
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                        ConstImage.ubereatsJpg,
+                                                      ),
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                  ),
+                                                ),
+
+                                                SizedBox(width: 8),
+
+                                                SizedBox(
+                                                  width: 100,
+                                                  child: Row(
+                                                    children: [
+                                                      if (statusController
+                                                              .restaurantResults[index]
+                                                              .companies
+                                                              .ubereats
+                                                              ?.deviceAvailability ==
+                                                          true) ...[
+                                                        Container(
+                                                          width: 40,
+                                                          height: 20,
+
+                                                          decoration: BoxDecoration(
+                                                            color:
+                                                                statusController
                                                                         .restaurantResults[index]
                                                                         .companies
                                                                         .ubereats!
                                                                         .data
                                                                         ?.isOpen ==
                                                                     false
-                                                                ? '● off'
-                                                                : '● On',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  statusController
+                                                                ? Colors
+                                                                      .red[100]
+                                                                : Colors
+                                                                      .green[100],
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                  Radius.circular(
+                                                                    8,
+                                                                  ),
+                                                                ),
+                                                          ),
+
+                                                          child: Center(
+                                                            child: Text(
+                                                              statusController
                                                                           .restaurantResults[index]
                                                                           .companies
                                                                           .ubereats!
                                                                           .data
                                                                           ?.isOpen ==
                                                                       false
-                                                                  ? Colors
-                                                                        .red[900]
-                                                                  : Colors
-                                                                        .green[900],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ] else ...[
-                                                      Container(
-                                                        width: 85,
-                                                        height: 20,
-                  
-                                                        decoration: BoxDecoration(
-                                                          color: Colors
-                                                              .grey[100],
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                Radius.circular(
-                                                                  8,
-                                                                ),
+                                                                  ? '● off'
+                                                                  : '● On',
+                                                              style: TextStyle(
+                                                                color:
+                                                                    statusController
+                                                                            .restaurantResults[index]
+                                                                            .companies
+                                                                            .ubereats!
+                                                                            .data
+                                                                            ?.isOpen ==
+                                                                        false
+                                                                    ? Colors
+                                                                          .red[900]
+                                                                    : Colors
+                                                                          .green[900],
                                                               ),
-                                                        ),
-                  
-                                                        child: Center(
-                                                          child: Text(
-                                                            '● No Device',
-                                                            style: TextStyle(
-                                                              color: Colors
-                                                                  .grey[700],
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
+                                                      ] else ...[
+                                                        Container(
+                                                          width: 85,
+                                                          height: 20,
+
+                                                          decoration: BoxDecoration(
+                                                            color: Colors
+                                                                .grey[100],
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                  Radius.circular(
+                                                                    8,
+                                                                  ),
+                                                                ),
+                                                          ),
+
+                                                          child: Center(
+                                                            child: Text(
+                                                              '● No Device',
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .grey[700],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ],
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                  
-                                          SizedBox(height: size.height / 60),
-                  
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                width: 24,
-                                                height: 24,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                        Radius.circular(32),
-                                                      ),
-                                                  image: DecorationImage(
-                                                    image: AssetImage(
-                                                      ConstImage.foodhubPng,
-                                                    ),
-                                                    fit: BoxFit.contain,
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(width: 8),
-                  
-                                              SizedBox(
-                                                width: 100,
-                                                child: Row(
-                                                  children: [
-                                                    if (statusController
-                                                            .restaurantResults[index]
-                                                            .companies
-                                                            .foodhub
-                                                            ?.deviceAvailability ==
-                                                        true) ...[
-                                                      Container(
-                                                        width: 40,
-                                                        height: 20,
-                  
-                                                        decoration: BoxDecoration(
-                                                          color:
-                                                              statusController
-                                                                      .restaurantResults[index]
-                                                                      .companies
-                                                                      .foodhub!
-                                                                      .data
-                                                                      ?.isOpen ==
-                                                                  false
-                                                              ? Colors
-                                                                    .red[100]
-                                                              : Colors
-                                                                    .green[100],
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                Radius.circular(
-                                                                  8,
-                                                                ),
-                                                              ),
+                                              ],
+                                            ),
+
+                                            SizedBox(height: size.height / 60),
+
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  width: 24,
+                                                  height: 24,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                          Radius.circular(32),
                                                         ),
-                  
-                                                        child: Center(
-                                                          child: Text(
-                                                            statusController
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                        ConstImage.foodhubPng,
+                                                      ),
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 8),
+
+                                                SizedBox(
+                                                  width: 100,
+                                                  child: Row(
+                                                    children: [
+                                                      if (statusController
+                                                              .restaurantResults[index]
+                                                              .companies
+                                                              .foodhub
+                                                              ?.deviceAvailability ==
+                                                          true) ...[
+                                                        Container(
+                                                          width: 40,
+                                                          height: 20,
+
+                                                          decoration: BoxDecoration(
+                                                            color:
+                                                                statusController
                                                                         .restaurantResults[index]
                                                                         .companies
                                                                         .foodhub!
                                                                         .data
                                                                         ?.isOpen ==
                                                                     false
-                                                                ? '● off'
-                                                                : '● On',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  statusController
+                                                                ? Colors
+                                                                      .red[100]
+                                                                : Colors
+                                                                      .green[100],
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                  Radius.circular(
+                                                                    8,
+                                                                  ),
+                                                                ),
+                                                          ),
+
+                                                          child: Center(
+                                                            child: Text(
+                                                              statusController
                                                                           .restaurantResults[index]
                                                                           .companies
                                                                           .foodhub!
                                                                           .data
                                                                           ?.isOpen ==
                                                                       false
-                                                                  ? Colors
-                                                                        .red[900]
-                                                                  : Colors
-                                                                        .green[900],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ] else ...[
-                                                      Container(
-                                                        width: 85,
-                                                        height: 20,
-                  
-                                                        decoration: BoxDecoration(
-                                                          color: Colors
-                                                              .grey[100],
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                Radius.circular(
-                                                                  8,
-                                                                ),
+                                                                  ? '● off'
+                                                                  : '● On',
+                                                              style: TextStyle(
+                                                                color:
+                                                                    statusController
+                                                                            .restaurantResults[index]
+                                                                            .companies
+                                                                            .foodhub!
+                                                                            .data
+                                                                            ?.isOpen ==
+                                                                        false
+                                                                    ? Colors
+                                                                          .red[900]
+                                                                    : Colors
+                                                                          .green[900],
                                                               ),
-                                                        ),
-                  
-                                                        child: Center(
-                                                          child: Text(
-                                                            '● No Device',
-                                                            style: TextStyle(
-                                                              color: Colors
-                                                                  .grey[700],
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
+                                                      ] else ...[
+                                                        Container(
+                                                          width: 85,
+                                                          height: 20,
+
+                                                          decoration: BoxDecoration(
+                                                            color: Colors
+                                                                .grey[100],
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                  Radius.circular(
+                                                                    8,
+                                                                  ),
+                                                                ),
+                                                          ),
+
+                                                          child: Center(
+                                                            child: Text(
+                                                              '● No Device',
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .grey[700],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ],
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ],
               ] else ...[
@@ -1324,6 +1409,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Center(child: Image.asset(ConstImage.loade)),
                 ),
               ],
+
+              SizedBox(height: size.height / 40),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1336,7 +1423,37 @@ class _HomeScreenState extends State<HomeScreen> {
                           statusController.getStatusPage();
                         }
                       },
-                      child: Image.asset(ConstImage.backPage),
+                      child: Container(
+                        width: size.width / 3,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 232, 84, 12),
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
+
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.arrow_left_outlined,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                '${statusController.statusInfo.value.currentPage - 1}',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+
+                  if (statusController.page.value > 1) ...[
+                    Text(
+                      '${statusController.statusInfo.value.currentPage} of ${statusController.statusInfo.value.totalPages}',
                     ),
                   ],
 
@@ -1354,15 +1471,195 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: statusController.page.value == 1
                           ? Padding(
                               padding: const EdgeInsets.only(left: 16),
-                              child: Image.asset(ConstImage.nextPageB),
+                              child: Container(
+                                width: size.width / 1.2,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: const Color.fromARGB(255, 232, 84, 12),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '${statusController.statusInfo.value.currentPage} of ${statusController.statusInfo.value.totalPages}',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      Icon(
+                                        Icons.arrow_right_alt,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             )
-                          : Image.asset(ConstImage.nextPage),
+                          : Container(
+                              width: size.width / 3,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 232, 84, 12),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                              ),
+
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '${statusController.statusInfo.value.currentPage + 1}',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+
+                                    Icon(
+                                      Icons.arrow_right,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                     ),
                   ],
                 ],
               ),
 
-              SizedBox(height: 32),
+              SizedBox(height: 30),
+
+              Container(
+                width: double.infinity,
+                height: size.height *.21,
+
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+
+                child: Column(
+                  children: [
+                    SizedBox(height: size.height / 60),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                  image: DecorationImage(
+                                    image: AssetImage(ConstImage.justeatPng),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 16),
+                              Text('last update'),
+                            ],
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                          child: Text(
+                            countController.countInfo.value.justeat.lastTime,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                  image: DecorationImage(
+                                    image: AssetImage(ConstImage.foodhubPng),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 16),
+                              Text('last update'),
+                            ],
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                          child: Text(
+                            countController.countInfo.value.foodhub.lastTime,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                  image: DecorationImage(
+                                    image: AssetImage(ConstImage.ubereatsJpg),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 16),
+                              Text('last update'),
+                            ],
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                          child: Text(
+                            countController.countInfo.value.ubereats.lastTime,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         );
