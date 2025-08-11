@@ -33,6 +33,8 @@ class DioServices {
 
 
 
+
+
 Future<dynamic> postMethodFormData(Map<String, dynamic> map, String url) async {
   Dio dio = Dio();
   dio.options.headers["content-type"] = "application/json";
@@ -64,4 +66,38 @@ Future<dynamic> postMethodFormData(Map<String, dynamic> map, String url) async {
 
 
 
+
+
+
+
+
+
+
+
+Future<dynamic> getMethodNotToken(String url) async {
+     Dio dio = Dio();
+
+  dio.options.headers["content-type"] = "application/json";
+  
+  try {
+    final response = await dio.get(
+      url,
+      options: Options(responseType: ResponseType.json),
+    );
+
+    return response;
+  } on DioException catch (e) {
+    if (e.response != null) {
+      return e.response; 
+    } else {
+      return null;
+    }
+  } catch (e) {
+    return null;
+  }
 }
+
+}
+
+
+

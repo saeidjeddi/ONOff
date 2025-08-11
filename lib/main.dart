@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:onofflive/views/foodhub/foodhub_on.dart';
 import 'package:onofflive/views/splash_screen.dart';
 
 
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
 
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: FoodhubOn(),
       getPages:[
         GetPage(
         name: '/splash', 
