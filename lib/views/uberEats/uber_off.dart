@@ -199,15 +199,10 @@ class UberEatsOff extends StatelessWidget {
                     Expanded(
                       child: TextField(
                         controller: searchController,
-                        // onSubmitted: (value) {
-                        //   if (searchType == SearchType.id) {
-                        //     getUberController.mealzoId.value = value;
-                        //     getUberController.getStatusMealzoId();
-                        //   } else {
-                        //     getUberController.mealzoName.value = value;
-                        //     getUberController.getStatusMealzoName();
-                        //   }
-                        // },
+                        onSubmitted: (value) {
+                            getUberController.mealzoId.value = value;
+                            getUberController.getUberOff();
+                          },
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
                           hintText: 'Search Shop',
@@ -225,16 +220,10 @@ class UberEatsOff extends StatelessWidget {
                       height: 58,
                       child: ElevatedButton(
                         onPressed: () {
-                          // if (searchType == SearchType.id) {
-                          //   getUberController.mealzoId.value =
-                          //       searchController.text;
-                          //   getUberController.getStatusMealzoId();
-                          // } else {
-                          //   getUberController.mealzoName.value =
-                          //       searchController.text;
-                          //   getUberController.getStatusMealzoName();
-                          // }
-                        },
+                            getUberController.mealzoId.value =
+                                searchController.text;
+                            getUberController.getUberOff();
+                          } ,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey.shade600,
                           foregroundColor: Colors.white,

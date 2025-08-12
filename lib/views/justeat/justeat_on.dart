@@ -200,15 +200,10 @@ class JustEatOn extends StatelessWidget {
                     Expanded(
                       child: TextField(
                         controller: searchController,
-                        // onSubmitted: (value) {
-                        //   if (searchType == SearchType.id) {
-                        //     getJustEatController.mealzoId.value = value;
-                        //     getJustEatController.getStatusMealzoId();
-                        //   } else {
-                        //     getJustEatController.mealzoName.value = value;
-                        //     getJustEatController.getStatusMealzoName();
-                        //   }
-                        // },
+                        onSubmitted: (value) {
+                            getJustEatController.mealzoId.value = value;
+                            getJustEatController.getJustOn();
+                          },
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
                           hintText: 'Search Shop',
@@ -226,16 +221,10 @@ class JustEatOn extends StatelessWidget {
                       height: 58,
                       child: ElevatedButton(
                         onPressed: () {
-                          // if (searchType == SearchType.id) {
-                          //   getJustEatController.mealzoId.value =
-                          //       searchController.text;
-                          //   getJustEatController.getStatusMealzoId();
-                          // } else {
-                          //   getJustEatController.mealzoName.value =
-                          //       searchController.text;
-                          //   getJustEatController.getStatusMealzoName();
-                          // }
-                        },
+                            getJustEatController.mealzoId.value =
+                                searchController.text;
+                            getJustEatController.getJustOn();
+                          },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey.shade600,
                           foregroundColor: Colors.white,

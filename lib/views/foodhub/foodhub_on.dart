@@ -200,15 +200,11 @@ class FoodhubOn extends StatelessWidget {
                     Expanded(
                       child: TextField(
                         controller: searchController,
-                        // onSubmitted: (value) {
-                        //   if (searchType == SearchType.id) {
-                        //     getfoodhubController.mealzoId.value = value;
-                        //     getfoodhubController.getStatusMealzoId();
-                        //   } else {
-                        //     getfoodhubController.mealzoName.value = value;
-                        //     getfoodhubController.getStatusMealzoName();
-                        //   }
-                        // },
+                        onSubmitted: (value) {
+                          
+                            getfoodhubController.mealzoId.value = value;
+                            getfoodhubController.getFoodHubOn();
+                          },
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
                           hintText: 'Search Shop',
@@ -226,16 +222,10 @@ class FoodhubOn extends StatelessWidget {
                       height: 58,
                       child: ElevatedButton(
                         onPressed: () {
-                          // if (searchType == SearchType.id) {
-                          //   getfoodhubController.mealzoId.value =
-                          //       searchController.text;
-                          //   getfoodhubController.getStatusMealzoId();
-                          // } else {
-                          //   getfoodhubController.mealzoName.value =
-                          //       searchController.text;
-                          //   getfoodhubController.getStatusMealzoName();
-                          // }
-                        },
+                            getfoodhubController.mealzoId.value =
+                                searchController.text;
+                            getfoodhubController.getFoodHubOn();
+                          },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey.shade600,
                           foregroundColor: Colors.white,
@@ -358,7 +348,6 @@ class FoodhubOn extends StatelessWidget {
                             ),
                           ),
 
-                          // محتوا
                           Padding(
                             padding: const EdgeInsets.all(12),
                             child: Column(

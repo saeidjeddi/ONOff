@@ -8,6 +8,7 @@ class JusteatController extends GetxController {
   RxList<JusteatMdel> listjust = RxList();
   Rx<PostInfo> postInfo = PostInfo().obs;
   RxInt page = RxInt(1);
+  RxString mealzoId = ''.obs;
 
   getJustOn() async {
     loding.value = true;
@@ -15,7 +16,7 @@ class JusteatController extends GetxController {
     listjust.clear();
 
     var response = await DioServices().getMethodNotToken(
-      '${ApiUrl.getJusteat}?page=$page&isopen=1',
+      '${ApiUrl.getJusteat}?page=$page&mealzoId=$mealzoId&isopen=1',
     );
 
     if (response.statusCode == 200) {
@@ -36,7 +37,7 @@ class JusteatController extends GetxController {
     listjust.clear();
 
     var response = await DioServices().getMethodNotToken(
-      '${ApiUrl.getJusteat}?page=$page&isopen=0',
+      '${ApiUrl.getJusteat}?page=$page&mealzoId=$mealzoId&isopen=0',
     );
 
     if (response.statusCode == 200) {

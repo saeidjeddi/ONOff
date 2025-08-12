@@ -8,6 +8,7 @@ class FoodhubController extends GetxController {
   RxList<FoodhobMdel> listFoodhub = RxList();
   Rx<PostInfo> postInfo = PostInfo().obs;
   RxInt page = RxInt(1);
+  RxString mealzoId = ''.obs;
 
   getFoodHubOn() async {
     loding.value = true;
@@ -16,7 +17,7 @@ class FoodhubController extends GetxController {
     listFoodhub.clear();
 
     var response = await DioServices().getMethodNotToken(
-      '${ApiUrl.getFoodhub}?page=$page&isopen=1',
+      '${ApiUrl.getFoodhub}?page=$page&mealzoId=$mealzoId&isopen=1',
     );
 
     if (response.statusCode == 200) {
@@ -37,7 +38,7 @@ class FoodhubController extends GetxController {
     listFoodhub.clear();
 
     var response = await DioServices().getMethodNotToken(
-      '${ApiUrl.getFoodhub}?page=$page&isopen=0',
+      '${ApiUrl.getFoodhub}?page=$page&mealzoId=$mealzoId&isopen=0',
     );
 
     if (response.statusCode == 200) {

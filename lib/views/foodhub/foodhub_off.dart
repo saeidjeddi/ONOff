@@ -199,15 +199,10 @@ class FoodhubOff extends StatelessWidget {
                     Expanded(
                       child: TextField(
                         controller: searchController,
-                        // onSubmitted: (value) {
-                        //   if (searchType == SearchType.id) {
-                        //     getfoodhubController.mealzoId.value = value;
-                        //     getfoodhubController.getStatusMealzoId();
-                        //   } else {
-                        //     getfoodhubController.mealzoName.value = value;
-                        //     getfoodhubController.getStatusMealzoName();
-                        //   }
-                        // },
+                        onSubmitted: (value) {
+                            getfoodhubController.mealzoId.value = value;
+                            getfoodhubController.getFoodHubOff();
+                          },
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
                           hintText: 'Search Shop',
@@ -225,16 +220,10 @@ class FoodhubOff extends StatelessWidget {
                       height: 58,
                       child: ElevatedButton(
                         onPressed: () {
-                          // if (searchType == SearchType.id) {
-                          //   getfoodhubController.mealzoId.value =
-                          //       searchController.text;
-                          //   getfoodhubController.getStatusMealzoId();
-                          // } else {
-                          //   getfoodhubController.mealzoName.value =
-                          //       searchController.text;
-                          //   getfoodhubController.getStatusMealzoName();
-                          // }
-                        },
+                            getfoodhubController.mealzoId.value =
+                                searchController.text;
+                            getfoodhubController.getFoodHubOff();
+                          } ,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey.shade600,
                           foregroundColor: Colors.white,

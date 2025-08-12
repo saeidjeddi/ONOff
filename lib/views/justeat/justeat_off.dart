@@ -226,16 +226,10 @@ class JustEatOff extends StatelessWidget {
                       height: 58,
                       child: ElevatedButton(
                         onPressed: () {
-                          // if (searchType == SearchType.id) {
-                          //   getJustEatController.mealzoId.value =
-                          //       searchController.text;
-                          //   getJustEatController.getStatusMealzoId();
-                          // } else {
-                          //   getJustEatController.mealzoName.value =
-                          //       searchController.text;
-                          //   getJustEatController.getStatusMealzoName();
-                          // }
-                        },
+                            getJustEatController.mealzoId.value =
+                                searchController.text;
+                            getJustEatController.getJustOff();
+                          },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey.shade600,
                           foregroundColor: Colors.white,

@@ -8,6 +8,7 @@ class UberetsController extends GetxController {
   RxList<UbereatsMdel> listUber = RxList();
   Rx<PostInfo> postInfo = PostInfo().obs;
   RxInt page = RxInt(1);
+  RxString mealzoId = ''.obs;
 
   getUberOn() async {
     loding.value = true;
@@ -15,7 +16,7 @@ class UberetsController extends GetxController {
     listUber.clear();
 
     var response = await DioServices().getMethodNotToken(
-      '${ApiUrl.getUbereats}?page=$page&isopen=1',
+      '${ApiUrl.getUbereats}?page=$page&mealzoId=$mealzoId&isopen=1',
     );
 
     if (response.statusCode == 200) {
@@ -36,7 +37,7 @@ class UberetsController extends GetxController {
     listUber.clear();
 
     var response = await DioServices().getMethodNotToken(
-      '${ApiUrl.getUbereats}?page=$page&isopen=0',
+      '${ApiUrl.getUbereats}?page=$page&mealzoId=$mealzoId&isopen=0',
     );
 
     if (response.statusCode == 200) {
