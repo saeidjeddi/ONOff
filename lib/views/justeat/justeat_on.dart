@@ -47,7 +47,7 @@ class JustEatOn extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(onPressed: ()=> Get.back(), icon: Icon(Icons.arrow_back)),
+              IconButton(onPressed: ()=> Get.offAll(()=> HomeScreen()), icon: Icon(Icons.arrow_back)),
               Image.asset(ConstImage.baner, height: 48, width: 48),
               InkWell(
                 onTap: () {
@@ -260,7 +260,7 @@ class JustEatOn extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   width: double.infinity,
-                  height: size.height * .05,
+                  height: size.height * .07,
 
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -279,6 +279,17 @@ class JustEatOn extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
+                       Container(
+                        width: 42,
+                        height: 42,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                          image: DecorationImage(
+                            image: AssetImage(ConstImage.justeatPng),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                       Text('Total on : '),
                       Text('${countController.countInfo.value.justeat.onD}'),
                     ],

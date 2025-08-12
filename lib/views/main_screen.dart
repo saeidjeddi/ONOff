@@ -618,7 +618,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           children: [
                                             GestureDetector(
                                               onTap: () {
-                                                Get.to(() => FoodhubOn());
+                                                
+                                                Get.offAll(() => FoodhubOn());
                                               },
                                               child: Container(
                                                 width: 40,
@@ -652,7 +653,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                             GestureDetector(
                                               onTap: () {
-                                                Get.to(() => FoodhubOff());
+                                                Get.offAll(() => FoodhubOff());
                                               },
                                               child: Container(
                                                 width: 40,
@@ -727,7 +728,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           children: [
                                             GestureDetector(
                                               onTap: () {
-                                                Get.to(() => UberEatsOn());
+                                                Get.offAll(() => UberEatsOn());
                                               },
                                               child: Container(
                                                 width: 40,
@@ -761,7 +762,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                             GestureDetector(
                                               onTap: () {
-                                                Get.to(() => UberEatsOff());
+                                                Get.offAll(() => UberEatsOff());
                                               },
                                               child: Container(
                                                 width: 40,
@@ -837,7 +838,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           children: [
                                             GestureDetector(
                                               onTap: () {
-                                                Get.to(() => JustEatOn());
+                                                Get.offAll(() => JustEatOn());
                                               },
                                               child: Container(
                                                 width: 40,
@@ -871,7 +872,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                             GestureDetector(
                                               onTap: () {
-                                                Get.to(()=> JustEatOff());
+                                                Get.offAll(()=> JustEatOff());
                                               },
                                               child: Container(
                                                 width: 40,
