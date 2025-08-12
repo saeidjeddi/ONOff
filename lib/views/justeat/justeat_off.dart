@@ -6,18 +6,22 @@ import 'package:onofflive/components/const_image.dart';
 import 'package:onofflive/components/widgets.dart';
 import 'package:onofflive/controller/count_controller.dart';
 import 'package:onofflive/controller/justeat_controller.dart';
-import 'package:onofflive/controller/uberets_controller.dart';
 import 'package:onofflive/controller/userInfo_controller.dart';
 import 'package:onofflive/views/login_screen.dart';
 import 'package:onofflive/views/main_screen.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
-class JustEatOff extends StatelessWidget {
-  JustEatOff({super.key});
+class JustEatOff extends StatefulWidget {
+  const JustEatOff({super.key});
 
-  UserInfoController userInfoController = Get.put(UserInfoController());
-  JusteatController getJustEatController = Get.put(JusteatController());
+  @override
+  State<JustEatOff> createState() => _JustEatOffState();
+}
+
+class _JustEatOffState extends State<JustEatOff> {
+  final UserInfoController userInfoController = Get.put(UserInfoController());
+  final JusteatController getJustEatController = Get.put(JusteatController());
   final CountController countController = Get.put(CountController());
 
   final TextEditingController searchController = TextEditingController();
@@ -30,12 +34,22 @@ class JustEatOff extends StatelessWidget {
   bool itemChecks = false;
 
   @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
+  void initState() {
+    super.initState();
     getJustEatController.getJustOff();
     userInfoController.getUserInfo();
     countController.getCount();
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
 
     return Scaffold(
       key: _key,
@@ -47,7 +61,10 @@ class JustEatOff extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(onPressed: ()=> Get.offAll(()=> HomeScreen()), icon: Icon(Icons.arrow_back)),
+              IconButton(
+                onPressed: () => Get.offAll(() => HomeScreen()),
+                icon: Icon(Icons.arrow_back),
+              ),
               Image.asset(ConstImage.baner, height: 48, width: 48),
               InkWell(
                 onTap: () {
@@ -200,15 +217,11 @@ class JustEatOff extends StatelessWidget {
                     Expanded(
                       child: TextField(
                         controller: searchController,
-                        // onSubmitted: (value) {
-                        //   if (searchType == SearchType.id) {
-                        //     getJustEatController.mealzoId.value = value;
-                        //     getJustEatController.getStatusMealzoId();
-                        //   } else {
-                        //     getJustEatController.mealzoName.value = value;
-                        //     getJustEatController.getStatusMealzoName();
-                        //   }
-                        // },
+                        onSubmitted: (value) {
+                          getJustEatController.page.value = 1;
+                          getJustEatController.mealzoId.value = value;
+                          getJustEatController.getJustOff();
+                        },
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
                           hintText: 'Search Shop',
@@ -226,10 +239,11 @@ class JustEatOff extends StatelessWidget {
                       height: 58,
                       child: ElevatedButton(
                         onPressed: () {
-                            getJustEatController.mealzoId.value =
-                                searchController.text;
-                            getJustEatController.getJustOff();
-                          },
+                         getJustEatController.page.value = 1;
+                          getJustEatController.mealzoId.value =
+                              searchController.text;
+                          getJustEatController.getJustOff();
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey.shade600,
                           foregroundColor: Colors.white,
@@ -273,7 +287,7 @@ class JustEatOff extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                       Container(
+                      Container(
                         width: 42,
                         height: 42,
                         decoration: BoxDecoration(
@@ -352,7 +366,6 @@ class JustEatOff extends StatelessWidget {
                             ),
                           ),
 
-                          // محتوا
                           Padding(
                             padding: const EdgeInsets.all(12),
                             child: Column(
@@ -369,9 +382,7 @@ class JustEatOff extends StatelessWidget {
                                 InkWell(
                                   onTap: () {
                                     myLaunchUrl(
-                                      getJustEatController
-                                          .listjust[index]
-                                          .url!,
+                                      getJustEatController.listjust[index].url!,
                                     );
                                   },
                                   child: const Row(
@@ -396,9 +407,9 @@ class JustEatOff extends StatelessWidget {
 
                                 Row(
                                   children: [
-                                    const Icon(Icons.inventory_2, size: 14),
+                                    const Icon(Icons.inventory_2, size: 10),
                                     const SizedBox(width: 4),
-                                    Text('ForPreorder : '),
+                                    Text('ForPreorder:'),
                                     SizedBox(width: 8),
                                     Text(
                                       item.isOpenForPreorder == true
@@ -410,13 +421,15 @@ class JustEatOff extends StatelessWidget {
                                 const SizedBox(height: 4),
                                 Row(
                                   children: [
-                                    const Icon(Icons.delivery_dining, size: 14),
+                                    const Icon(Icons.delivery_dining, size: 10),
                                     const SizedBox(width: 4),
 
                                     Text('ForOrder : '),
                                     SizedBox(width: 8),
                                     Text(
-                                      item.isOpenForOrder == true ? 'Open' : 'Close',
+                                      item.isOpenForOrder == true
+                                          ? 'Open'
+                                          : 'Close',
                                     ),
                                   ],
                                 ),
@@ -439,18 +452,20 @@ class JustEatOff extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 8),
-                               
-Text(
-  item.time != null
-      ? DateFormat("dd,MMM/yyyy - HH:mm").format(
-          DateTime.parse(item.time!).toLocal(),
-        )
-      : "",
-  style: const TextStyle(
-    fontSize: 10,
-    color: Colors.grey,
-  ),
-),
+
+                                Text(
+                                  item.time != null
+                                      ? DateFormat(
+                                          "dd,MMM/yyyy - HH:mm",
+                                        ).format(
+                                          DateTime.parse(item.time!).toLocal(),
+                                        )
+                                      : "",
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.grey,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -462,103 +477,142 @@ Text(
               ),
 
               SizedBox(height: 30),
-if (getJustEatController.postInfo.value.next != null)...[
-              if (getJustEatController.postInfo.value.currentPage! == 1) ...[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      getJustEatController.page.value++;
-                      getJustEatController.getJustOff();
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: size.height * .04,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                        color: Colors.deepOrange,
-                      ),
+              if (getJustEatController.postInfo.value.next != null) ...[
+                if (getJustEatController.postInfo.value.currentPage! == 1) ...[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        getJustEatController.page.value++;
+                        getJustEatController.getJustOff();
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: size.height * .04,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                          color: Colors.deepOrange,
+                        ),
 
-                      child: Center(
-                        child: Text(
-                          'page: ${getJustEatController.postInfo.value.currentPage} Of ${getJustEatController.postInfo.value.totalPages} >',
-                          style: TextStyle(
-                            color: const Color.fromARGB(255, 214, 211, 211),
+                        child: Center(
+                          child: Text(
+                            'page: ${getJustEatController.postInfo.value.currentPage} Of ${getJustEatController.postInfo.value.totalPages} >',
+                            style: TextStyle(
+                              color: const Color.fromARGB(255, 214, 211, 211),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ] else ...[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      if (getJustEatController.page.value > 1) ...[
-                        InkWell(
-                          onTap: () {
-                            if (getJustEatController.page.value > 1) {
-                              getJustEatController.page.value--;
-                              getJustEatController.getJustOff();
-                            }
-                          },
-                          child: Container(
-                            width: size.width / 3,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 232, 84, 12),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8),
+                ] else ...[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        if (getJustEatController.page.value > 1) ...[
+                          InkWell(
+                            onTap: () {
+                              if (getJustEatController.page.value > 1) {
+                                getJustEatController.page.value--;
+                                getJustEatController.getJustOff();
+                              }
+                            },
+                            child: Container(
+                              width: size.width / 3,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 232, 84, 12),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
                               ),
-                            ),
 
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.arrow_left_outlined,
-                                    color: Colors.white,
-                                  ),
-                                  Text(
-                                    '${getJustEatController.postInfo.value.currentPage! - 1}',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ],
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.arrow_left_outlined,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      '${getJustEatController.postInfo.value.currentPage! - 1}',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
 
-                      if (getJustEatController.page.value > 1) ...[
-                        Text(
-                          '${getJustEatController.postInfo.value.currentPage} of ${getJustEatController.postInfo.value.totalPages}',
-                        ),
-                      ],
+                        if (getJustEatController.page.value > 1) ...[
+                          Text(
+                            '${getJustEatController.postInfo.value.currentPage} of ${getJustEatController.postInfo.value.totalPages}',
+                          ),
+                        ],
 
-                      if (getJustEatController.page.value <
-                          getJustEatController.postInfo.value.totalPages!) ...[
-                        InkWell(
-                          onTap: () {
-                            if (getJustEatController.page.value <
-                                getJustEatController
-                                    .postInfo
-                                    .value
-                                    .totalPages!) {
-                              getJustEatController.page.value++;
-                              getJustEatController.getJustOff();
-                            }
-                          },
+                        if (getJustEatController.page.value <
+                            getJustEatController
+                                .postInfo
+                                .value
+                                .totalPages!) ...[
+                          InkWell(
+                            onTap: () {
+                              if (getJustEatController.page.value <
+                                  getJustEatController
+                                      .postInfo
+                                      .value
+                                      .totalPages!) {
+                                getJustEatController.page.value++;
+                                getJustEatController.getJustOff();
+                              }
+                            },
 
-                          child: getJustEatController.page.value == 1
-                              ? Padding(
-                                  padding: const EdgeInsets.only(left: 16),
-                                  child: Container(
-                                    width: size.width / 1.2,
+                            child: getJustEatController.page.value == 1
+                                ? Padding(
+                                    padding: const EdgeInsets.only(left: 16),
+                                    child: Container(
+                                      width: size.width / 1.2,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: const Color.fromARGB(
+                                          255,
+                                          232,
+                                          84,
+                                          12,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(8),
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              '${getJustEatController.postInfo.value.currentPage} of ${getJustEatController.postInfo.value.totalPages}',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_right_alt,
+                                              color: Colors.white,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container(
+                                    width: size.width / 3,
                                     height: 40,
                                     decoration: BoxDecoration(
                                       color: const Color.fromARGB(
@@ -571,6 +625,7 @@ if (getJustEatController.postInfo.value.next != null)...[
                                         Radius.circular(8),
                                       ),
                                     ),
+
                                     child: Center(
                                       child: Row(
                                         mainAxisAlignment:
@@ -579,63 +634,27 @@ if (getJustEatController.postInfo.value.next != null)...[
                                             CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            '${getJustEatController.postInfo.value.currentPage} of ${getJustEatController.postInfo.value.totalPages}',
+                                            '${getJustEatController.postInfo.value.currentPage! + 1}',
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),
                                           ),
+
                                           Icon(
-                                            Icons.arrow_right_alt,
+                                            Icons.arrow_right,
                                             color: Colors.white,
                                           ),
                                         ],
                                       ),
                                     ),
                                   ),
-                                )
-                              : Container(
-                                  width: size.width / 3,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                      255,
-                                      232,
-                                      84,
-                                      12,
-                                    ),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(8),
-                                    ),
-                                  ),
-
-                                  child: Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          '${getJustEatController.postInfo.value.currentPage! + 1}',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-
-                                        Icon(
-                                          Icons.arrow_right,
-                                          color: Colors.white,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                        ),
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ],
-
-],
               SizedBox(height: 80),
             ],
           ),

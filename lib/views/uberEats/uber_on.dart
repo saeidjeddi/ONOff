@@ -12,11 +12,16 @@ import 'package:onofflive/views/main_screen.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
-class UberEatsOn extends StatelessWidget {
-  UberEatsOn({super.key});
+class UberEatsOn extends StatefulWidget {
+  const UberEatsOn({super.key});
 
-  UserInfoController userInfoController = Get.put(UserInfoController());
-  UberetsController getUberController = Get.put(UberetsController());
+  @override
+  State<UberEatsOn> createState() => _UberEatsOnState();
+}
+
+class _UberEatsOnState extends State<UberEatsOn> {
+  final UserInfoController userInfoController = Get.put(UserInfoController());
+  final UberetsController getUberController = Get.put(UberetsController());
   final CountController countController = Get.put(CountController());
 
   final TextEditingController searchController = TextEditingController();
@@ -29,12 +34,22 @@ class UberEatsOn extends StatelessWidget {
   bool itemChecks = false;
 
   @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
+  void initState() {
+    super.initState();
     getUberController.getUberOn();
     userInfoController.getUserInfo();
     countController.getCount();
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
 
     return Scaffold(
       key: _key,
@@ -46,7 +61,10 @@ class UberEatsOn extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(onPressed: ()=> Get.offAll(()=> HomeScreen()), icon: Icon(Icons.arrow_back)),
+              IconButton(
+                onPressed: () => Get.offAll(() => HomeScreen()),
+                icon: Icon(Icons.arrow_back),
+              ),
               Image.asset(ConstImage.baner, height: 48, width: 48),
               InkWell(
                 onTap: () {
@@ -200,9 +218,10 @@ class UberEatsOn extends StatelessWidget {
                       child: TextField(
                         controller: searchController,
                         onSubmitted: (value) {
-                            getUberController.mealzoId.value = value;
-                            getUberController.getUberOn();
-                          } ,
+                          getUberController.page.value = 1;
+                          getUberController.mealzoId.value = value;
+                          getUberController.getUberOn();
+                        },
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
                           hintText: 'Search Shop',
@@ -220,10 +239,11 @@ class UberEatsOn extends StatelessWidget {
                       height: 58,
                       child: ElevatedButton(
                         onPressed: () {
-                            getUberController.mealzoId.value =
-                                searchController.text;
-                            getUberController.getUberOn();
-                          },
+                          getUberController.page.value = 1;
+                          getUberController.mealzoId.value =
+                              searchController.text;
+                          getUberController.getUberOn();
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey.shade600,
                           foregroundColor: Colors.white,
@@ -267,7 +287,7 @@ class UberEatsOn extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                       Container(
+                      Container(
                         width: 42,
                         height: 42,
                         decoration: BoxDecoration(
@@ -363,9 +383,7 @@ class UberEatsOn extends StatelessWidget {
                                 InkWell(
                                   onTap: () {
                                     myLaunchUrl(
-                                      getUberController
-                                          .listUber[index]
-                                          .url!,
+                                      getUberController.listUber[index].url!,
                                     );
                                   },
                                   child: const Row(
@@ -390,27 +408,27 @@ class UberEatsOn extends StatelessWidget {
 
                                 Row(
                                   children: [
-                                    const Icon(Icons.inventory_2, size: 14),
+                                    const Icon(Icons.inventory_2, size: 12),
                                     const SizedBox(width: 4),
                                     Text('collection : '),
                                     SizedBox(width: 8),
                                     Text(
-                                      item.isPickup == true
-                                          ? 'Open'
-                                          : 'Close',
+                                      item.isPickup == true ? 'Open' : 'Close',
                                     ),
                                   ],
                                 ),
                                 const SizedBox(height: 4),
                                 Row(
                                   children: [
-                                    const Icon(Icons.delivery_dining, size: 14),
+                                    const Icon(Icons.delivery_dining, size: 12),
                                     const SizedBox(width: 4),
 
                                     Text('delivery : '),
                                     SizedBox(width: 8),
                                     Text(
-                                      item.isDelivery == true ? 'Open' : 'Close',
+                                      item.isDelivery == true
+                                          ? 'Open'
+                                          : 'Close',
                                     ),
                                   ],
                                 ),
@@ -433,18 +451,20 @@ class UberEatsOn extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 8),
-                               
-Text(
-  item.time != null
-      ? DateFormat("dd,MMM/yyyy - HH:mm").format(
-          DateTime.parse(item.time!).toLocal(),
-        )
-      : "",
-  style: const TextStyle(
-    fontSize: 10,
-    color: Colors.grey,
-  ),
-),
+
+                                Text(
+                                  item.time != null
+                                      ? DateFormat(
+                                          "dd,MMM/yyyy - HH:mm",
+                                        ).format(
+                                          DateTime.parse(item.time!).toLocal(),
+                                        )
+                                      : "",
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.grey,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -456,104 +476,139 @@ Text(
               ),
 
               SizedBox(height: 30),
-if (getUberController.postInfo.value.next != null)...[
+              if (getUberController.postInfo.value.next != null) ...[
+                if (getUberController.postInfo.value.currentPage! == 1) ...[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        getUberController.page.value++;
+                        getUberController.getUberOn();
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: size.height * .04,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                          color: Colors.deepOrange,
+                        ),
 
-              if (getUberController.postInfo.value.currentPage! == 1) ...[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      getUberController.page.value++;
-                      getUberController.getUberOn();
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: size.height * .04,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                        color: Colors.deepOrange,
-                      ),
-
-                      child: Center(
-                        child: Text(
-                          'page: ${getUberController.postInfo.value.currentPage} Of ${getUberController.postInfo.value.totalPages} >',
-                          style: TextStyle(
-                            color: const Color.fromARGB(255, 214, 211, 211),
+                        child: Center(
+                          child: Text(
+                            'page: ${getUberController.postInfo.value.currentPage} Of ${getUberController.postInfo.value.totalPages} >',
+                            style: TextStyle(
+                              color: const Color.fromARGB(255, 214, 211, 211),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ] else ...[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      if (getUberController.page.value > 1) ...[
-                        InkWell(
-                          onTap: () {
-                            if (getUberController.page.value > 1) {
-                              getUberController.page.value--;
-                              getUberController.getUberOn();
-                            }
-                          },
-                          child: Container(
-                            width: size.width / 3,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 232, 84, 12),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8),
+                ] else ...[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        if (getUberController.page.value > 1) ...[
+                          InkWell(
+                            onTap: () {
+                              if (getUberController.page.value > 1) {
+                                getUberController.page.value--;
+                                getUberController.getUberOn();
+                              }
+                            },
+                            child: Container(
+                              width: size.width / 3,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 232, 84, 12),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
                               ),
-                            ),
 
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.arrow_left_outlined,
-                                    color: Colors.white,
-                                  ),
-                                  Text(
-                                    '${getUberController.postInfo.value.currentPage! - 1}',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ],
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.arrow_left_outlined,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      '${getUberController.postInfo.value.currentPage! - 1}',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
 
-                      if (getUberController.page.value > 1) ...[
-                        Text(
-                          '${getUberController.postInfo.value.currentPage} of ${getUberController.postInfo.value.totalPages}',
-                        ),
-                      ],
+                        if (getUberController.page.value > 1) ...[
+                          Text(
+                            '${getUberController.postInfo.value.currentPage} of ${getUberController.postInfo.value.totalPages}',
+                          ),
+                        ],
 
-                      if (getUberController.page.value <
-                          getUberController.postInfo.value.totalPages!) ...[
-                        InkWell(
-                          onTap: () {
-                            if (getUberController.page.value <
-                                getUberController
-                                    .postInfo
-                                    .value
-                                    .totalPages!) {
-                              getUberController.page.value++;
-                              getUberController.getUberOn();
-                            }
-                          },
+                        if (getUberController.page.value <
+                            getUberController.postInfo.value.totalPages!) ...[
+                          InkWell(
+                            onTap: () {
+                              if (getUberController.page.value <
+                                  getUberController
+                                      .postInfo
+                                      .value
+                                      .totalPages!) {
+                                getUberController.page.value++;
+                                getUberController.getUberOn();
+                              }
+                            },
 
-                          child: getUberController.page.value == 1
-                              ? Padding(
-                                  padding: const EdgeInsets.only(left: 16),
-                                  child: Container(
-                                    width: size.width / 1.2,
+                            child: getUberController.page.value == 1
+                                ? Padding(
+                                    padding: const EdgeInsets.only(left: 16),
+                                    child: Container(
+                                      width: size.width / 1.2,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: const Color.fromARGB(
+                                          255,
+                                          232,
+                                          84,
+                                          12,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(8),
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              '${getUberController.postInfo.value.currentPage} of ${getUberController.postInfo.value.totalPages}',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_right_alt,
+                                              color: Colors.white,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container(
+                                    width: size.width / 3,
                                     height: 40,
                                     decoration: BoxDecoration(
                                       color: const Color.fromARGB(
@@ -566,6 +621,7 @@ if (getUberController.postInfo.value.next != null)...[
                                         Radius.circular(8),
                                       ),
                                     ),
+
                                     child: Center(
                                       child: Row(
                                         mainAxisAlignment:
@@ -574,62 +630,27 @@ if (getUberController.postInfo.value.next != null)...[
                                             CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            '${getUberController.postInfo.value.currentPage} of ${getUberController.postInfo.value.totalPages}',
+                                            '${getUberController.postInfo.value.currentPage! + 1}',
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),
                                           ),
+
                                           Icon(
-                                            Icons.arrow_right_alt,
+                                            Icons.arrow_right,
                                             color: Colors.white,
                                           ),
                                         ],
                                       ),
                                     ),
                                   ),
-                                )
-                              : Container(
-                                  width: size.width / 3,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                      255,
-                                      232,
-                                      84,
-                                      12,
-                                    ),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(8),
-                                    ),
-                                  ),
-
-                                  child: Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          '${getUberController.postInfo.value.currentPage! + 1}',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-
-                                        Icon(
-                                          Icons.arrow_right,
-                                          color: Colors.white,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                        ),
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ],
-],
               SizedBox(height: 80),
             ],
           ),

@@ -12,11 +12,16 @@ import 'package:onofflive/views/main_screen.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
-class FoodhubOff extends StatelessWidget {
-  FoodhubOff({super.key});
+class FoodhubOff extends StatefulWidget {
+  const FoodhubOff({super.key});
 
-  UserInfoController userInfoController = Get.put(UserInfoController());
-  FoodhubController getfoodhubController = Get.put(FoodhubController());
+  @override
+  State<FoodhubOff> createState() => _FoodhubOffState();
+}
+
+class _FoodhubOffState extends State<FoodhubOff> {
+  final UserInfoController userInfoController = Get.put(UserInfoController());
+  final FoodhubController getfoodhubController = Get.put(FoodhubController());
   final CountController countController = Get.put(CountController());
 
   final TextEditingController searchController = TextEditingController();
@@ -29,12 +34,23 @@ class FoodhubOff extends StatelessWidget {
   bool itemChecks = false;
 
   @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
+  void initState() {
+    super.initState();
+    // Initial data load should not live in build to avoid reloads on focus/resize
     getfoodhubController.getFoodHubOff();
     userInfoController.getUserInfo();
     countController.getCount();
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
 
     return Scaffold(
       key: _key,
@@ -46,7 +62,10 @@ class FoodhubOff extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(onPressed: ()=> Get.offAll(()=> HomeScreen()), icon: Icon(Icons.arrow_back)),
+              IconButton(
+                onPressed: () => Get.offAll(() => HomeScreen()),
+                icon: Icon(Icons.arrow_back),
+              ),
               Image.asset(ConstImage.baner, height: 48, width: 48),
               InkWell(
                 onTap: () {
@@ -200,9 +219,11 @@ class FoodhubOff extends StatelessWidget {
                       child: TextField(
                         controller: searchController,
                         onSubmitted: (value) {
-                            getfoodhubController.mealzoId.value = value;
-                            getfoodhubController.getFoodHubOff();
-                          },
+                          getfoodhubController.page.value = 1;
+
+                          getfoodhubController.mealzoId.value = value;
+                          getfoodhubController.getFoodHubOff();
+                        },
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
                           hintText: 'Search Shop',
@@ -220,10 +241,12 @@ class FoodhubOff extends StatelessWidget {
                       height: 58,
                       child: ElevatedButton(
                         onPressed: () {
-                            getfoodhubController.mealzoId.value =
-                                searchController.text;
-                            getfoodhubController.getFoodHubOff();
-                          } ,
+                          getfoodhubController.page.value = 1;
+
+                          getfoodhubController.mealzoId.value =
+                              searchController.text;
+                          getfoodhubController.getFoodHubOff();
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey.shade600,
                           foregroundColor: Colors.white,
@@ -267,8 +290,7 @@ class FoodhubOff extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      
- Container(
+                      Container(
                         width: 42,
                         height: 42,
                         decoration: BoxDecoration(
@@ -363,7 +385,7 @@ class FoodhubOff extends StatelessWidget {
                                 const SizedBox(height: 4),
                                 InkWell(
                                   onTap: () {
-                                         myLaunchUrl(
+                                    myLaunchUrl(
                                       getfoodhubController
                                           .listFoodhub[index]
                                           .url!,
@@ -391,7 +413,7 @@ class FoodhubOff extends StatelessWidget {
 
                                 Row(
                                   children: [
-                                    const Icon(Icons.inventory_2, size: 14),
+                                    const Icon(Icons.inventory_2, size: 12),
                                     const SizedBox(width: 4),
                                     Text('collection : '),
                                     SizedBox(width: 8),
@@ -405,7 +427,7 @@ class FoodhubOff extends StatelessWidget {
                                 const SizedBox(height: 4),
                                 Row(
                                   children: [
-                                    const Icon(Icons.delivery_dining, size: 14),
+                                    const Icon(Icons.delivery_dining, size: 12),
                                     const SizedBox(width: 4),
 
                                     Text('delivery : '),
@@ -434,18 +456,20 @@ class FoodhubOff extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 8),
-                                
-Text(
-  item.time != null
-      ? DateFormat("dd,MMM/yyyy - HH:mm").format(
-          DateTime.parse(item.time!).toLocal(),
-        )
-      : "",
-  style: const TextStyle(
-    fontSize: 10,
-    color: Colors.grey,
-  ),
-),
+
+                                Text(
+                                  item.time != null
+                                      ? DateFormat(
+                                          "dd,MMM/yyyy - HH:mm",
+                                        ).format(
+                                          DateTime.parse(item.time!).toLocal(),
+                                        )
+                                      : "",
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.grey,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -457,103 +481,142 @@ Text(
               ),
 
               SizedBox(height: 30),
-if (getfoodhubController.postInfo.value.next != null)...[
-              if (getfoodhubController.postInfo.value.currentPage! == 1) ...[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      getfoodhubController.page.value++;
-                      getfoodhubController.getFoodHubOff();
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: size.height * .04,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                        color: Colors.deepOrange,
-                      ),
+              if (getfoodhubController.postInfo.value.next != null) ...[
+                if (getfoodhubController.postInfo.value.currentPage! == 1) ...[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        getfoodhubController.page.value++;
+                        getfoodhubController.getFoodHubOff();
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: size.height * .04,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                          color: Colors.deepOrange,
+                        ),
 
-                      child: Center(
-                        child: Text(
-                          'page: ${getfoodhubController.postInfo.value.currentPage} Of ${getfoodhubController.postInfo.value.totalPages} >',
-                          style: TextStyle(
-                            color: const Color.fromARGB(255, 214, 211, 211),
+                        child: Center(
+                          child: Text(
+                            'page: ${getfoodhubController.postInfo.value.currentPage} Of ${getfoodhubController.postInfo.value.totalPages} >',
+                            style: TextStyle(
+                              color: const Color.fromARGB(255, 214, 211, 211),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ] else ...[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      if (getfoodhubController.page.value > 1) ...[
-                        InkWell(
-                          onTap: () {
-                            if (getfoodhubController.page.value > 1) {
-                              getfoodhubController.page.value--;
-                              getfoodhubController.getFoodHubOff();
-                            }
-                          },
-                          child: Container(
-                            width: size.width / 3,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 232, 84, 12),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8),
+                ] else ...[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        if (getfoodhubController.page.value > 1) ...[
+                          InkWell(
+                            onTap: () {
+                              if (getfoodhubController.page.value > 1) {
+                                getfoodhubController.page.value--;
+                                getfoodhubController.getFoodHubOff();
+                              }
+                            },
+                            child: Container(
+                              width: size.width / 3,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 232, 84, 12),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
                               ),
-                            ),
 
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.arrow_left_outlined,
-                                    color: Colors.white,
-                                  ),
-                                  Text(
-                                    '${getfoodhubController.postInfo.value.currentPage! - 1}',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ],
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.arrow_left_outlined,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      '${getfoodhubController.postInfo.value.currentPage! - 1}',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
 
-                      if (getfoodhubController.page.value > 1) ...[
-                        Text(
-                          '${getfoodhubController.postInfo.value.currentPage} of ${getfoodhubController.postInfo.value.totalPages}',
-                        ),
-                      ],
+                        if (getfoodhubController.page.value > 1) ...[
+                          Text(
+                            '${getfoodhubController.postInfo.value.currentPage} of ${getfoodhubController.postInfo.value.totalPages}',
+                          ),
+                        ],
 
-                      if (getfoodhubController.page.value <
-                          getfoodhubController.postInfo.value.totalPages!) ...[
-                        InkWell(
-                          onTap: () {
-                            if (getfoodhubController.page.value <
-                                getfoodhubController
-                                    .postInfo
-                                    .value
-                                    .totalPages!) {
-                              getfoodhubController.page.value++;
-                              getfoodhubController.getFoodHubOff();
-                            }
-                          },
+                        if (getfoodhubController.page.value <
+                            getfoodhubController
+                                .postInfo
+                                .value
+                                .totalPages!) ...[
+                          InkWell(
+                            onTap: () {
+                              if (getfoodhubController.page.value <
+                                  getfoodhubController
+                                      .postInfo
+                                      .value
+                                      .totalPages!) {
+                                getfoodhubController.page.value++;
+                                getfoodhubController.getFoodHubOff();
+                              }
+                            },
 
-                          child: getfoodhubController.page.value == 1
-                              ? Padding(
-                                  padding: const EdgeInsets.only(left: 16),
-                                  child: Container(
-                                    width: size.width / 1.2,
+                            child: getfoodhubController.page.value == 1
+                                ? Padding(
+                                    padding: const EdgeInsets.only(left: 16),
+                                    child: Container(
+                                      width: size.width / 1.2,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: const Color.fromARGB(
+                                          255,
+                                          232,
+                                          84,
+                                          12,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(8),
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              '${getfoodhubController.postInfo.value.currentPage} of ${getfoodhubController.postInfo.value.totalPages}',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_right_alt,
+                                              color: Colors.white,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container(
+                                    width: size.width / 3,
                                     height: 40,
                                     decoration: BoxDecoration(
                                       color: const Color.fromARGB(
@@ -566,6 +629,7 @@ if (getfoodhubController.postInfo.value.next != null)...[
                                         Radius.circular(8),
                                       ),
                                     ),
+
                                     child: Center(
                                       child: Row(
                                         mainAxisAlignment:
@@ -574,63 +638,27 @@ if (getfoodhubController.postInfo.value.next != null)...[
                                             CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            '${getfoodhubController.postInfo.value.currentPage} of ${getfoodhubController.postInfo.value.totalPages}',
+                                            '${getfoodhubController.postInfo.value.currentPage! + 1}',
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),
                                           ),
+
                                           Icon(
-                                            Icons.arrow_right_alt,
+                                            Icons.arrow_right,
                                             color: Colors.white,
                                           ),
                                         ],
                                       ),
                                     ),
                                   ),
-                                )
-                              : Container(
-                                  width: size.width / 3,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                      255,
-                                      232,
-                                      84,
-                                      12,
-                                    ),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(8),
-                                    ),
-                                  ),
-
-                                  child: Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          '${getfoodhubController.postInfo.value.currentPage! + 1}',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-
-                                        Icon(
-                                          Icons.arrow_right,
-                                          color: Colors.white,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                        ),
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ],
-
-],
               SizedBox(height: 80),
             ],
           ),

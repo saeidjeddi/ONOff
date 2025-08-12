@@ -12,11 +12,16 @@ import 'package:onofflive/views/main_screen.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
-class FoodhubOn extends StatelessWidget {
-  FoodhubOn({super.key});
+class FoodhubOn extends StatefulWidget {
+  const FoodhubOn({super.key});
 
-  UserInfoController userInfoController = Get.put(UserInfoController());
-  FoodhubController getfoodhubController = Get.put(FoodhubController());
+  @override
+  State<FoodhubOn> createState() => _FoodhubOnState();
+}
+
+class _FoodhubOnState extends State<FoodhubOn> {
+  final UserInfoController userInfoController = Get.put(UserInfoController());
+  final FoodhubController getfoodhubController = Get.put(FoodhubController());
   final CountController countController = Get.put(CountController());
 
   final TextEditingController searchController = TextEditingController();
@@ -29,12 +34,23 @@ class FoodhubOn extends StatelessWidget {
   bool itemChecks = false;
 
   @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
+  void initState() {
+    super.initState();
+    // Initial data load should not live in build to avoid reloads on focus/resize
     getfoodhubController.getFoodHubOn();
     userInfoController.getUserInfo();
     countController.getCount();
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
 
     return Scaffold(
       key: _key,
@@ -46,7 +62,10 @@ class FoodhubOn extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(onPressed: ()=> Get.offAll(()=> HomeScreen()), icon: Icon(Icons.arrow_back)),
+              IconButton(
+                onPressed: () => Get.offAll(() => HomeScreen()),
+                icon: Icon(Icons.arrow_back),
+              ),
 
               Image.asset(ConstImage.baner, height: 48, width: 48),
               InkWell(
@@ -201,10 +220,10 @@ class FoodhubOn extends StatelessWidget {
                       child: TextField(
                         controller: searchController,
                         onSubmitted: (value) {
-                          
-                            getfoodhubController.mealzoId.value = value;
-                            getfoodhubController.getFoodHubOn();
-                          },
+                          getfoodhubController.page.value = 1;
+                          getfoodhubController.mealzoId.value = value;
+                          getfoodhubController.getFoodHubOn();
+                        },
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
                           hintText: 'Search Shop',
@@ -222,10 +241,11 @@ class FoodhubOn extends StatelessWidget {
                       height: 58,
                       child: ElevatedButton(
                         onPressed: () {
-                            getfoodhubController.mealzoId.value =
-                                searchController.text;
-                            getfoodhubController.getFoodHubOn();
-                          },
+                          getfoodhubController.page.value = 1;
+                          getfoodhubController.mealzoId.value =
+                              searchController.text;
+                          getfoodhubController.getFoodHubOn();
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey.shade600,
                           foregroundColor: Colors.white,
@@ -391,7 +411,7 @@ class FoodhubOn extends StatelessWidget {
 
                                 Row(
                                   children: [
-                                    const Icon(Icons.inventory_2, size: 14),
+                                    const Icon(Icons.inventory_2, size: 12),
                                     const SizedBox(width: 4),
                                     Text('collection : '),
                                     SizedBox(width: 8),
@@ -405,7 +425,7 @@ class FoodhubOn extends StatelessWidget {
                                 const SizedBox(height: 4),
                                 Row(
                                   children: [
-                                    const Icon(Icons.delivery_dining, size: 14),
+                                    const Icon(Icons.delivery_dining, size: 12),
                                     const SizedBox(width: 4),
 
                                     Text('delivery : '),
