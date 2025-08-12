@@ -5,18 +5,19 @@ import 'package:intl/intl.dart';
 import 'package:onofflive/components/const_image.dart';
 import 'package:onofflive/components/widgets.dart';
 import 'package:onofflive/controller/count_controller.dart';
-import 'package:onofflive/controller/foodhub_controller.dart';
+import 'package:onofflive/controller/justeat_controller.dart';
+import 'package:onofflive/controller/uberets_controller.dart';
 import 'package:onofflive/controller/userInfo_controller.dart';
 import 'package:onofflive/views/login_screen.dart';
 import 'package:onofflive/views/main_screen.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
-class FoodhubOff extends StatelessWidget {
-  FoodhubOff({super.key});
+class JustEatOff extends StatelessWidget {
+  JustEatOff({super.key});
 
   UserInfoController userInfoController = Get.put(UserInfoController());
-  FoodhubController getfoodhubController = Get.put(FoodhubController());
+  JusteatController getJustEatController = Get.put(JusteatController());
   final CountController countController = Get.put(CountController());
 
   final TextEditingController searchController = TextEditingController();
@@ -32,7 +33,7 @@ class FoodhubOff extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    getfoodhubController.getFoodHubOff();
+    getJustEatController.getJustOff();
     userInfoController.getUserInfo();
     countController.getCount();
 
@@ -186,7 +187,7 @@ class FoodhubOff extends StatelessWidget {
       ),
 
       body: Obx(() {
-        if (getfoodhubController.loding.value == true) {
+        if (getJustEatController.loding.value == true) {
           return Center(child: CircularProgressIndicator());
         }
         return SingleChildScrollView(
@@ -201,11 +202,11 @@ class FoodhubOff extends StatelessWidget {
                         controller: searchController,
                         // onSubmitted: (value) {
                         //   if (searchType == SearchType.id) {
-                        //     getfoodhubController.mealzoId.value = value;
-                        //     getfoodhubController.getStatusMealzoId();
+                        //     getJustEatController.mealzoId.value = value;
+                        //     getJustEatController.getStatusMealzoId();
                         //   } else {
-                        //     getfoodhubController.mealzoName.value = value;
-                        //     getfoodhubController.getStatusMealzoName();
+                        //     getJustEatController.mealzoName.value = value;
+                        //     getJustEatController.getStatusMealzoName();
                         //   }
                         // },
                         decoration: InputDecoration(
@@ -226,13 +227,13 @@ class FoodhubOff extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           // if (searchType == SearchType.id) {
-                          //   getfoodhubController.mealzoId.value =
+                          //   getJustEatController.mealzoId.value =
                           //       searchController.text;
-                          //   getfoodhubController.getStatusMealzoId();
+                          //   getJustEatController.getStatusMealzoId();
                           // } else {
-                          //   getfoodhubController.mealzoName.value =
+                          //   getJustEatController.mealzoName.value =
                           //       searchController.text;
-                          //   getfoodhubController.getStatusMealzoName();
+                          //   getJustEatController.getStatusMealzoName();
                           // }
                         },
                         style: ElevatedButton.styleFrom(
@@ -278,9 +279,8 @@ class FoodhubOff extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-
                       Text('Total Off : '),
-                      Text('${countController.countInfo.value.foodhub.off}'),
+                      Text('${countController.countInfo.value.justeat.off}'),
                     ],
                   ),
                 ),
@@ -297,9 +297,9 @@ class FoodhubOff extends StatelessWidget {
                   crossAxisSpacing: 0.5,
                   mainAxisSpacing: 1,
                 ),
-                itemCount: getfoodhubController.listFoodhub.length,
+                itemCount: getJustEatController.listjust.length,
                 itemBuilder: (context, index) {
-                  final item = getfoodhubController.listFoodhub[index];
+                  final item = getJustEatController.listjust[index];
 
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -363,9 +363,9 @@ class FoodhubOff extends StatelessWidget {
                                 const SizedBox(height: 4),
                                 InkWell(
                                   onTap: () {
-                                         myLaunchUrl(
-                                      getfoodhubController
-                                          .listFoodhub[index]
+                                    myLaunchUrl(
+                                      getJustEatController
+                                          .listjust[index]
                                           .url!,
                                     );
                                   },
@@ -393,10 +393,10 @@ class FoodhubOff extends StatelessWidget {
                                   children: [
                                     const Icon(Icons.inventory_2, size: 14),
                                     const SizedBox(width: 4),
-                                    Text('collection : '),
+                                    Text('ForPreorder : '),
                                     SizedBox(width: 8),
                                     Text(
-                                      item.collection == true
+                                      item.isOpenForPreorder == true
                                           ? 'Open'
                                           : 'Close',
                                     ),
@@ -408,10 +408,10 @@ class FoodhubOff extends StatelessWidget {
                                     const Icon(Icons.delivery_dining, size: 14),
                                     const SizedBox(width: 4),
 
-                                    Text('delivery : '),
+                                    Text('ForOrder : '),
                                     SizedBox(width: 8),
                                     Text(
-                                      item.delivery == true ? 'Open' : 'Close',
+                                      item.isOpenForOrder == true ? 'Open' : 'Close',
                                     ),
                                   ],
                                 ),
@@ -434,7 +434,7 @@ class FoodhubOff extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 8),
-                                
+                               
 Text(
   item.time != null
       ? DateFormat("dd,MMM/yyyy - HH:mm").format(
@@ -457,14 +457,14 @@ Text(
               ),
 
               SizedBox(height: 30),
-if (getfoodhubController.postInfo.value.next != null)...[
-              if (getfoodhubController.postInfo.value.currentPage! == 1) ...[
+if (getJustEatController.postInfo.value.next != null)...[
+              if (getJustEatController.postInfo.value.currentPage! == 1) ...[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      getfoodhubController.page.value++;
-                      getfoodhubController.getFoodHubOff();
+                      getJustEatController.page.value++;
+                      getJustEatController.getJustOff();
                     },
                     child: Container(
                       width: double.infinity,
@@ -476,7 +476,7 @@ if (getfoodhubController.postInfo.value.next != null)...[
 
                       child: Center(
                         child: Text(
-                          'page: ${getfoodhubController.postInfo.value.currentPage} Of ${getfoodhubController.postInfo.value.totalPages} >',
+                          'page: ${getJustEatController.postInfo.value.currentPage} Of ${getJustEatController.postInfo.value.totalPages} >',
                           style: TextStyle(
                             color: const Color.fromARGB(255, 214, 211, 211),
                           ),
@@ -491,12 +491,12 @@ if (getfoodhubController.postInfo.value.next != null)...[
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      if (getfoodhubController.page.value > 1) ...[
+                      if (getJustEatController.page.value > 1) ...[
                         InkWell(
                           onTap: () {
-                            if (getfoodhubController.page.value > 1) {
-                              getfoodhubController.page.value--;
-                              getfoodhubController.getFoodHubOff();
+                            if (getJustEatController.page.value > 1) {
+                              getJustEatController.page.value--;
+                              getJustEatController.getJustOff();
                             }
                           },
                           child: Container(
@@ -519,7 +519,7 @@ if (getfoodhubController.postInfo.value.next != null)...[
                                     color: Colors.white,
                                   ),
                                   Text(
-                                    '${getfoodhubController.postInfo.value.currentPage! - 1}',
+                                    '${getJustEatController.postInfo.value.currentPage! - 1}',
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ],
@@ -529,27 +529,27 @@ if (getfoodhubController.postInfo.value.next != null)...[
                         ),
                       ],
 
-                      if (getfoodhubController.page.value > 1) ...[
+                      if (getJustEatController.page.value > 1) ...[
                         Text(
-                          '${getfoodhubController.postInfo.value.currentPage} of ${getfoodhubController.postInfo.value.totalPages}',
+                          '${getJustEatController.postInfo.value.currentPage} of ${getJustEatController.postInfo.value.totalPages}',
                         ),
                       ],
 
-                      if (getfoodhubController.page.value <
-                          getfoodhubController.postInfo.value.totalPages!) ...[
+                      if (getJustEatController.page.value <
+                          getJustEatController.postInfo.value.totalPages!) ...[
                         InkWell(
                           onTap: () {
-                            if (getfoodhubController.page.value <
-                                getfoodhubController
+                            if (getJustEatController.page.value <
+                                getJustEatController
                                     .postInfo
                                     .value
                                     .totalPages!) {
-                              getfoodhubController.page.value++;
-                              getfoodhubController.getFoodHubOff();
+                              getJustEatController.page.value++;
+                              getJustEatController.getJustOff();
                             }
                           },
 
-                          child: getfoodhubController.page.value == 1
+                          child: getJustEatController.page.value == 1
                               ? Padding(
                                   padding: const EdgeInsets.only(left: 16),
                                   child: Container(
@@ -574,7 +574,7 @@ if (getfoodhubController.postInfo.value.next != null)...[
                                             CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            '${getfoodhubController.postInfo.value.currentPage} of ${getfoodhubController.postInfo.value.totalPages}',
+                                            '${getJustEatController.postInfo.value.currentPage} of ${getJustEatController.postInfo.value.totalPages}',
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),
@@ -611,7 +611,7 @@ if (getfoodhubController.postInfo.value.next != null)...[
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          '${getfoodhubController.postInfo.value.currentPage! + 1}',
+                                          '${getJustEatController.postInfo.value.currentPage! + 1}',
                                           style: TextStyle(color: Colors.white),
                                         ),
 

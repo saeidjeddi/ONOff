@@ -40,7 +40,6 @@ class StatusController extends GetxController {
         '${ApiUrl.getStatus}?mealzoId=$mealzoId&page=$page',
       );
       if (response.statusCode == 200) {
-        print(page.value);
         statusInfo.value = PaginatedResponse.fromJson(response.data);
         restaurantResults.value = statusInfo.value.results;
       } else {
@@ -77,7 +76,6 @@ class StatusController extends GetxController {
       loading.value = false;
     }
   }
-
 
 
 

@@ -5,18 +5,18 @@ import 'package:intl/intl.dart';
 import 'package:onofflive/components/const_image.dart';
 import 'package:onofflive/components/widgets.dart';
 import 'package:onofflive/controller/count_controller.dart';
-import 'package:onofflive/controller/foodhub_controller.dart';
+import 'package:onofflive/controller/uberets_controller.dart';
 import 'package:onofflive/controller/userInfo_controller.dart';
 import 'package:onofflive/views/login_screen.dart';
 import 'package:onofflive/views/main_screen.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
-class FoodhubOff extends StatelessWidget {
-  FoodhubOff({super.key});
+class UberEatsOn extends StatelessWidget {
+  UberEatsOn({super.key});
 
   UserInfoController userInfoController = Get.put(UserInfoController());
-  FoodhubController getfoodhubController = Get.put(FoodhubController());
+  UberetsController getUberController = Get.put(UberetsController());
   final CountController countController = Get.put(CountController());
 
   final TextEditingController searchController = TextEditingController();
@@ -32,7 +32,7 @@ class FoodhubOff extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    getfoodhubController.getFoodHubOff();
+    getUberController.getUberOn();
     userInfoController.getUserInfo();
     countController.getCount();
 
@@ -186,7 +186,7 @@ class FoodhubOff extends StatelessWidget {
       ),
 
       body: Obx(() {
-        if (getfoodhubController.loding.value == true) {
+        if (getUberController.loding.value == true) {
           return Center(child: CircularProgressIndicator());
         }
         return SingleChildScrollView(
@@ -201,11 +201,11 @@ class FoodhubOff extends StatelessWidget {
                         controller: searchController,
                         // onSubmitted: (value) {
                         //   if (searchType == SearchType.id) {
-                        //     getfoodhubController.mealzoId.value = value;
-                        //     getfoodhubController.getStatusMealzoId();
+                        //     getUberController.mealzoId.value = value;
+                        //     getUberController.getStatusMealzoId();
                         //   } else {
-                        //     getfoodhubController.mealzoName.value = value;
-                        //     getfoodhubController.getStatusMealzoName();
+                        //     getUberController.mealzoName.value = value;
+                        //     getUberController.getStatusMealzoName();
                         //   }
                         // },
                         decoration: InputDecoration(
@@ -226,13 +226,13 @@ class FoodhubOff extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           // if (searchType == SearchType.id) {
-                          //   getfoodhubController.mealzoId.value =
+                          //   getUberController.mealzoId.value =
                           //       searchController.text;
-                          //   getfoodhubController.getStatusMealzoId();
+                          //   getUberController.getStatusMealzoId();
                           // } else {
-                          //   getfoodhubController.mealzoName.value =
+                          //   getUberController.mealzoName.value =
                           //       searchController.text;
-                          //   getfoodhubController.getStatusMealzoName();
+                          //   getUberController.getStatusMealzoName();
                           // }
                         },
                         style: ElevatedButton.styleFrom(
@@ -278,9 +278,8 @@ class FoodhubOff extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-
-                      Text('Total Off : '),
-                      Text('${countController.countInfo.value.foodhub.off}'),
+                      Text('Total On : '),
+                      Text('${countController.countInfo.value.ubereats.onD}'),
                     ],
                   ),
                 ),
@@ -297,9 +296,9 @@ class FoodhubOff extends StatelessWidget {
                   crossAxisSpacing: 0.5,
                   mainAxisSpacing: 1,
                 ),
-                itemCount: getfoodhubController.listFoodhub.length,
+                itemCount: getUberController.listUber.length,
                 itemBuilder: (context, index) {
-                  final item = getfoodhubController.listFoodhub[index];
+                  final item = getUberController.listUber[index];
 
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -363,9 +362,9 @@ class FoodhubOff extends StatelessWidget {
                                 const SizedBox(height: 4),
                                 InkWell(
                                   onTap: () {
-                                         myLaunchUrl(
-                                      getfoodhubController
-                                          .listFoodhub[index]
+                                    myLaunchUrl(
+                                      getUberController
+                                          .listUber[index]
                                           .url!,
                                     );
                                   },
@@ -396,7 +395,7 @@ class FoodhubOff extends StatelessWidget {
                                     Text('collection : '),
                                     SizedBox(width: 8),
                                     Text(
-                                      item.collection == true
+                                      item.isPickup == true
                                           ? 'Open'
                                           : 'Close',
                                     ),
@@ -411,7 +410,7 @@ class FoodhubOff extends StatelessWidget {
                                     Text('delivery : '),
                                     SizedBox(width: 8),
                                     Text(
-                                      item.delivery == true ? 'Open' : 'Close',
+                                      item.isDelivery == true ? 'Open' : 'Close',
                                     ),
                                   ],
                                 ),
@@ -434,7 +433,7 @@ class FoodhubOff extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 8),
-                                
+                               
 Text(
   item.time != null
       ? DateFormat("dd,MMM/yyyy - HH:mm").format(
@@ -457,14 +456,14 @@ Text(
               ),
 
               SizedBox(height: 30),
-if (getfoodhubController.postInfo.value.next != null)...[
-              if (getfoodhubController.postInfo.value.currentPage! == 1) ...[
+
+              if (getUberController.postInfo.value.currentPage! == 1) ...[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      getfoodhubController.page.value++;
-                      getfoodhubController.getFoodHubOff();
+                      getUberController.page.value++;
+                      getUberController.getUberOn();
                     },
                     child: Container(
                       width: double.infinity,
@@ -476,7 +475,7 @@ if (getfoodhubController.postInfo.value.next != null)...[
 
                       child: Center(
                         child: Text(
-                          'page: ${getfoodhubController.postInfo.value.currentPage} Of ${getfoodhubController.postInfo.value.totalPages} >',
+                          'page: ${getUberController.postInfo.value.currentPage} Of ${getUberController.postInfo.value.totalPages} >',
                           style: TextStyle(
                             color: const Color.fromARGB(255, 214, 211, 211),
                           ),
@@ -491,12 +490,12 @@ if (getfoodhubController.postInfo.value.next != null)...[
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      if (getfoodhubController.page.value > 1) ...[
+                      if (getUberController.page.value > 1) ...[
                         InkWell(
                           onTap: () {
-                            if (getfoodhubController.page.value > 1) {
-                              getfoodhubController.page.value--;
-                              getfoodhubController.getFoodHubOff();
+                            if (getUberController.page.value > 1) {
+                              getUberController.page.value--;
+                              getUberController.getUberOn();
                             }
                           },
                           child: Container(
@@ -519,7 +518,7 @@ if (getfoodhubController.postInfo.value.next != null)...[
                                     color: Colors.white,
                                   ),
                                   Text(
-                                    '${getfoodhubController.postInfo.value.currentPage! - 1}',
+                                    '${getUberController.postInfo.value.currentPage! - 1}',
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ],
@@ -529,27 +528,27 @@ if (getfoodhubController.postInfo.value.next != null)...[
                         ),
                       ],
 
-                      if (getfoodhubController.page.value > 1) ...[
+                      if (getUberController.page.value > 1) ...[
                         Text(
-                          '${getfoodhubController.postInfo.value.currentPage} of ${getfoodhubController.postInfo.value.totalPages}',
+                          '${getUberController.postInfo.value.currentPage} of ${getUberController.postInfo.value.totalPages}',
                         ),
                       ],
 
-                      if (getfoodhubController.page.value <
-                          getfoodhubController.postInfo.value.totalPages!) ...[
+                      if (getUberController.page.value <
+                          getUberController.postInfo.value.totalPages!) ...[
                         InkWell(
                           onTap: () {
-                            if (getfoodhubController.page.value <
-                                getfoodhubController
+                            if (getUberController.page.value <
+                                getUberController
                                     .postInfo
                                     .value
                                     .totalPages!) {
-                              getfoodhubController.page.value++;
-                              getfoodhubController.getFoodHubOff();
+                              getUberController.page.value++;
+                              getUberController.getUberOn();
                             }
                           },
 
-                          child: getfoodhubController.page.value == 1
+                          child: getUberController.page.value == 1
                               ? Padding(
                                   padding: const EdgeInsets.only(left: 16),
                                   child: Container(
@@ -574,7 +573,7 @@ if (getfoodhubController.postInfo.value.next != null)...[
                                             CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            '${getfoodhubController.postInfo.value.currentPage} of ${getfoodhubController.postInfo.value.totalPages}',
+                                            '${getUberController.postInfo.value.currentPage} of ${getUberController.postInfo.value.totalPages}',
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),
@@ -611,7 +610,7 @@ if (getfoodhubController.postInfo.value.next != null)...[
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          '${getfoodhubController.postInfo.value.currentPage! + 1}',
+                                          '${getUberController.postInfo.value.currentPage! + 1}',
                                           style: TextStyle(color: Colors.white),
                                         ),
 
@@ -629,8 +628,6 @@ if (getfoodhubController.postInfo.value.next != null)...[
                   ),
                 ),
               ],
-
-],
               SizedBox(height: 80),
             ],
           ),

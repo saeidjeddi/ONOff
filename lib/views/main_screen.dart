@@ -8,7 +8,11 @@ import 'package:onofflive/controller/status_controller.dart';
 import 'package:onofflive/controller/userInfo_controller.dart';
 import 'package:onofflive/views/foodhub/foodhub_off.dart';
 import 'package:onofflive/views/foodhub/foodhub_on.dart';
+import 'package:onofflive/views/justeat/justeat_off.dart';
+import 'package:onofflive/views/justeat/justeat_on.dart';
 import 'package:onofflive/views/login_screen.dart';
+import 'package:onofflive/views/uberEats/uber_off.dart';
+import 'package:onofflive/views/uberEats/uber_on.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
@@ -43,7 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
     userInfoController.getUserInfo();
   }
 
- 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -722,57 +725,69 @@ class _HomeScreenState extends State<HomeScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Container(
-                                              width: 40,
-                                              height: 30,
-                                              decoration: BoxDecoration(
-                                                color: Colors.greenAccent,
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(16),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(() => UberEatsOn());
+                                              },
+                                              child: Container(
+                                                width: 40,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.greenAccent,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(16),
+                                                      ),
                                                 ),
-                                              ),
 
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "on",
-                                                    style: TextStyle(
-                                                      color: Colors.green,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "on",
+                                                      style: TextStyle(
+                                                        color: Colors.green,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
 
                                             SizedBox(width: 16),
 
-                                            Container(
-                                              width: 40,
-                                              height: 30,
-                                              decoration: BoxDecoration(
-                                                color: Colors.redAccent[100],
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(16),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(() => UberEatsOff());
+                                              },
+                                              child: Container(
+                                                width: 40,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.redAccent[100],
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(16),
+                                                      ),
                                                 ),
-                                              ),
 
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "off",
-                                                    style: TextStyle(
-                                                      color: Colors.red[900],
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "off",
+                                                      style: TextStyle(
+                                                        color: Colors.red[900],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -820,57 +835,69 @@ class _HomeScreenState extends State<HomeScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Container(
-                                              width: 40,
-                                              height: 30,
-                                              decoration: BoxDecoration(
-                                                color: Colors.greenAccent,
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(16),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(() => JustEatOn());
+                                              },
+                                              child: Container(
+                                                width: 40,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.greenAccent,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(16),
+                                                      ),
                                                 ),
-                                              ),
 
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "on",
-                                                    style: TextStyle(
-                                                      color: Colors.green,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "on",
+                                                      style: TextStyle(
+                                                        color: Colors.green,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
 
                                             SizedBox(width: 16),
 
-                                            Container(
-                                              width: 40,
-                                              height: 30,
-                                              decoration: BoxDecoration(
-                                                color: Colors.redAccent[100],
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(16),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(()=> JustEatOff());
+                                              },
+                                              child: Container(
+                                                width: 40,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.redAccent[100],
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(16),
+                                                      ),
                                                 ),
-                                              ),
 
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "off",
-                                                    style: TextStyle(
-                                                      color: Colors.red[900],
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "off",
+                                                      style: TextStyle(
+                                                        color: Colors.red[900],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -925,10 +952,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (searchType == SearchType.id) {
+                          statusController.page.value = 1;
                           statusController.mealzoId.value =
                               searchController.text;
                           statusController.getStatusMealzoId();
-                        } else {
+                        } else if (searchType == SearchType.name) {
+                          statusController.page.value = 1;
                           statusController.mealzoName.value =
                               searchController.text;
                           statusController.getStatusMealzoName();
