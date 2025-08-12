@@ -37,7 +37,7 @@ class StatusController extends GetxController {
     restaurantResults.clear();
     try {
       var response = await DioServices().getMethod(
-        '${ApiUrl.getStatus}?mealzoId=$mealzoId',
+        '${ApiUrl.getStatus}?mealzoId=$mealzoId&page=$page',
       );
       if (response.statusCode == 200) {
         print(page.value);
@@ -62,7 +62,7 @@ class StatusController extends GetxController {
     restaurantResults.clear();
     try {
       var response = await DioServices().getMethod(
-        '${ApiUrl.getStatus}?mealzoName=$mealzoName',
+        '${ApiUrl.getStatus}?mealzoName=$mealzoName&page=$page',
       );
       if (response.statusCode == 200) {
         print(page.value);

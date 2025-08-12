@@ -9,17 +9,19 @@ class FoodhubController extends GetxController {
   Rx<PostInfo> postInfo = PostInfo().obs;
   RxInt page = RxInt(1);
 
-  getFoodHub() async {
+  getFoodHubOn() async {
     loding.value = true;
 
+    // Clear the existing list before adding new items
+    listFoodhub.clear();
+
     var response = await DioServices().getMethodNotToken(
-      '${ApiUrl.getFoodhub}?page=$page',
+      '${ApiUrl.getFoodhub}?page=$page&isopen=1',
     );
 
     if (response.statusCode == 200) {
       response.data['results'].forEach((element) {
         listFoodhub.add(FoodhobMdel.fromJson(element));
-        print(response.data['results']);
         loding.value = false;
       });
 
@@ -27,4 +29,28 @@ class FoodhubController extends GetxController {
       loding.value = false;
     }
   }
+
+  getFoodHubOff() async {
+    loding.value = true;
+
+    // Clear the existing list before adding new items
+    listFoodhub.clear();
+
+    var response = await DioServices().getMethodNotToken(
+      '${ApiUrl.getFoodhub}?page=$page&isopen=0',
+    );
+
+    if (response.statusCode == 200) {
+      response.data['results'].forEach((element) {
+        listFoodhub.add(FoodhobMdel.fromJson(element));
+        loding.value = false;
+      });
+
+      postInfo.value = PostInfo.fromJson(response.data);
+      loding.value = false;
+    }
+  }
+
+  // Reset method to clear list and reset page
+
 }

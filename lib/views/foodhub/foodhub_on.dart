@@ -27,7 +27,7 @@ class FoodhubOn extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    getfoodhubController.getFoodHub();
+    getfoodhubController.getFoodHubOn();
     userInfoController.getUserInfo();
 
     return Scaffold(
@@ -179,9 +179,12 @@ class FoodhubOn extends StatelessWidget {
         ),
       ),
 
-      body: SingleChildScrollView(
-        child: Obx(
-          ()=> Column(
+      body: Obx(() {
+                        if (getfoodhubController.loding.value == true) {
+          return Center(child: CircularProgressIndicator());
+                }
+        return SingleChildScrollView(
+          child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(16),
@@ -192,17 +195,17 @@ class FoodhubOn extends StatelessWidget {
                         controller: searchController,
                         // onSubmitted: (value) {
                         //   if (searchType == SearchType.id) {
-                        //     statusController.mealzoId.value = value;
-                        //     statusController.getStatusMealzoId();
+                        //     getfoodhubController.mealzoId.value = value;
+                        //     getfoodhubController.getStatusMealzoId();
                         //   } else {
-                        //     statusController.mealzoName.value = value;
-                        //     statusController.getStatusMealzoName();
+                        //     getfoodhubController.mealzoName.value = value;
+                        //     getfoodhubController.getStatusMealzoName();
                         //   }
                         // },
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
                           hintText: 'Search Shop',
-          
+
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(8),
@@ -217,13 +220,13 @@ class FoodhubOn extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           // if (searchType == SearchType.id) {
-                          //   statusController.mealzoId.value =
+                          //   getfoodhubController.mealzoId.value =
                           //       searchController.text;
-                          //   statusController.getStatusMealzoId();
+                          //   getfoodhubController.getStatusMealzoId();
                           // } else {
-                          //   statusController.mealzoName.value =
+                          //   getfoodhubController.mealzoName.value =
                           //       searchController.text;
-                          //   statusController.getStatusMealzoName();
+                          //   getfoodhubController.getStatusMealzoName();
                           // }
                         },
                         style: ElevatedButton.styleFrom(
@@ -243,145 +246,330 @@ class FoodhubOn extends StatelessWidget {
                   ],
                 ),
               ),
-          
-              
-GridView.builder(
-  shrinkWrap: true,
-  physics: const NeverScrollableScrollPhysics(),
-  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 2,
-    childAspectRatio: 3 / 4,
-    crossAxisSpacing: 12,
-    mainAxisSpacing: 12,
-  ),
-  itemCount: getfoodhubController.listFoodhub.length,
-  itemBuilder: (context, index) {
-    final item = getfoodhubController.listFoodhub[index];
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.15),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // هدر کارت
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.blueAccent.withOpacity(0.1),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 3 / 4,
+                  crossAxisSpacing: 0.5,
+                  mainAxisSpacing: 1,
+                ),
+                itemCount: getfoodhubController.listFoodhub.length,
+                itemBuilder: (context, index) {
+                  final item = getfoodhubController.listFoodhub[index];
+
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.15),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.blueAccent[100],
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  "Mealzo Id",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  item.mealzo.toString(),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          // محتوا
+                          Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item.name ?? "",
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                InkWell(
+                                  onTap: () {
+                                    // رفتن به لینک
+                                  },
+                                  child: const Row(
+                                    children: [
+                                      Icon(
+                                        Icons.link,
+                                        size: 14,
+                                        color: Colors.blue,
+                                      ),
+                                      SizedBox(width: 4),
+                                      Text(
+                                        "View on website",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+
+                                Row(
+                                  children: [
+                                    const Icon(Icons.inventory_2, size: 14),
+                                    const SizedBox(width: 4),
+                                    Text('collection : '),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      item.collection == true
+                                          ? 'Open'
+                                          : 'Close',
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.delivery_dining, size: 14),
+                                    const SizedBox(width: 4),
+
+                                    Text('delivery : '),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      item.delivery == true ? 'Open' : 'Close',
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.circle,
+                                      size: 10,
+                                      color: item.isOpen == true
+                                          ? Colors.green
+                                          : Colors.red,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text('isOpen : '),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      item.isOpen == true ? "Open" : "Closed",
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  item.time ?? "",
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("Mealzo Id",
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                Text(item.mealzo.toString(),
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
 
-          // محتوا
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(item.name ?? "",
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 4),
-                InkWell(
-                  onTap: () {
-                    // رفتن به لینک
-                  },
-                  child: const Row(
-                    children: [
-                      Icon(Icons.link, size: 14, color: Colors.blue),
-                      SizedBox(width: 4),
-                      Text("View on website",
+              SizedBox(height: 30),
+
+              if (getfoodhubController.postInfo.value.currentPage! == 1) ...[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      getfoodhubController.page.value++;
+                      getfoodhubController.getFoodHubOn();
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: size.height * .04,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        color: Colors.deepOrange,
+                      ),
+
+                      child: Center(
+                        child: Text(
+                          'page: ${getfoodhubController.postInfo.value.currentPage} Of ${getfoodhubController.postInfo.value.totalPages} >',
                           style: TextStyle(
-                              fontSize: 12, color: Colors.blue)),
-                    ],
+                            color: const Color.fromARGB(255, 214, 211, 211),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 8),
+              ] else ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (getfoodhubController.page.value > 1) ...[
+                      InkWell(
+                        onTap: () {
+                          if (getfoodhubController.page.value > 1) {
+                            getfoodhubController.page.value--;
+                            getfoodhubController.getFoodHubOn();
+                          }
+                        },
+                        child: Container(
+                          width: size.width / 3,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 232, 84, 12),
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                          ),
 
-                Row(
-                  children: [
-                    const Icon(Icons.inventory_2, size: 14),
-                    const SizedBox(width: 4),
-                    Text(item.collection.toString()),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.arrow_left_outlined,
+                                  color: Colors.white,
+                                ),
+                                Text(
+                                  '${getfoodhubController.postInfo.value.currentPage! - 1}',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+
+                    if (getfoodhubController.page.value > 1) ...[
+                      Text(
+                        '${getfoodhubController.postInfo.value.currentPage} of ${getfoodhubController.postInfo.value.totalPages}',
+                      ),
+                    ],
+
+                    if (getfoodhubController.page.value <
+                        getfoodhubController.postInfo.value.totalPages!) ...[
+                      InkWell(
+                        onTap: () {
+                          if (getfoodhubController.page.value <
+                              getfoodhubController.postInfo.value.totalPages!) {
+                            getfoodhubController.page.value++;
+                            getfoodhubController.getFoodHubOn();
+                          }
+                        },
+
+                        child: getfoodhubController.page.value == 1
+                            ? Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: Container(
+                                  width: size.width / 1.2,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                      255,
+                                      232,
+                                      84,
+                                      12,
+                                    ),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(8),
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '${getfoodhubController.postInfo.value.currentPage} of ${getfoodhubController.postInfo.value.totalPages}',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        Icon(
+                                          Icons.arrow_right_alt,
+                                          color: Colors.white,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                width: size.width / 3,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: const Color.fromARGB(255, 232, 84, 12),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '${getfoodhubController.postInfo.value.currentPage! + 1}',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+
+                                      Icon(
+                                        Icons.arrow_right,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                      ),
+                    ],
                   ],
                 ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    const Icon(Icons.delivery_dining, size: 14),
-                    const SizedBox(width: 4),
-                    Text(item.delivery.toString()),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    Icon(Icons.circle,
-                        size: 10,
-                        color: item.isOpen == true
-                            ? Colors.green
-                            : Colors.red),
-                    const SizedBox(width: 4),
-                    Text(item.isOpen == true ? "Open" : "Closed"),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Text(item.time ?? "",
-                    style: const TextStyle(
-                        fontSize: 10, color: Colors.grey)),
               ],
-            ),
-          ),
-        ],
-      ),
-    );
-  },
-),
-
-
-              SizedBox(height: 30,),
-
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: double.infinity,
-                  height: size.height * .04,
-                  color: Colors.deepOrange,
-
-                  child: Center(child: Text('data')),
-                ),
-              ),
-
-              SizedBox(height: 80,),
+              SizedBox(height: 80),
             ],
-
-
-            
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }
+
+class $ {}

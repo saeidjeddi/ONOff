@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:onofflive/components/const_image.dart';
 import 'package:onofflive/controller/count_controller.dart';
+import 'package:onofflive/controller/foodhub_controller.dart';
 import 'package:onofflive/controller/status_controller.dart';
 import 'package:onofflive/controller/userInfo_controller.dart';
+import 'package:onofflive/views/foodhub/foodhub_off.dart';
+import 'package:onofflive/views/foodhub/foodhub_on.dart';
 import 'package:onofflive/views/login_screen.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
@@ -21,6 +24,7 @@ enum SearchType { id, name }
 class _HomeScreenState extends State<HomeScreen> {
   final CountController countController = Get.put(CountController());
   final StatusController statusController = Get.put(StatusController());
+  final FoodhubController foodhubController = Get.put(FoodhubController());
   UserInfoController userInfoController = Get.put(UserInfoController());
   final TextEditingController searchController = TextEditingController();
 
@@ -39,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
     userInfoController.getUserInfo();
   }
 
+ 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -608,57 +613,69 @@ class _HomeScreenState extends State<HomeScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Container(
-                                              width: 40,
-                                              height: 30,
-                                              decoration: BoxDecoration(
-                                                color: Colors.greenAccent,
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(16),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(() => FoodhubOn());
+                                              },
+                                              child: Container(
+                                                width: 40,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.greenAccent,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(16),
+                                                      ),
                                                 ),
-                                              ),
 
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "On",
-                                                    style: TextStyle(
-                                                      color: Colors.green,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "On",
+                                                      style: TextStyle(
+                                                        color: Colors.green,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
 
                                             SizedBox(width: 16),
 
-                                            Container(
-                                              width: 40,
-                                              height: 30,
-                                              decoration: BoxDecoration(
-                                                color: Colors.redAccent[100],
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(16),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(() => FoodhubOff());
+                                              },
+                                              child: Container(
+                                                width: 40,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.redAccent[100],
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(16),
+                                                      ),
                                                 ),
-                                              ),
 
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "off",
-                                                    style: TextStyle(
-                                                      color: Colors.red[900],
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "off",
+                                                      style: TextStyle(
+                                                        color: Colors.red[900],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -1420,7 +1437,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         if (statusController.page.value > 1) {
                           statusController.page.value--;
-                          statusController.getStatusPage();
+                          if (searchType == SearchType.name) {
+                            statusController.getStatusMealzoName();
+                          } else if (searchType == SearchType.id) {
+                            statusController.getStatusMealzoId();
+                          } else {
+                            statusController.getStatusPage();
+                          }
                         }
                       },
                       child: Container(
@@ -1464,7 +1487,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (statusController.page.value <
                             statusController.statusInfo.value.totalPages) {
                           statusController.page.value++;
-                          statusController.getStatusPage();
+                          if (searchType == SearchType.name) {
+                            statusController.getStatusMealzoName();
+                          } else if (searchType == SearchType.id) {
+                            statusController.getStatusMealzoId();
+                          } else {
+                            statusController.getStatusPage();
+                          }
                         }
                       },
 
@@ -1536,7 +1565,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               Container(
                 width: double.infinity,
-                height: size.height *.21,
+                height: size.height * .21,
 
                 decoration: BoxDecoration(
                   color: Colors.grey[100],
