@@ -196,7 +196,7 @@ class _FoodhubOffState extends State<FoodhubOff> {
 
                 Padding(
                   padding: const EdgeInsets.all(16),
-                  child: SizedBox(width: 300, child: Text('Version : 0.0.2')),
+                  child: SizedBox(width: 300, child: Text('Version : 0.1.1')),
                 ),
               ],
             ),
@@ -310,15 +310,10 @@ class _FoodhubOffState extends State<FoodhubOff> {
 
               SizedBox(height: 8),
 
-              GridView.builder(
+              ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 3 / 4,
-                  crossAxisSpacing: 0.5,
-                  mainAxisSpacing: 1,
-                ),
+            
                 itemCount: getfoodhubController.listFoodhub.length,
                 itemBuilder: (context, index) {
                   final item = getfoodhubController.listFoodhub[index];
@@ -342,7 +337,7 @@ class _FoodhubOffState extends State<FoodhubOff> {
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.blueAccent[100],
+color: const Color.fromARGB(255, 250, 132, 54),
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20),

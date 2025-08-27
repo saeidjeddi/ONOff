@@ -1,12 +1,8 @@
-class UbereatsMdel {
+class FeedMeOnlineMdel {
   int? mealzo;
   String? url;
-  String? shopId;
   String? name;
   bool? isOpen;
-  bool? isActive;
-  bool? isDelivery;
-  bool? isPickup;
   String? time;
 
 
@@ -14,17 +10,13 @@ class UbereatsMdel {
 
 
 
-  UbereatsMdel();
+  FeedMeOnlineMdel();
 
-  UbereatsMdel.fromJson(Map<String, dynamic> element) {
+  FeedMeOnlineMdel.fromJson(Map<String, dynamic> element) {
     mealzo = element['mealzo'];
     url = element['url'];
-    shopId = element['shopId'];
     name = element['name'];
-    isPickup = element['isPickup'];
-    isDelivery = element['isDelivery'];
     isOpen = element['isOpen'];
-    isActive = element['isActive'];
     time = element['time'];
   }
 }

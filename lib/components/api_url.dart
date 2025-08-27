@@ -6,7 +6,7 @@ class ApiUrl {
   static const String getinfiuser = 'https://google.mega-data.co.uk/account/user/';
   static const String getWebsite = 'https://devicetracker.mega-data.co.uk/';
   static const String getFoodhub = 'https://devicetracker.mega-data.co.uk/api/foodhub';
-  static const String getUbereats = 'https://devicetracker.mega-data.co.uk/api/ubereats';
+  static const String getFeedMeOnline = 'https://devicetracker.mega-data.co.uk/api/feedmeonline';
   static const String getJusteat = 'https://devicetracker.mega-data.co.uk/api/justeate';
 
 }

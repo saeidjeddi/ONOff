@@ -5,23 +5,25 @@ import 'package:intl/intl.dart';
 import 'package:onofflive/components/const_image.dart';
 import 'package:onofflive/components/widgets.dart';
 import 'package:onofflive/controller/count_controller.dart';
-import 'package:onofflive/controller/uberets_controller.dart';
+import 'package:onofflive/controller/feedmeonline_controller.dart';
 import 'package:onofflive/controller/userInfo_controller.dart';
 import 'package:onofflive/views/login_screen.dart';
 import 'package:onofflive/views/main_screen.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
-class UberEatsOn extends StatefulWidget {
-  const UberEatsOn({super.key});
+class FeedMeOnlineOff extends StatefulWidget {
+  const FeedMeOnlineOff({super.key});
 
   @override
-  State<UberEatsOn> createState() => _UberEatsOnState();
+  State<FeedMeOnlineOff> createState() => _FeedMeOnlineOffState();
 }
 
-class _UberEatsOnState extends State<UberEatsOn> {
+class _FeedMeOnlineOffState extends State<FeedMeOnlineOff> {
   final UserInfoController userInfoController = Get.put(UserInfoController());
-  final UberetsController getUberController = Get.put(UberetsController());
+  final FeedMeOnlineController getFeedMeOnlineController = Get.put(
+    FeedMeOnlineController(),
+  );
   final CountController countController = Get.put(CountController());
 
   final TextEditingController searchController = TextEditingController();
@@ -36,7 +38,7 @@ class _UberEatsOnState extends State<UberEatsOn> {
   @override
   void initState() {
     super.initState();
-    getUberController.getUberOn();
+    getFeedMeOnlineController.getFeedMeOnlineOff();
     userInfoController.getUserInfo();
     countController.getCount();
   }
@@ -195,7 +197,7 @@ class _UberEatsOnState extends State<UberEatsOn> {
 
                 Padding(
                   padding: const EdgeInsets.all(16),
-                  child: SizedBox(width: 300, child: Text('Version : 0.0.2')),
+                  child: SizedBox(width: 300, child: Text('Version : 0.1.1')),
                 ),
               ],
             ),
@@ -204,7 +206,7 @@ class _UberEatsOnState extends State<UberEatsOn> {
       ),
 
       body: Obx(() {
-        if (getUberController.loding.value == true) {
+        if (getFeedMeOnlineController.loding.value == true) {
           return Center(child: CircularProgressIndicator());
         }
         return SingleChildScrollView(
@@ -218,9 +220,9 @@ class _UberEatsOnState extends State<UberEatsOn> {
                       child: TextField(
                         controller: searchController,
                         onSubmitted: (value) {
-                          getUberController.page.value = 1;
-                          getUberController.mealzoId.value = value;
-                          getUberController.getUberOn();
+                          getFeedMeOnlineController.page.value = 1;
+                          getFeedMeOnlineController.mealzoId.value = value;
+                          getFeedMeOnlineController.getFeedMeOnlineOff();
                         },
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
@@ -239,10 +241,10 @@ class _UberEatsOnState extends State<UberEatsOn> {
                       height: 58,
                       child: ElevatedButton(
                         onPressed: () {
-                          getUberController.page.value = 1;
-                          getUberController.mealzoId.value =
+                          getFeedMeOnlineController.page.value = 1;
+                          getFeedMeOnlineController.mealzoId.value =
                               searchController.text;
-                          getUberController.getUberOn();
+                          getFeedMeOnlineController.getFeedMeOnlineOff();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey.shade600,
@@ -293,13 +295,15 @@ class _UberEatsOnState extends State<UberEatsOn> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(16)),
                           image: DecorationImage(
-                            image: AssetImage(ConstImage.ubereatsJpg),
+                            image: AssetImage(ConstImage.feedmeonlineJpg),
                             fit: BoxFit.cover,
                           ),
                         ),
                       ),
-                      Text('Total On : '),
-                      Text('${countController.countInfo.value.ubereats.onD}'),
+                      Text('Total Off : '),
+                      Text(
+                        '${countController.countInfo.value.feedmeonline.off}',
+                      ),
                     ],
                   ),
                 ),
@@ -307,18 +311,13 @@ class _UberEatsOnState extends State<UberEatsOn> {
 
               SizedBox(height: 8),
 
-              GridView.builder(
+              ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 3 / 4,
-                  crossAxisSpacing: 0.5,
-                  mainAxisSpacing: 1,
-                ),
-                itemCount: getUberController.listUber.length,
+
+                itemCount: getFeedMeOnlineController.listFeedme.length,
                 itemBuilder: (context, index) {
-                  final item = getUberController.listUber[index];
+                  final item = getFeedMeOnlineController.listFeedme[index];
 
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -339,7 +338,7 @@ class _UberEatsOnState extends State<UberEatsOn> {
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.blueAccent[100],
+                              color: const Color.fromARGB(255, 250, 132, 54),
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20),
@@ -383,7 +382,9 @@ class _UberEatsOnState extends State<UberEatsOn> {
                                 InkWell(
                                   onTap: () {
                                     myLaunchUrl(
-                                      getUberController.listUber[index].url!,
+                                      getFeedMeOnlineController
+                                          .listFeedme[index]
+                                          .url!,
                                     );
                                   },
                                   child: const Row(
@@ -406,33 +407,6 @@ class _UberEatsOnState extends State<UberEatsOn> {
                                 ),
                                 const SizedBox(height: 8),
 
-                                Row(
-                                  children: [
-                                    const Icon(Icons.inventory_2, size: 12),
-                                    const SizedBox(width: 4),
-                                    Text('collection : '),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      item.isPickup == true ? 'Open' : 'Close',
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 4),
-                                Row(
-                                  children: [
-                                    const Icon(Icons.delivery_dining, size: 12),
-                                    const SizedBox(width: 4),
-
-                                    Text('delivery : '),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      item.isDelivery == true
-                                          ? 'Open'
-                                          : 'Close',
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 4),
                                 Row(
                                   children: [
                                     Icon(
@@ -476,14 +450,15 @@ class _UberEatsOnState extends State<UberEatsOn> {
               ),
 
               SizedBox(height: 30),
-              if (getUberController.postInfo.value.next != null) ...[
-                if (getUberController.postInfo.value.currentPage! == 1) ...[
+              if (getFeedMeOnlineController.postInfo.value.next != null) ...[
+                if (getFeedMeOnlineController.postInfo.value.currentPage! ==
+                    1) ...[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
                       onTap: () {
-                        getUberController.page.value++;
-                        getUberController.getUberOn();
+                        getFeedMeOnlineController.page.value++;
+                        getFeedMeOnlineController.getFeedMeOnlineOff();
                       },
                       child: Container(
                         width: double.infinity,
@@ -495,7 +470,7 @@ class _UberEatsOnState extends State<UberEatsOn> {
 
                         child: Center(
                           child: Text(
-                            'page: ${getUberController.postInfo.value.currentPage} Of ${getUberController.postInfo.value.totalPages} >',
+                            'page: ${getFeedMeOnlineController.postInfo.value.currentPage} Of ${getFeedMeOnlineController.postInfo.value.totalPages} >',
                             style: TextStyle(
                               color: const Color.fromARGB(255, 214, 211, 211),
                             ),
@@ -510,12 +485,12 @@ class _UberEatsOnState extends State<UberEatsOn> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (getUberController.page.value > 1) ...[
+                        if (getFeedMeOnlineController.page.value > 1) ...[
                           InkWell(
                             onTap: () {
-                              if (getUberController.page.value > 1) {
-                                getUberController.page.value--;
-                                getUberController.getUberOn();
+                              if (getFeedMeOnlineController.page.value > 1) {
+                                getFeedMeOnlineController.page.value--;
+                                getFeedMeOnlineController.getFeedMeOnlineOff();
                               }
                             },
                             child: Container(
@@ -538,7 +513,7 @@ class _UberEatsOnState extends State<UberEatsOn> {
                                       color: Colors.white,
                                     ),
                                     Text(
-                                      '${getUberController.postInfo.value.currentPage! - 1}',
+                                      '${getFeedMeOnlineController.postInfo.value.currentPage! - 1}',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ],
@@ -548,27 +523,30 @@ class _UberEatsOnState extends State<UberEatsOn> {
                           ),
                         ],
 
-                        if (getUberController.page.value > 1) ...[
+                        if (getFeedMeOnlineController.page.value > 1) ...[
                           Text(
-                            '${getUberController.postInfo.value.currentPage} of ${getUberController.postInfo.value.totalPages}',
+                            '${getFeedMeOnlineController.postInfo.value.currentPage} of ${getFeedMeOnlineController.postInfo.value.totalPages}',
                           ),
                         ],
 
-                        if (getUberController.page.value <
-                            getUberController.postInfo.value.totalPages!) ...[
+                        if (getFeedMeOnlineController.page.value <
+                            getFeedMeOnlineController
+                                .postInfo
+                                .value
+                                .totalPages!) ...[
                           InkWell(
                             onTap: () {
-                              if (getUberController.page.value <
-                                  getUberController
+                              if (getFeedMeOnlineController.page.value <
+                                  getFeedMeOnlineController
                                       .postInfo
                                       .value
                                       .totalPages!) {
-                                getUberController.page.value++;
-                                getUberController.getUberOn();
+                                getFeedMeOnlineController.page.value++;
+                                getFeedMeOnlineController.getFeedMeOnlineOff();
                               }
                             },
 
-                            child: getUberController.page.value == 1
+                            child: getFeedMeOnlineController.page.value == 1
                                 ? Padding(
                                     padding: const EdgeInsets.only(left: 16),
                                     child: Container(
@@ -593,7 +571,7 @@ class _UberEatsOnState extends State<UberEatsOn> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              '${getUberController.postInfo.value.currentPage} of ${getUberController.postInfo.value.totalPages}',
+                                              '${getFeedMeOnlineController.postInfo.value.currentPage} of ${getFeedMeOnlineController.postInfo.value.totalPages}',
                                               style: TextStyle(
                                                 color: Colors.white,
                                               ),
@@ -630,7 +608,7 @@ class _UberEatsOnState extends State<UberEatsOn> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            '${getUberController.postInfo.value.currentPage! + 1}',
+                                            '${getFeedMeOnlineController.postInfo.value.currentPage! + 1}',
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),

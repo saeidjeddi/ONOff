@@ -61,19 +61,19 @@ class RestaurantResult {
 
 class RestaurantCompanies {
   final JustEatCompany? justeat;
-  final UberEatsCompany? ubereats;
+  final FeedMeOnlineCompany? feedmeonline;
   final FoodHubCompany? foodhub;
 
   RestaurantCompanies({
     this.justeat,
-    this.ubereats,
+    this.feedmeonline,
     this.foodhub,
   });
 
   factory RestaurantCompanies.fromJson(Map<String, dynamic> json) {
     return RestaurantCompanies(
       justeat: json['justeat'] != null ? JustEatCompany.fromJson(json['justeat']) : null,
-      ubereats: json['ubereats'] != null ? UberEatsCompany.fromJson(json['ubereats']) : null,
+      feedmeonline: json['feedmeonline'] != null ? FeedMeOnlineCompany.fromJson(json['feedmeonline']) : null,
       foodhub: json['foodhub'] != null ? FoodHubCompany.fromJson(json['foodhub']) : null,
     );
   }
@@ -81,7 +81,7 @@ class RestaurantCompanies {
   Map<String, dynamic> toJson() {
     return {
       'justeat': justeat?.toJson(),
-      'ubereats': ubereats?.toJson(),
+      'feedmeonline': feedmeonline?.toJson(),
       'foodhub': foodhub?.toJson(),
     };
   }
@@ -155,19 +155,19 @@ class JustEatData {
   }
 }
 
-class UberEatsCompany {
+class FeedMeOnlineCompany {
   final bool deviceAvailability;
-  final UberEatsData? data;
+  final FeedMeOnlineData? data;
 
-  UberEatsCompany({
+  FeedMeOnlineCompany({
     required this.deviceAvailability,
     this.data,
   });
 
-  factory UberEatsCompany.fromJson(Map<String, dynamic> json) {
-    return UberEatsCompany(
+  factory FeedMeOnlineCompany.fromJson(Map<String, dynamic> json) {
+    return FeedMeOnlineCompany(
       deviceAvailability: json['deviceAvailability'],
-      data: json['data'] != null ? UberEatsData.fromJson(json['data']) : null,
+      data: json['data'] != null ? FeedMeOnlineData.fromJson(json['data']) : null,
     );
   }
 
@@ -179,36 +179,24 @@ class UberEatsCompany {
   }
 }
 
-class UberEatsData {
+class FeedMeOnlineData {
   final String url;
-  final String shopId;
   final String name;
   final bool isOpen;
-  final bool isActive;
-  final bool isDelivery;
-  final bool isPickup;
   final String time;
 
-  UberEatsData({
+  FeedMeOnlineData({
     required this.url,
-    required this.shopId,
     required this.name,
     required this.isOpen,
-    required this.isActive,
-    required this.isDelivery,
-    required this.isPickup,
     required this.time,
   });
 
-  factory UberEatsData.fromJson(Map<String, dynamic> json) {
-    return UberEatsData(
+  factory FeedMeOnlineData.fromJson(Map<String, dynamic> json) {
+    return FeedMeOnlineData(
       url: json['url'],
-      shopId: json['shopId'],
       name: json['name'],
       isOpen: json['isOpen'],
-      isActive: json['isActive'],
-      isDelivery: json['isDelivery'],
-      isPickup: json['isPickup'],
       time: json['time'],
     );
   }
@@ -216,12 +204,8 @@ class UberEatsData {
   Map<String, dynamic> toJson() {
     return {
       'url': url,
-      'shopId': shopId,
       'name': name,
       'isOpen': isOpen,
-      'isActive': isActive,
-      'isDelivery': isDelivery,
-      'isPickup': isPickup,
       'time': time,
     };
   }

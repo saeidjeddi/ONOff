@@ -2,7 +2,7 @@ class CountModel {
 
   final Foodhub foodhub;
   final Justeat justeat;
-  final Ubereats ubereats;
+  final FeedMeOnline feedmeonline;
   final int allCount;
   final int allOn;
   final int allOff;
@@ -10,7 +10,7 @@ class CountModel {
   CountModel({
     required this.foodhub,
     required this.justeat,
-    required this.ubereats,
+    required this.feedmeonline,
     required this.allCount,
     required this.allOn,
     required this.allOff,
@@ -20,7 +20,7 @@ class CountModel {
     return CountModel(
       foodhub: Foodhub.fromJson(json['foodhub']),
       justeat: Justeat.fromJson(json['justeat']),
-      ubereats: Ubereats.fromJson(json['ubereats']),
+      feedmeonline: FeedMeOnline.fromJson(json['feedmeonline']),
       allCount: json['all_count'],
       allOn: json['all_on'],
       allOff: json['all_off'],
@@ -74,21 +74,21 @@ class Justeat {
   }
 }
 
-class Ubereats {
+class FeedMeOnline {
   final int total;
   final int onD;
   final int off;
   final String lastTime;
 
-  Ubereats({
+  FeedMeOnline({
     required this.total,
     required this.onD,
     required this.off,
     required this.lastTime,
   });
 
-  factory Ubereats.fromJson(Map<String, dynamic> json) {
-    return Ubereats(
+  factory FeedMeOnline.fromJson(Map<String, dynamic> json) {
+    return FeedMeOnline(
       total: json['total'],
       onD: json['on'],
       off: json['off'],

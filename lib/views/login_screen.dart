@@ -45,176 +45,178 @@ class UsrLoginScreen extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(8)),
                   color: Colors.white,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: size.height / 14),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Image.asset(ConstImage.logo)],
-                    ),
-                    SizedBox(height: size.height / 10),
-
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16, bottom: 16),
-                      child: Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Colors.deepOrange,
-                          fontSize: 14,
-                        ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: size.height / 14),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [Image.asset(ConstImage.logo)],
                       ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16, bottom: 16),
-                      child: Text(
-                        'Good to see you again!',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Text(
-                        "Please enter your username and password",
-                        style: TextStyle(
-                          color: const Color.fromARGB(255, 141, 137, 127),
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: 16),
-
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16),
-                      child: TextField(
-                        controller: rgisterController.userNameEditingController,
-                        style: TextStyle(color: Colors.black),
-
-                        decoration: inputDecoration.copyWith(
-                          prefixIcon: Icon(Icons.person),
-                          labelText: 'User Name',
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16),
-                      child: TextField(
-                        controller: rgisterController.passwordEditingController,
-                        obscureText: true,
-                        style: TextStyle(color: Colors.black),
-                        decoration: inputDecoration.copyWith(
-                          prefixIcon: Icon(Icons.password),
-                          labelText: 'Password',
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: 32),
-
-                    Center(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepOrange,
-                          foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(
-                            vertical: 14,
-                            horizontal: size.width / 2.8,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                      SizedBox(height: size.height / 10),
+                  
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16, bottom: 16),
+                        child: Text(
+                          'Login',
+                          style: TextStyle(
+                            color: Colors.deepOrange,
+                            fontSize: 14,
                           ),
                         ),
-
-                        onPressed: () async {
-                          if (rgisterController
-                                  .userNameEditingController
-                                  .text
-                                  .isEmpty ||
-                              rgisterController
-                                  .passwordEditingController
-                                  .text
-                                  .isEmpty) {
-                            Get.rawSnackbar(
-                              messageText: const Text(
-                                "Please fill in all fields",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              titleText: const Text(
-                                "Error",
-                                style: TextStyle(
-                                  color: Colors.redAccent,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              backgroundColor: Colors.grey[900]!,
-                              icon: const Icon(
-                                Icons.error_outline,
-                                color: Colors.redAccent,
-                              ),
-                              snackPosition: SnackPosition.BOTTOM,
-                              margin: const EdgeInsets.all(16),
-                              borderRadius: 12,
-                              duration: const Duration(seconds: 3),
-                              animationDuration: const Duration(
-                                milliseconds: 400,
-                              ),
-                            );
-                            return;
-                          }
-
-                          bool success = await rgisterController.register();
-                          if (!success) {
-                            Get.rawSnackbar(
-                              messageText: const Text(
-                                "Login failed. Please try again.",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              titleText: const Text(
-                                "Error",
-                                style: TextStyle(
-                                  color: Colors.redAccent,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              backgroundColor: Colors.grey[900]!,
-                              icon: const Icon(
-                                Icons.error_outline,
-                                color: Colors.redAccent,
-                              ),
-                              snackPosition: SnackPosition.BOTTOM,
-                              margin: const EdgeInsets.all(16),
-                              borderRadius: 12,
-                              duration: const Duration(seconds: 3),
-                              animationDuration: const Duration(
-                                milliseconds: 400,
-                              ),
-                            );
-                            return;
-                          }
-                          if (success) {
-                            Get.offAll(HomeScreen());
-                          }
-                        },
-
-                        child: Text('Log In'),
                       ),
-                    ),
-                  ],
+                  
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16, bottom: 16),
+                        child: Text(
+                          'Good to see you again!',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w900,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                  
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Text(
+                          "Please enter your username and password",
+                          style: TextStyle(
+                            color: const Color.fromARGB(255, 141, 137, 127),
+                          ),
+                        ),
+                      ),
+                  
+                      SizedBox(height: 16),
+                  
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        child: TextField(
+                          controller: rgisterController.userNameEditingController,
+                          style: TextStyle(color: Colors.black),
+                  
+                          decoration: inputDecoration.copyWith(
+                            prefixIcon: Icon(Icons.person),
+                            labelText: 'User Name',
+                          ),
+                        ),
+                      ),
+                  
+                      const SizedBox(height: 16),
+                  
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        child: TextField(
+                          controller: rgisterController.passwordEditingController,
+                          obscureText: true,
+                          style: TextStyle(color: Colors.black),
+                          decoration: inputDecoration.copyWith(
+                            prefixIcon: Icon(Icons.password),
+                            labelText: 'Password',
+                          ),
+                        ),
+                      ),
+                  
+                      SizedBox(height: 32),
+                  
+                      Center(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.deepOrange,
+                            foregroundColor: Colors.white,
+                            padding: EdgeInsets.symmetric(
+                              vertical: 14,
+                              horizontal: size.width / 2.8,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                  
+                          onPressed: () async {
+                            if (rgisterController
+                                    .userNameEditingController
+                                    .text
+                                    .isEmpty ||
+                                rgisterController
+                                    .passwordEditingController
+                                    .text
+                                    .isEmpty) {
+                              Get.rawSnackbar(
+                                messageText: const Text(
+                                  "Please fill in all fields",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                titleText: const Text(
+                                  "Error",
+                                  style: TextStyle(
+                                    color: Colors.redAccent,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                backgroundColor: Colors.grey[900]!,
+                                icon: const Icon(
+                                  Icons.error_outline,
+                                  color: Colors.redAccent,
+                                ),
+                                snackPosition: SnackPosition.BOTTOM,
+                                margin: const EdgeInsets.all(16),
+                                borderRadius: 12,
+                                duration: const Duration(seconds: 3),
+                                animationDuration: const Duration(
+                                  milliseconds: 400,
+                                ),
+                              );
+                              return;
+                            }
+                  
+                            bool success = await rgisterController.register();
+                            if (!success) {
+                              Get.rawSnackbar(
+                                messageText: const Text(
+                                  "Login failed. Please try again.",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                titleText: const Text(
+                                  "Error",
+                                  style: TextStyle(
+                                    color: Colors.redAccent,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                backgroundColor: Colors.grey[900]!,
+                                icon: const Icon(
+                                  Icons.error_outline,
+                                  color: Colors.redAccent,
+                                ),
+                                snackPosition: SnackPosition.BOTTOM,
+                                margin: const EdgeInsets.all(16),
+                                borderRadius: 12,
+                                duration: const Duration(seconds: 3),
+                                animationDuration: const Duration(
+                                  milliseconds: 400,
+                                ),
+                              );
+                              return;
+                            }
+                            if (success) {
+                              Get.offAll(HomeScreen());
+                            }
+                          },
+                  
+                          child: Text('Log In'),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

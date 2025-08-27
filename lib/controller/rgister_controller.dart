@@ -30,34 +30,13 @@ Future<bool> register() async {
     box.write('refresh', response.data['refresh']);
     return true;
   } else if (response.statusCode == 400) {
-
-
-    // -----------------------------------
-// Get.rawSnackbar(
-//   titleText: const Text(
-//     "Error",
-//     style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
-//   ),
-//   messageText: Text(
-//     "phone: ${response.data['username'][0]}\npassword: ${response.data['password'][0]}",
-//     style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-//   ),
-//   backgroundColor: Colors.grey[900]!,
-//   icon: const Icon(Icons.error_outline, color: Colors.redAccent),
-//   snackPosition: SnackPosition.TOP,
-//   margin: const EdgeInsets.all(16),
-//   borderRadius: 12,
-//   duration: const Duration(seconds: 4),
-//   animationDuration: const Duration(milliseconds: 400),
-// );
-
-  // -----------------------------------
-
     loding.value = false;
     return false;
   } else if (response.statusCode == 401) {
     loding.value = false;
     // -----------------------------------
+      Get.closeAllSnackbars();
+
 Get.rawSnackbar(
   titleText: const Text(
     "Error",
@@ -78,12 +57,10 @@ Get.rawSnackbar(
     // -----------------------------------
     loding.value = false;
     return false;
-  } else {
-    loding.value = false;
-    return false;
-  }
+  } 
 
-
+  // Ensure a boolean is always returned if none of the above conditions are met
+  return false;
 }
 
 }

@@ -1,27 +1,27 @@
 import 'package:get/get.dart';
 import 'package:onofflive/components/api_url.dart';
-import 'package:onofflive/model/ubereats_mdel.dart';
+import 'package:onofflive/model/feedmeonline_mdel.dart';
 import 'package:onofflive/services/dio_service.dart';
 
-class UberetsController extends GetxController {
+class FeedMeOnlineController extends GetxController {
   RxBool loding = false.obs;
-  RxList<UbereatsMdel> listUber = RxList();
+  RxList<FeedMeOnlineMdel> listFeedme = RxList();
   Rx<PostInfo> postInfo = PostInfo().obs;
   RxInt page = RxInt(1);
   RxString mealzoId = ''.obs;
 
-  getUberOn() async {
+  getFeedMeOnline() async {
     loding.value = true;
 
-    listUber.clear();
+    listFeedme.clear();
 
     var response = await DioServices().getMethodNotToken(
-      '${ApiUrl.getUbereats}?page=$page&mealzoId=$mealzoId&isopen=1',
+      '${ApiUrl.getFeedMeOnline}?page=$page&mealzoId=$mealzoId&isopen=1',
     );
 
     if (response.statusCode == 200) {
       response.data['results'].forEach((element) {
-        listUber.add(UbereatsMdel.fromJson(element));
+        listFeedme.add(FeedMeOnlineMdel.fromJson(element));
         loding.value = false;
       });
 
@@ -30,19 +30,19 @@ class UberetsController extends GetxController {
     }
   }
 
-  getUberOff() async {
+  getFeedMeOnlineOff() async {
     loding.value = true;
 
     // Clear the existing list before adding new items
-    listUber.clear();
+    listFeedme.clear();
 
     var response = await DioServices().getMethodNotToken(
-      '${ApiUrl.getUbereats}?page=$page&mealzoId=$mealzoId&isopen=0',
+      '${ApiUrl.getFeedMeOnline}?page=$page&mealzoId=$mealzoId&isopen=0',
     );
 
     if (response.statusCode == 200) {
       response.data['results'].forEach((element) {
-        listUber.add(UbereatsMdel.fromJson(element));
+        listFeedme.add(FeedMeOnlineMdel.fromJson(element));
         loding.value = false;
       });
 
@@ -52,5 +52,4 @@ class UberetsController extends GetxController {
   }
 
   // Reset method to clear list and reset page
-
 }

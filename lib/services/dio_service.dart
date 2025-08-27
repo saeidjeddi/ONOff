@@ -51,8 +51,6 @@ Future<dynamic> postMethodFormData(Map<String, dynamic> map, String url) async {
     return response;
   } on DioException catch (e) {
     if (e.response != null) {
-      log("DioError StatusCode: ${e.response?.statusCode}");
-      log("DioError Data: ${e.response?.data}");
       return e.response; 
     } else {
       log("DioError: ${e.message}");

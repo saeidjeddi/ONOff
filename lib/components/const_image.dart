@@ -8,6 +8,7 @@ class ConstImage {
   static const String mealzoJpg = 'assets/images/mealzo.png';
   static const String justeatPng = 'assets/images/justEat.png';
   static const String ubereatsJpg = 'assets/images/uber.jpg';
+  static const String feedmeonlineJpg = 'assets/images/feedmeonline.png';
   static const String loade = 'assets/images/loade.png';
   static const String nextPage = 'assets/images/NextButton.png';
   static const String nextPageB = 'assets/images/NextButtonBig.png';

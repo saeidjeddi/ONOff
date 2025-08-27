@@ -9,7 +9,7 @@ class CountController extends GetxController {
   Rx<CountModel> countInfo = CountModel(
     foodhub: Foodhub(total: 0, onD: 0, off: 0, lastTime: ''),
     justeat: Justeat(total: 0, onD: 0, off: 0, lastTime: ''),
-    ubereats: Ubereats(total: 0, onD: 0, off: 0, lastTime: ''),
+    feedmeonline: FeedMeOnline(total: 0, onD: 0, off: 0, lastTime: ''),
     allCount: 0,
     allOn: 0,
     allOff: 0,
