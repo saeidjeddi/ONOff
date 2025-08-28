@@ -8,5 +8,6 @@ class ApiUrl {
   static const String getFoodhub = 'https://devicetracker.mega-data.co.uk/api/foodhub';
   static const String getFeedMeOnline = 'https://devicetracker.mega-data.co.uk/api/feedmeonline';
   static const String getJusteat = 'https://devicetracker.mega-data.co.uk/api/justeate';
+  static const String getFilterChoice = 'https://devicetracker.mega-data.co.uk/api/filter/choice/';
 
 }

@@ -6,13 +6,8 @@ import 'package:onofflive/controller/count_controller.dart';
 import 'package:onofflive/controller/foodhub_controller.dart';
 import 'package:onofflive/controller/status_controller.dart';
 import 'package:onofflive/controller/userInfo_controller.dart';
-import 'package:onofflive/views/foodhub/foodhub_off.dart';
-import 'package:onofflive/views/foodhub/foodhub_on.dart';
-import 'package:onofflive/views/justeat/justeat_off.dart';
-import 'package:onofflive/views/justeat/justeat_on.dart';
+import 'package:onofflive/views/filter_choice/filter_choice_screen.dart';
 import 'package:onofflive/views/login_screen.dart';
-import 'package:onofflive/views/feedmeonline/feedmeonline_off.dart';
-import 'package:onofflive/views/feedmeonline/feedmeonline_on.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
@@ -36,10 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   SearchType searchType = SearchType.id;
 
-  bool? justeat;       
-  bool? foodhub;
-  bool? feedmeonline;
-  bool filtrerShow = false;
+
 
 
   @override
@@ -586,9 +578,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     
                       InkWell(
                         onTap: () {
-                          setState(() {
-                            filtrerShow = !filtrerShow;
-                          });
+
+                          Get.offAll(() => FilterChoiceScreen());
+                       
                         },
                         
                         child: Icon(Icons.filter_list, color: Colors.black, size: 32)),
@@ -662,97 +654,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               // -------
-              SizedBox(height: size.height / 80),
-
-
-
-
-
-                        if (filtrerShow) ...[
-
-                          Container(
-                            padding: const EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: Column(children: [
-                              
-          CheckboxListTile(
-            title: Text("justeat_on"),
-            value: justeat == true,
-            onChanged: (val) {
-              setState(() {
-                justeat = val == true ? true : null;
-              });
-            },
-          ),
-          CheckboxListTile(
-            title: Text("justeat_off"),
-            value: justeat == false,
-            onChanged: (val) {
-              setState(() {
-                justeat = val == true ? false : null;
-              });
-            },
-          ),
-          Divider(),
-          CheckboxListTile(
-            title: Text("foodhub_on"),
-            value: foodhub == true,
-            onChanged: (val) {
-              setState(() {
-                foodhub = val == true ? true : null;
-              });
-            },
-          ),
-          CheckboxListTile(
-            title: Text("foodhub_off"),
-            value: foodhub == false,
-            onChanged: (val) {
-              setState(() {
-                foodhub = val == true ? false : null;
-              });
-            },
-          ),
-          Divider(),
-          CheckboxListTile(
-            title: Text("feedmeonline_on"),
-            value: feedmeonline == true,
-            onChanged: (val) {
-              setState(() {
-                feedmeonline = val == true ? true : null;
-              });
-            },
-          ),
-          CheckboxListTile(
-            title: Text("feedmeonline_off"),
-            value: feedmeonline == false,
-            onChanged: (val) {
-              setState(() {
-                feedmeonline = val == true ? false : null;
-              });
-            },
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Divider(),
-          ),
-
-
-SizedBox(height: 16),
-
-          ElevatedButton(onPressed: () {}, child: Text("Apply Filters"))
-        ],
-      ),
-    ),
-    // Show filter options
-  ],
-
-
-
-
 
 
               SizedBox(height: size.height / 80),
