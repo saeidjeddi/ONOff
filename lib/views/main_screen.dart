@@ -185,10 +185,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 SizedBox(height: 16),
 
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: SizedBox(width: 300, child: Text('Version : 0.0.2')),
-                ),
               ],
             ),
           ),
@@ -1393,9 +1389,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
+
                   ],
                 ),
               ),
+
+SizedBox(height: size.height *0.1,)
             ],
           ),
         );

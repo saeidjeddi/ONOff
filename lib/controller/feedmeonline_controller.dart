@@ -10,7 +10,7 @@ class FeedMeOnlineController extends GetxController {
   RxInt page = RxInt(1);
   RxString mealzoId = ''.obs;
 
-  getFeedMeOnline() async {
+  getFeedMeOnlineOn() async {
     loding.value = true;
 
     listFeedme.clear();

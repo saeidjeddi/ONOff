@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:onofflive/components/const_image.dart';
+import 'package:onofflive/controller/count_controller.dart';
 import 'package:onofflive/controller/filter_choice_controller.dart';
 import 'package:onofflive/controller/userInfo_controller.dart';
+import 'package:onofflive/views/feedmeonline/feedmeonline_off.dart';
+import 'package:onofflive/views/feedmeonline/feedmeonline_on.dart';
+import 'package:onofflive/views/foodhub/foodhub_off.dart';
+import 'package:onofflive/views/foodhub/foodhub_on.dart';
+import 'package:onofflive/views/justeat/justeat_off.dart';
+import 'package:onofflive/views/justeat/justeat_on.dart';
 import 'package:onofflive/views/login_screen.dart';
 import 'package:onofflive/views/main_screen.dart';
 
@@ -19,6 +26,8 @@ class FilterChoiceScreen extends StatefulWidget {
 enum SearchType { id, name }
 
 class _FilterChoiceScreenState extends State<FilterChoiceScreen> {
+  final CountController countController = Get.put(CountController());
+
   UserInfoController userInfoController = Get.put(UserInfoController());
   final TextEditingController searchController = TextEditingController();
   FilterChoiceController filterChoiceController = Get.put(
@@ -37,6 +46,7 @@ class _FilterChoiceScreenState extends State<FilterChoiceScreen> {
   @override
   void initState() {
     super.initState();
+    countController.getCount();
     userInfoController.getUserInfo();
     filterChoiceController.getStatusFilter();
   }
@@ -189,10 +199,6 @@ class _FilterChoiceScreenState extends State<FilterChoiceScreen> {
 
                 SizedBox(height: 16),
 
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: SizedBox(width: 300, child: Text('Version : 0.0.2')),
-                ),
               ],
             ),
           ),
@@ -208,6 +214,138 @@ class _FilterChoiceScreenState extends State<FilterChoiceScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
+
+              
+              Container(
+                width: double.infinity,
+                height: size.height * .22,
+
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+
+                child: Column(
+                  children: [
+                    SizedBox(height: size.height / 60),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                  image: DecorationImage(
+                                    image: AssetImage(ConstImage.justeatPng),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 16),
+                              Text('last update'),
+                            ],
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                          child: Text(
+                            countController.countInfo.value.justeat.lastTime,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                  image: DecorationImage(
+                                    image: AssetImage(ConstImage.foodhubPng),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 16),
+                              Text('last update'),
+                            ],
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                          child: Text(
+                            countController.countInfo.value.foodhub.lastTime,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                      ConstImage.feedmeonlineJpg,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 16),
+                              Text('last update'),
+                            ],
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                          child: Text(
+                            countController.countInfo.value.feedmeonline.lastTime,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                  ],
+                ),
+              ),
               SizedBox(height: size.height / 40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -229,9 +367,378 @@ class _FilterChoiceScreenState extends State<FilterChoiceScreen> {
                             size: 32,
                           ),
                         ),
+
+
+
                       ],
                     ),
                   ),
+
+
+                 Padding(
+                   padding: const EdgeInsets.only(right: 16),
+                   child: InkWell(
+                     onTap: () {
+
+
+
+
+
+
+
+
+                          Get.bottomSheet(
+                            Container(
+                              width: double.infinity,
+                              height: size.height / 3,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(16),
+                                  topRight: Radius.circular(16),
+                                ),
+                              ),
+                              child: ListView(
+                                children: [
+                                  SizedBox(height: 6),
+
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(children: [Icon(Icons.tune)]),
+                                  ),
+                                  ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              ConstImage.foodhubPng,
+                                              width: 30,
+                                              height: 30,
+                                            ),
+                                            SizedBox(width: 16),
+                                            Text("FoodHub"),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    children: [
+                                      ListTile(
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                
+                                                Get.offAll(() => FoodhubOn());
+                                              },
+                                              child: Container(
+                                                width: 40,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.greenAccent,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(16),
+                                                      ),
+                                                ),
+
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "On",
+                                                      style: TextStyle(
+                                                        color: Colors.green,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+
+                                            SizedBox(width: 16),
+
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.offAll(() => FoodhubOff());
+                                              },
+                                              child: Container(
+                                                width: 40,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.redAccent[100],
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(16),
+                                                      ),
+                                                ),
+
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "off",
+                                                      style: TextStyle(
+                                                        color: Colors.red[900],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(5),
+                                                ),
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                    ConstImage.feedmeonlineJpg,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+
+                                            SizedBox(width: 16),
+
+                                            Text("feedmeonline"),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    children: [
+                                      ListTile(
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.offAll(() => FeedMeOnlineOn());
+                                              },
+                                              child: Container(
+                                                width: 40,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.greenAccent,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(16),
+                                                      ),
+                                                ),
+
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "on",
+                                                      style: TextStyle(
+                                                        color: Colors.green,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+
+                                            SizedBox(width: 16),
+
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.offAll(() => FeedMeOnlineOff());
+                                              },
+                                              child: Container(
+                                                width: 40,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.redAccent[100],
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(16),
+                                                      ),
+                                                ),
+
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "off",
+                                                      style: TextStyle(
+                                                        color: Colors.red[900],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                  ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(5),
+                                                ),
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                    ConstImage.justeatPng,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+
+                                            SizedBox(width: 16),
+
+                                            Text("Just Eats"),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    children: [
+                                      ListTile(
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.offAll(() => JustEatOn());
+                                              },
+                                              child: Container(
+                                                width: 40,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.greenAccent,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(16),
+                                                      ),
+                                                ),
+
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "on",
+                                                      style: TextStyle(
+                                                        color: Colors.green,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+
+                                            SizedBox(width: 16),
+
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.offAll(()=> JustEatOff());
+                                              },
+                                              child: Container(
+                                                width: 40,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.redAccent[100],
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(16),
+                                                      ),
+                                                ),
+
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "off",
+                                                      style: TextStyle(
+                                                        color: Colors.red[900],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+
+
+
+
+                      
+                    
+                     },
+                     child: Icon(Icons.filter_alt_rounded, color: Colors.black, size: 32),
+                   ),
+                 ),
+
                 ],
               ),
 
@@ -485,7 +992,7 @@ class _FilterChoiceScreenState extends State<FilterChoiceScreen> {
                         width: double.infinity,
                         height: size.height * .04,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
                           color: Colors.deepOrange,
                         ),
 
@@ -493,7 +1000,7 @@ class _FilterChoiceScreenState extends State<FilterChoiceScreen> {
                           child: Text(
                             'page: ${filterChoiceController.postInfo.value.currentPage} Of ${filterChoiceController.postInfo.value.totalPages} >',
                             style: TextStyle(
-                              color: const Color.fromARGB(255, 214, 211, 211),
+                              color: Colors.white,
                             ),
                           ),
                         ),

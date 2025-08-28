@@ -7,6 +7,7 @@ import 'package:onofflive/components/widgets.dart';
 import 'package:onofflive/controller/count_controller.dart';
 import 'package:onofflive/controller/foodhub_controller.dart';
 import 'package:onofflive/controller/userInfo_controller.dart';
+import 'package:onofflive/views/filter_choice/filter_choice_screen.dart' show FilterChoiceScreen;
 import 'package:onofflive/views/login_screen.dart';
 import 'package:onofflive/views/main_screen.dart';
 
@@ -63,7 +64,7 @@ class _FoodhubOffState extends State<FoodhubOff> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                onPressed: () => Get.offAll(() => HomeScreen()),
+                onPressed: () => Get.offAll(() => FilterChoiceScreen()),
                 icon: Icon(Icons.arrow_back),
               ),
               Image.asset(ConstImage.baner, height: 48, width: 48),
@@ -194,10 +195,6 @@ class _FoodhubOffState extends State<FoodhubOff> {
 
                 SizedBox(height: 16),
 
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: SizedBox(width: 300, child: Text('Version : 0.1.1')),
-                ),
               ],
             ),
           ),
@@ -335,47 +332,34 @@ class _FoodhubOffState extends State<FoodhubOff> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-color: const Color.fromARGB(255, 250, 132, 54),
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                              ),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 8,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  "Mealzo Id",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  item.mealzo.toString(),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
 
-                          // محتوا
+
                           Padding(
                             padding: const EdgeInsets.all(12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  item.name ?? "",
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(
+                                      width: size.width * .4,
+                                      child: Text(
+                                        item.name ?? "",
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    ),
+
+
+               Text("Id : ${item.mealzo}" , style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),)                                  ],
                                 ),
                                 const SizedBox(height: 4),
                                 InkWell(
@@ -395,7 +379,7 @@ color: const Color.fromARGB(255, 250, 132, 54),
                                       ),
                                       SizedBox(width: 4),
                                       Text(
-                                        "View on website",
+                                        "View website",
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: Colors.blue,
@@ -410,7 +394,7 @@ color: const Color.fromARGB(255, 250, 132, 54),
                                   children: [
                                     const Icon(Icons.inventory_2, size: 12),
                                     const SizedBox(width: 4),
-                                    Text('collection : '),
+                                    Text('Collection : '),
                                     SizedBox(width: 8),
                                     Text(
                                       item.collection == true
@@ -425,7 +409,7 @@ color: const Color.fromARGB(255, 250, 132, 54),
                                     const Icon(Icons.delivery_dining, size: 12),
                                     const SizedBox(width: 4),
 
-                                    Text('delivery : '),
+                                    Text('Delivery : '),
                                     SizedBox(width: 8),
                                     Text(
                                       item.delivery == true ? 'Open' : 'Close',
@@ -443,7 +427,7 @@ color: const Color.fromARGB(255, 250, 132, 54),
                                           : Colors.red,
                                     ),
                                     const SizedBox(width: 4),
-                                    Text('isOpen : '),
+                                    Text('Status : '),
                                     SizedBox(width: 8),
                                     Text(
                                       item.isOpen == true ? "Open" : "Closed",
@@ -452,19 +436,19 @@ color: const Color.fromARGB(255, 250, 132, 54),
                                 ),
                                 const SizedBox(height: 8),
 
-                                Text(
-                                  item.time != null
-                                      ? DateFormat(
-                                          "dd,MMM/yyyy - HH:mm",
-                                        ).format(
-                                          DateTime.parse(item.time!).toLocal(),
-                                        )
-                                      : "",
-                                  style: const TextStyle(
-                                    fontSize: 10,
-                                    color: Colors.grey,
-                                  ),
-                                ),
+                                // Text(
+                                //   item.time != null
+                                //       ? DateFormat(
+                                //           "dd,MMM/yyyy - HH:mm",
+                                //         ).format(
+                                //           DateTime.parse(item.time!).toLocal(),
+                                //         )
+                                //       : "",
+                                //   style: const TextStyle(
+                                //     fontSize: 14,
+                                //     color: Colors.grey,
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
@@ -489,7 +473,7 @@ color: const Color.fromARGB(255, 250, 132, 54),
                         width: double.infinity,
                         height: size.height * .04,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
                           color: Colors.deepOrange,
                         ),
 
@@ -497,7 +481,7 @@ color: const Color.fromARGB(255, 250, 132, 54),
                           child: Text(
                             'page: ${getfoodhubController.postInfo.value.currentPage} Of ${getfoodhubController.postInfo.value.totalPages} >',
                             style: TextStyle(
-                              color: const Color.fromARGB(255, 214, 211, 211),
+                              color: Colors.white,
                             ),
                           ),
                         ),
@@ -663,4 +647,3 @@ color: const Color.fromARGB(255, 250, 132, 54),
   }
 }
 
-class $ {}
