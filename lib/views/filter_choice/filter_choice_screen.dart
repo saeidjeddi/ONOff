@@ -42,6 +42,7 @@ class _FilterChoiceScreenState extends State<FilterChoiceScreen> {
   bool? foodhub;
   bool? feedmeonline;
   bool filtrerShow = true;
+  bool resultFilterShow = false;
 
   @override
   void initState() {
@@ -578,6 +579,7 @@ class _FilterChoiceScreenState extends State<FilterChoiceScreen> {
 
                                             SizedBox(width: 16),
 
+
                                             GestureDetector(
                                               onTap: () {
                                                 Get.offAll(() => FeedMeOnlineOff());
@@ -742,6 +744,24 @@ class _FilterChoiceScreenState extends State<FilterChoiceScreen> {
                 ],
               ),
 
+
+
+if (resultFilterShow) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Result Filter :  ${filterChoiceController.postInfo.value.count}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                ],
+              ),
+] else ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Total Shop :  ${filterChoiceController.postInfo.value.count}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                ],
+              ),
+
+],
              Padding(
                 padding: const EdgeInsets.all(16),
                 child: Row(
@@ -774,6 +794,7 @@ class _FilterChoiceScreenState extends State<FilterChoiceScreen> {
                           filterChoiceController.page.value = 1;
                           filterChoiceController.mealzoId.value =
                               searchController.text;
+                          resultFilterShow = true;
                           filterChoiceController.getStatusFilter();
                         },
                         style: ElevatedButton.styleFrom(
@@ -879,6 +900,7 @@ class _FilterChoiceScreenState extends State<FilterChoiceScreen> {
                               feedmeonline;
                           filterChoiceController.getStatusFilter();
                           filtrerShow = false;
+                          resultFilterShow = true;
 
                         },
                         child: Text("Apply Filters"),
