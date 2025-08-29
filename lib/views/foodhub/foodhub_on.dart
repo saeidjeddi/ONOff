@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:intl/intl.dart';
 import 'package:onofflive/components/const_image.dart';
 import 'package:onofflive/components/widgets.dart';
 import 'package:onofflive/controller/count_controller.dart';

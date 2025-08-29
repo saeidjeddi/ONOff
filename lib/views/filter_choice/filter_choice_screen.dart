@@ -828,7 +828,17 @@ if (resultFilterShow) ...[
                   child: Column(
                     children: [
                       CheckboxListTile(
-                        title: Text("justeat_on"),
+                        title: Row(
+                          children: [
+                            Image.asset(
+                              ConstImage.justeatPng,
+                              width: 24,
+                              height: 24,
+                            ),
+                            SizedBox(width: 8),
+                            Text("Open", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),),
+                          ],
+                        ),
                         value: justeat == true,
                         onChanged: (val) {
                           setState(() {
@@ -837,7 +847,17 @@ if (resultFilterShow) ...[
                         },
                       ),
                       CheckboxListTile(
-                        title: Text("justeat_off"),
+                        title: Row(
+                          children: [
+                             Image.asset(
+                              ConstImage.justeatPng,
+                              width: 24,
+                              height: 24,
+                            ),
+                            SizedBox(width: 8),
+                            Text("Clone", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),),
+                          ],
+                        ),
                         value: justeat == false,
                         onChanged: (val) {
                           setState(() {
@@ -847,7 +867,17 @@ if (resultFilterShow) ...[
                       ),
                       Divider(),
                       CheckboxListTile(
-                        title: Text("foodhub_on"),
+                        title: Row(
+                          children: [
+                             Image.asset(
+                              ConstImage.foodhubPng,
+                              width: 24,
+                              height: 24,
+                            ),
+                            SizedBox(width: 8),
+                            Text("Open", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),),
+                          ],
+                        ),
                         value: foodhub == true,
                         onChanged: (val) {
                           setState(() {
@@ -856,7 +886,17 @@ if (resultFilterShow) ...[
                         },
                       ),
                       CheckboxListTile(
-                        title: Text("foodhub_off"),
+                        title: Row(
+                          children: [
+                             Image.asset(
+                              ConstImage.foodhubPng,
+                              width: 24,
+                              height: 24,
+                            ),
+                            SizedBox(width: 8),
+                            Text("Clone", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),),
+                          ],
+                        ),
                         value: foodhub == false,
                         onChanged: (val) {
                           setState(() {
@@ -866,7 +906,17 @@ if (resultFilterShow) ...[
                       ),
                       Divider(),
                       CheckboxListTile(
-                        title: Text("feedmeonline_on"),
+                        title: Row(
+                          children: [
+                            Image.asset(
+                              ConstImage.feedmeonlineJpg,
+                              width: 24,
+                              height: 24,
+                            ),
+                            SizedBox(width: 8),
+                            Text("Open", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),),
+                          ],
+                        ),
                         value: feedmeonline == true,
                         onChanged: (val) {
                           setState(() {
@@ -875,7 +925,17 @@ if (resultFilterShow) ...[
                         },
                       ),
                       CheckboxListTile(
-                        title: Text("feedmeonline_off"),
+                        title: Row(
+                          children: [
+                           Image.asset(
+                              ConstImage.feedmeonlineJpg,
+                              width: 24,
+                              height: 24,
+                            ),
+                            SizedBox(width: 8),
+                            Text("Clone", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),),
+                          ],
+                        ),
                         value: feedmeonline == false,
                         onChanged: (val) {
                           setState(() {
