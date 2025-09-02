@@ -6,6 +6,7 @@ class ConstImage {
   static const String desktopoff = 'assets/icons/Desktopoff.png';
   static const String foodhubPng = 'assets/images/foodhub.png';
   static const String mealzoJpg = 'assets/images/mealzo.png';
+  static const String mealzo = 'assets/images/mealzo.jpg';
   static const String justeatPng = 'assets/images/justEat.png';
   static const String ubereatsJpg = 'assets/images/uber.jpg';
   static const String feedmeonlineJpg = 'assets/images/feedmeonline.png';

@@ -7,6 +7,7 @@ class CountController extends GetxController {
   RxBool loading = false.obs;
 
   Rx<CountModel> countInfo = CountModel(
+    mealzo: Mealzo(total: 0, onD: 0, off: 0, lastTime: ''),
     foodhub: Foodhub(total: 0, onD: 0, off: 0, lastTime: ''),
     justeat: Justeat(total: 0, onD: 0, off: 0, lastTime: ''),
     feedmeonline: FeedMeOnline(total: 0, onD: 0, off: 0, lastTime: ''),

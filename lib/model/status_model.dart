@@ -60,11 +60,13 @@ class RestaurantResult {
 }
 
 class RestaurantCompanies {
+  final MealzoCompany? mealzo;
   final JustEatCompany? justeat;
   final FeedMeOnlineCompany? feedmeonline;
   final FoodHubCompany? foodhub;
 
   RestaurantCompanies({
+    this.mealzo,
     this.justeat,
     this.feedmeonline,
     this.foodhub,
@@ -72,6 +74,7 @@ class RestaurantCompanies {
 
   factory RestaurantCompanies.fromJson(Map<String, dynamic> json) {
     return RestaurantCompanies(
+      mealzo: json['mealzo'] != null ? MealzoCompany.fromJson(json['mealzo']) : null,
       justeat: json['justeat'] != null ? JustEatCompany.fromJson(json['justeat']) : null,
       feedmeonline: json['feedmeonline'] != null ? FeedMeOnlineCompany.fromJson(json['feedmeonline']) : null,
       foodhub: json['foodhub'] != null ? FoodHubCompany.fromJson(json['foodhub']) : null,
@@ -80,12 +83,86 @@ class RestaurantCompanies {
 
   Map<String, dynamic> toJson() {
     return {
+      'mealzo': mealzo?.toJson(),
       'justeat': justeat?.toJson(),
       'feedmeonline': feedmeonline?.toJson(),
       'foodhub': foodhub?.toJson(),
     };
   }
 }
+
+class MealzoCompany {
+  final bool deviceAvailability;
+  final MealzoData? data;
+
+  MealzoCompany({
+    required this.deviceAvailability,
+    this.data,
+  });
+
+  factory MealzoCompany.fromJson(Map<String, dynamic> json) {
+    return MealzoCompany(
+      deviceAvailability: json['deviceAvailability'],
+      data: json['data'] != null ? MealzoData.fromJson(json['data']) : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'deviceAvailability': deviceAvailability,
+      'data': data?.toJson(),
+    };
+  }
+}
+
+class MealzoData {
+  final int mealzoId;
+  final String mealzoName;
+  final String mealzoPostcode;
+  final String url;
+  final bool isOpen;
+  final String time;
+
+  MealzoData({
+    required this.mealzoId,
+    required this.mealzoName,
+    required this.mealzoPostcode,
+    required this.url,
+    required this.isOpen,
+    required this.time,
+  });
+
+  factory MealzoData.fromJson(Map<String, dynamic> json) {
+    return MealzoData(
+      mealzoId: json['mealzoId'],
+      mealzoName: json['mealzoName'],
+      mealzoPostcode: json['mealzoPostcode'],
+      url: json['url'],
+      isOpen: json['isOpen'],
+      time: json['time'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'mealzoId': mealzoId,
+      'mealzoName': mealzoName,
+      'mealzoPostcode': mealzoPostcode,
+      'url': url,
+      'isOpen': isOpen,
+      'time': time,
+    };
+  }
+}
+
+
+
+
+// --------------------
+
+
+
+
 
 class JustEatCompany {
   final bool deviceAvailability;
@@ -154,6 +231,8 @@ class JustEatData {
     };
   }
 }
+
+// ----------------------
 
 class FeedMeOnlineCompany {
   final bool deviceAvailability;

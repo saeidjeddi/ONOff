@@ -8,6 +8,7 @@ class FilterChoiceController extends GetxController {
   RxList<FilterChoiceModel> listFilter = RxList();
   Rx<PostInfo> postInfo = PostInfo().obs;
   RxInt page = RxInt(1);
+  RxnBool mealzo = RxnBool();
   RxnBool justeat = RxnBool();
   RxnBool foodhub = RxnBool();
   RxnBool feedmeonline = RxnBool();
@@ -19,7 +20,7 @@ class FilterChoiceController extends GetxController {
     listFilter.clear();
 
     var response = await DioServices().getMethodNotToken(
-      '${ApiUrl.getFilterChoice}?page=$page&foodhub=$foodhub&justeat=$justeat&feedmeonline=$feedmeonline&mealzoId=$mealzoId',
+      '${ApiUrl.getFilterChoice}?page=$page&mealzo=$mealzo&foodhub=$foodhub&justeat=$justeat&feedmeonline=$feedmeonline&mealzoId=$mealzoId',
     );
 
     if (response.statusCode == 200) {

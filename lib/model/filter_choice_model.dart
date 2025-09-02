@@ -2,6 +2,10 @@ class FilterChoiceModel {
   int? mealzoId;
   String? mealzoName;
   String? mealzoPostcode;
+  String? url;
+  bool? isOpen;
+  String? time;
+
 
   FilterChoiceModel();
 
@@ -9,6 +13,9 @@ class FilterChoiceModel {
     mealzoId = element['mealzoId'];
     mealzoName = element['mealzoName'];
     mealzoPostcode = element['mealzoPostcode'];
+    url = element['url'];
+    isOpen = element['isOpen'];
+    time = element['time'];
   }
 }
 

@@ -38,6 +38,7 @@ class _FilterChoiceScreenState extends State<FilterChoiceScreen> {
 
   SearchType searchType = SearchType.id;
 
+  bool? mealzo;
   bool? justeat;
   bool? foodhub;
   bool? feedmeonline;
@@ -220,7 +221,6 @@ class _FilterChoiceScreenState extends State<FilterChoiceScreen> {
               
               Container(
                 width: double.infinity,
-                height: size.height * .22,
 
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -240,6 +240,39 @@ class _FilterChoiceScreenState extends State<FilterChoiceScreen> {
                   children: [
                     SizedBox(height: size.height / 60),
 
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                  image: DecorationImage(
+                                    image: AssetImage(ConstImage.mealzo),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 16),
+                              Text('last update'),
+                            ],
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                          child: Text(
+                            countController.countInfo.value.mealzo.lastTime,
+                          ),
+                        ),
+                      ],
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -827,6 +860,53 @@ if (resultFilterShow) ...[
                   ),
                   child: Column(
                     children: [
+                      Text('Mealzo'),
+                      CheckboxListTile(
+                        title: Row(
+                          children: [
+                            Image.asset(
+                              ConstImage.mealzo,
+                              width: 24,
+                              height: 24,
+                            ),
+                            SizedBox(width: 8),
+                            Text("Open", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),),
+                          ],
+                        ),
+                        value: mealzo == true,
+                        onChanged: (val) {
+                          setState(() {
+                            mealzo = val == true ? true : null;
+                          });
+                        },
+                      ),
+                      CheckboxListTile(
+                        title: Row(
+                          children: [
+                            Image.asset(
+                              ConstImage.mealzo,
+                              width: 24,
+                              height: 24,
+                            ),
+                            SizedBox(width: 8),
+                            Text("Closed", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),),
+                          ],
+                        ),
+                        value: mealzo == false,
+                        onChanged: (val) {
+                          setState(() {
+                            mealzo = val == true ? false : null;
+                          });
+                        },
+                      ),
+                      
+
+
+                      Divider(),
+
+
+
+                      Text('Just Eat'),
                       CheckboxListTile(
                         title: Row(
                           children: [
@@ -855,7 +935,7 @@ if (resultFilterShow) ...[
                               height: 24,
                             ),
                             SizedBox(width: 8),
-                            Text("Clone", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),),
+                            Text("Closed", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),),
                           ],
                         ),
                         value: justeat == false,
@@ -866,6 +946,7 @@ if (resultFilterShow) ...[
                         },
                       ),
                       Divider(),
+                      Text('FoodHub'),
                       CheckboxListTile(
                         title: Row(
                           children: [
@@ -894,7 +975,7 @@ if (resultFilterShow) ...[
                               height: 24,
                             ),
                             SizedBox(width: 8),
-                            Text("Clone", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),),
+                            Text("Closed", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),),
                           ],
                         ),
                         value: foodhub == false,
@@ -905,6 +986,7 @@ if (resultFilterShow) ...[
                         },
                       ),
                       Divider(),
+                      Text('Feed Me Online'),
                       CheckboxListTile(
                         title: Row(
                           children: [
@@ -933,7 +1015,7 @@ if (resultFilterShow) ...[
                               height: 24,
                             ),
                             SizedBox(width: 8),
-                            Text("Clone", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),),
+                            Text("Closed", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),),
                           ],
                         ),
                         value: feedmeonline == false,
@@ -954,6 +1036,7 @@ if (resultFilterShow) ...[
                       ElevatedButton(
                         onPressed: () {
                           filterChoiceController.page.value = 1;
+                          filterChoiceController.mealzo.value = mealzo;
                           filterChoiceController.justeat.value = justeat;
                           filterChoiceController.foodhub.value = foodhub;
                           filterChoiceController.feedmeonline.value =
@@ -1040,6 +1123,8 @@ if (resultFilterShow) ...[
                                 ),
                                Text('Mealzo Id: ${filterChoiceController.listFilter[index].mealzoId}'),
                                Text('Mealzo Postcode: ${filterChoiceController.listFilter[index].mealzoPostcode}'),
+                               Text('Status: ${filterChoiceController.listFilter[index].isOpen == true ? "Open" : "Closed"}'),
+                               
 
                               ],
                             ),

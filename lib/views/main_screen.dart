@@ -217,7 +217,82 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {
                           Get.defaultDialog(
                             title: 'Mealzo',
-                            content: Text('No Data'),
+                            content: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 16,
+                                    right: 16,
+                                  ),
+                                  child: Divider(
+                                    color: Colors.grey.shade300,
+                                    thickness: 1,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        countController
+                                            .countInfo
+                                            .value
+                                            .mealzo
+                                            .total
+                                            .toString(),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Container(
+                                        width: size.width / 5,
+                                        height: size.height / 40,
+
+                                        decoration: BoxDecoration(
+                                          color: Colors.red[200],
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8),
+                                          ),
+                                        ),
+
+                                        child: Center(
+                                          child: Text(
+                                            '● Off(${countController.countInfo.value.mealzo.off.toString()})',
+                                            style: TextStyle(
+                                              color: Colors.red[900],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        width: size.width / 5,
+                                        height: size.height / 40,
+
+                                        decoration: BoxDecoration(
+                                          color: Colors.green[200],
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8),
+                                          ),
+                                        ),
+
+                                        child: Center(
+                                          child: Text(
+                                            '● On(${countController.countInfo.value.mealzo.onD.toString()})',
+                                            style: TextStyle(
+                                              color: Colors.green[900],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                SizedBox(height: 8),
+                              ],
+                            ),
                           );
                         },
                         child: Container(
@@ -233,6 +308,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
+
 
                       GestureDetector(
                         onTap: () {
@@ -663,7 +739,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ] else ...[
                   SizedBox(
-                    height: size.height * 0.35,
+                    height: size.height * 0.45,
 
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
@@ -752,6 +828,130 @@ class _HomeScreenState extends State<HomeScreen> {
                                           children: [
                                             // Text('Mealzo'),
                                             // SizedBox(height: size.height / 60),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  width: 35,
+                                                  height: 35,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                          Radius.circular(32),
+                                                        ),
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                        ConstImage.mealzoJpg,
+                                                      ),
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 8),
+                                                SizedBox(
+                                                  width: 100,
+                                                  child: Row(
+                                                    children: [
+                                                      if (statusController
+                                                              .restaurantResults[index]
+                                                              .companies
+                                                              .mealzo
+                                                              ?.deviceAvailability ==
+                                                          true) ...[
+                                                        Container(
+                                                          width: 40,
+                                                          height: 20,
+
+                                                          decoration: BoxDecoration(
+                                                            color:
+                                                                statusController
+                                                                        .restaurantResults[index]
+                                                                        .companies
+                                                                        .mealzo!
+                                                                        .data
+                                                                        ?.isOpen ==
+                                                                    false
+                                                                ? Colors
+                                                                      .red[100]
+                                                                : Colors
+                                                                      .green[100],
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                  Radius.circular(
+                                                                    8,
+                                                                  ),
+                                                                ),
+                                                          ),
+
+                                                          child: Center(
+                                                            child: Text(
+                                                              statusController
+                                                                          .restaurantResults[index]
+                                                                          .companies
+                                                                          .mealzo!
+                                                                          .data
+                                                                          ?.isOpen ==
+                                                                      false
+                                                                  ? '● off'
+                                                                  : '● On',
+                                                              style: TextStyle(
+                                                                color:
+                                                                    statusController
+                                                                            .restaurantResults[index]
+                                                                            .companies
+                                                                            .mealzo!
+                                                                            .data
+                                                                            ?.isOpen ==
+                                                                        false
+                                                                    ? Colors
+                                                                          .red[900]
+                                                                    : Colors
+                                                                          .green[900],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ] else ...[
+                                                        Container(
+                                                          width: 85,
+                                                          height: 20,
+
+                                                          decoration: BoxDecoration(
+                                                            color: Colors
+                                                                .grey[100],
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                  Radius.circular(
+                                                                    8,
+                                                                  ),
+                                                                ),
+                                                          ),
+
+                                                          child: Center(
+                                                            child: Text(
+                                                              '● No Device',
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .grey[700],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+
+
+
+
+
+
+
+                                            SizedBox(height: size.height / 60),
+
+
                                             Row(
                                               children: [
                                                 Container(
@@ -866,6 +1066,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                               ],
                                             ),
+
+
+                                            
                                             SizedBox(height: size.height / 60),
 
                                             Row(
@@ -1266,7 +1469,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
               Container(
                 width: double.infinity,
-                height: size.height * .22,
 
                 decoration: BoxDecoration(
                   color: Colors.grey[100],
@@ -1284,7 +1486,39 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 child: Column(
                   children: [
-                    SizedBox(height: size.height / 60),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                  image: DecorationImage(
+                                    image: AssetImage(ConstImage.mealzo),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 16),
+                              Text('last update'),
+                            ],
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                          child: Text(
+                            countController.countInfo.value.mealzo.lastTime,
+                          ),
+                        ),
+                      ],
+                    ),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

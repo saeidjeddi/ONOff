@@ -1,13 +1,16 @@
 class CountModel {
 
+  final Mealzo mealzo;
   final Foodhub foodhub;
   final Justeat justeat;
   final FeedMeOnline feedmeonline;
+
   final int allCount;
   final int allOn;
   final int allOff;
 
   CountModel({
+    required this.mealzo,
     required this.foodhub,
     required this.justeat,
     required this.feedmeonline,
@@ -18,12 +21,41 @@ class CountModel {
 
   factory CountModel.fromJson(Map<String, dynamic> json) {
     return CountModel(
+      mealzo: Mealzo.fromJson(json['mealzo']),
       foodhub: Foodhub.fromJson(json['foodhub']),
       justeat: Justeat.fromJson(json['justeat']),
       feedmeonline: FeedMeOnline.fromJson(json['feedmeonline']),
       allCount: json['all_count'],
       allOn: json['all_on'],
       allOff: json['all_off'],
+    );
+  }
+}
+
+
+
+
+
+
+class Mealzo {
+  final int total;
+  final int onD;
+  final int off;
+  final String lastTime;
+
+  Mealzo({
+    required this.total,
+    required this.onD,
+    required this.off,
+    required this.lastTime,
+  });
+
+  factory Mealzo.fromJson(Map<String, dynamic> json) {
+    return Mealzo(
+      total: json['total'],
+      onD: json['on'],
+      off: json['off'],
+      lastTime: json['last_time'],
     );
   }
 }
