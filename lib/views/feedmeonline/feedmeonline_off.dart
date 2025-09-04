@@ -6,9 +6,9 @@ import 'package:onofflive/components/widgets.dart';
 import 'package:onofflive/controller/count_controller.dart';
 import 'package:onofflive/controller/feedmeonline_controller.dart';
 import 'package:onofflive/controller/userInfo_controller.dart';
-import 'package:onofflive/views/filter_choice/filter_choice_screen.dart' show FilterChoiceScreen;
+import 'package:onofflive/views/filter_choice/filter_choice_screen.dart'
+    show FilterChoiceScreen;
 import 'package:onofflive/views/login_screen.dart';
-import 'package:onofflive/views/main_screen.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
@@ -18,6 +18,8 @@ class FeedMeOnlineOff extends StatefulWidget {
   @override
   State<FeedMeOnlineOff> createState() => _FeedMeOnlineOffState();
 }
+
+enum SearchType { id, name }
 
 class _FeedMeOnlineOffState extends State<FeedMeOnlineOff> {
   final UserInfoController userInfoController = Get.put(UserInfoController());
@@ -194,7 +196,6 @@ class _FeedMeOnlineOffState extends State<FeedMeOnlineOff> {
                 ),
 
                 SizedBox(height: 16),
-
               ],
             ),
           ),
@@ -209,16 +210,56 @@ class _FeedMeOnlineOffState extends State<FeedMeOnlineOff> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: Row(
+                  children: [
+                    Radio<SearchType>(
+                      value: SearchType.id,
+                      groupValue: searchType,
+                      activeColor: const Color.fromARGB(255, 255, 107, 1),
+                      onChanged: (value) {
+                        setState(() {
+                          searchType = value!;
+                        });
+                      },
+                    ),
+                    const Text('by Id'),
+                    Radio<SearchType>(
+                      value: SearchType.name,
+                      groupValue: searchType,
+                      activeColor: const Color.fromARGB(255, 255, 107, 1),
+                      onChanged: (value) {
+                        setState(() {
+                          searchType = value!;
+                        });
+                      },
+                    ),
+                    const Text('by Shop Name'),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
                 child: Row(
                   children: [
                     Expanded(
                       child: TextField(
                         controller: searchController,
                         onSubmitted: (value) {
-                          getFeedMeOnlineController.page.value = 1;
-                          getFeedMeOnlineController.mealzoId.value = value;
-                          getFeedMeOnlineController.getFeedMeOnlineOff();
+                          if (searchType == SearchType.id) {
+                            getFeedMeOnlineController.page.value = 1;
+                            getFeedMeOnlineController.mealzoName.value = "";
+                            getFeedMeOnlineController.mealzoId.value =
+                                searchController.text;
+                            getFeedMeOnlineController.getFeedMeOnlineOff();
+                          } else {
+                            getFeedMeOnlineController.page.value = 1;
+                            getFeedMeOnlineController.mealzoId.value = "";
+                            getFeedMeOnlineController.mealzoName.value =
+                                searchController.text;
+                            getFeedMeOnlineController.getFeedMeOnlineOff();
+                          }
                         },
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
@@ -237,13 +278,22 @@ class _FeedMeOnlineOffState extends State<FeedMeOnlineOff> {
                       height: 58,
                       child: ElevatedButton(
                         onPressed: () {
-                          getFeedMeOnlineController.page.value = 1;
-                          getFeedMeOnlineController.mealzoId.value =
-                              searchController.text;
-                          getFeedMeOnlineController.getFeedMeOnlineOff();
+                          if (searchType == SearchType.id) {
+                            getFeedMeOnlineController.page.value = 1;
+                            getFeedMeOnlineController.mealzoName.value = "";
+                            getFeedMeOnlineController.mealzoId.value =
+                                searchController.text;
+                            getFeedMeOnlineController.getFeedMeOnlineOff();
+                          } else {
+                            getFeedMeOnlineController.page.value = 1;
+                            getFeedMeOnlineController.mealzoId.value = "";
+                            getFeedMeOnlineController.mealzoName.value =
+                                searchController.text;
+                            getFeedMeOnlineController.getFeedMeOnlineOff();
+                          }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade600,
+                          backgroundColor: Colors.deepOrange[400],
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
@@ -337,9 +387,9 @@ class _FeedMeOnlineOffState extends State<FeedMeOnlineOff> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(
                                       width: size.width * .4,
@@ -354,11 +404,13 @@ class _FeedMeOnlineOffState extends State<FeedMeOnlineOff> {
                                       ),
                                     ),
 
-
-                                    Text("Id : ${item.mealzo}" , style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),)
+                                    Text(
+                                      "Id : ${item.mealzo}",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(height: 4),
@@ -454,9 +506,7 @@ class _FeedMeOnlineOffState extends State<FeedMeOnlineOff> {
                         child: Center(
                           child: Text(
                             'page: ${getFeedMeOnlineController.postInfo.value.currentPage} Of ${getFeedMeOnlineController.postInfo.value.totalPages} >',
-                            style: TextStyle(
-                              color:Colors.white,
-                            ),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ),

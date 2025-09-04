@@ -8,7 +8,6 @@ import 'package:onofflive/controller/feedmeonline_controller.dart';
 import 'package:onofflive/controller/userInfo_controller.dart';
 import 'package:onofflive/views/filter_choice/filter_choice_screen.dart' show FilterChoiceScreen;
 import 'package:onofflive/views/login_screen.dart';
-import 'package:onofflive/views/main_screen.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
@@ -18,6 +17,9 @@ class FeedMeOnlineOn extends StatefulWidget {
   @override
   State<FeedMeOnlineOn> createState() => _FeedMeOnlineOnState();
 }
+
+enum SearchType { id, name }
+
 
 class _FeedMeOnlineOnState extends State<FeedMeOnlineOn> {
   final UserInfoController userInfoController = Get.put(UserInfoController());
@@ -208,17 +210,58 @@ class _FeedMeOnlineOnState extends State<FeedMeOnlineOn> {
         return SingleChildScrollView(
           child: Column(
             children: [
+
+
+
+               Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: Row(
+                  children: [
+                    Radio<SearchType>(
+                      value: SearchType.id,
+                      groupValue: searchType,
+                      activeColor: const Color.fromARGB(255, 255, 107, 1),
+                      onChanged: (value) {
+                        setState(() {
+                          searchType = value!;
+                        });
+                      },
+                    ),
+                    const Text('by Id'),
+                    Radio<SearchType>(
+                      value: SearchType.name,
+                      groupValue: searchType,
+                      activeColor: const Color.fromARGB(255, 255, 107, 1),
+                      onChanged: (value) {
+                        setState(() {
+                          searchType = value!;
+                        });
+                      },
+                    ),
+                    const Text('by Shop Name'),
+                  ],
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
                 child: Row(
                   children: [
                     Expanded(
                       child: TextField(
                         controller: searchController,
                         onSubmitted: (value) {
-                          getFeedMeOnlineController.page.value = 1;
-                          getFeedMeOnlineController.mealzoId.value = value;
-                          getFeedMeOnlineController.getFeedMeOnlineOn();
+                          if (searchType == SearchType.name) {
+                            getFeedMeOnlineController.page.value = 1;
+                            getFeedMeOnlineController.mealzoId.value = "";
+                            getFeedMeOnlineController.mealzoName.value =
+                                searchController.text;
+                            getFeedMeOnlineController.getFeedMeOnlineOn();
+                          } else {
+                            getFeedMeOnlineController.page.value = 1;
+                            getFeedMeOnlineController.mealzoId.value =
+                                searchController.text;
+                            getFeedMeOnlineController.getFeedMeOnlineOn();
+                          }
                         },
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
@@ -237,13 +280,21 @@ class _FeedMeOnlineOnState extends State<FeedMeOnlineOn> {
                       height: 58,
                       child: ElevatedButton(
                         onPressed: () {
-                          getFeedMeOnlineController.page.value = 1;
-                          getFeedMeOnlineController.mealzoId.value =
-                              searchController.text;
-                          getFeedMeOnlineController.getFeedMeOnlineOn();
+                          if (searchType == SearchType.name) {
+                            getFeedMeOnlineController.page.value = 1;
+                            getFeedMeOnlineController.mealzoId.value = "";
+                            getFeedMeOnlineController.mealzoName.value =
+                                searchController.text;
+                            getFeedMeOnlineController.getFeedMeOnlineOn();
+                          } else {
+                            getFeedMeOnlineController.page.value = 1;
+                            getFeedMeOnlineController.mealzoId.value =
+                                searchController.text;
+                            getFeedMeOnlineController.getFeedMeOnlineOn();
+                          }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade600,
+                          backgroundColor: Colors.deepOrange[400],
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(

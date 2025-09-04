@@ -13,6 +13,7 @@ class FilterChoiceController extends GetxController {
   RxnBool foodhub = RxnBool();
   RxnBool feedmeonline = RxnBool();
   RxString mealzoId = ''.obs;
+  RxString mealzoName = ''.obs;
 
 
   getStatusFilter() async {
@@ -20,10 +21,12 @@ class FilterChoiceController extends GetxController {
     listFilter.clear();
 
     var response = await DioServices().getMethodNotToken(
-      '${ApiUrl.getFilterChoice}?page=$page&mealzo=$mealzo&foodhub=$foodhub&justeat=$justeat&feedmeonline=$feedmeonline&mealzoId=$mealzoId',
+      '${ApiUrl.getFilterChoice}?page=$page&mealzo=$mealzo&foodhub=$foodhub&justeat=$justeat&feedmeonline=$feedmeonline&mealzoId=$mealzoId&mealzoName=$mealzoName',
     );
 
     if (response.statusCode == 200) {
+      listFilter.clear();
+
       response.data['results'].forEach((element) {
 
         listFilter.add(FilterChoiceModel.fromJson(element));

@@ -8,7 +8,6 @@ import 'package:onofflive/controller/justeat_controller.dart';
 import 'package:onofflive/controller/userInfo_controller.dart';
 import 'package:onofflive/views/filter_choice/filter_choice_screen.dart' show FilterChoiceScreen;
 import 'package:onofflive/views/login_screen.dart';
-import 'package:onofflive/views/main_screen.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
@@ -18,6 +17,8 @@ class JustEatOn extends StatefulWidget {
   @override
   State<JustEatOn> createState() => _JustEatOnState();
 }
+
+enum SearchType { id, name }
 
 class _JustEatOnState extends State<JustEatOn> {
   final UserInfoController userInfoController = Get.put(UserInfoController());
@@ -206,17 +207,56 @@ class _JustEatOnState extends State<JustEatOn> {
         return SingleChildScrollView(
           child: Column(
             children: [
+
+
+               Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: Row(
+                  children: [
+                    Radio<SearchType>(
+                      value: SearchType.id,
+                      groupValue: searchType,
+                      activeColor: const Color.fromARGB(255, 255, 107, 1),
+                      onChanged: (value) {
+                        setState(() {
+                          searchType = value!;
+                        });
+                      },
+                    ),
+                    const Text('by Id'),
+                    Radio<SearchType>(
+                      value: SearchType.name,
+                      groupValue: searchType,
+                      activeColor: const Color.fromARGB(255, 255, 107, 1),
+                      onChanged: (value) {
+                        setState(() {
+                          searchType = value!;
+                        });
+                      },
+                    ),
+                    const Text('by Shop Name'),
+                  ],
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
                 child: Row(
                   children: [
                     Expanded(
                       child: TextField(
                         controller: searchController,
                         onSubmitted: (value) {
-                          getJustEatController.page.value = 1;
-                          getJustEatController.mealzoId.value = value;
-                          getJustEatController.getJustOn();
+                          if (searchType == SearchType.id) {
+                            getJustEatController.page.value = 1;
+                            getJustEatController.mealzoName.value = "";
+                            getJustEatController.mealzoId.value = value;
+                            getJustEatController.getJustOn();
+                          } else if (searchType == SearchType.name) {
+                            getJustEatController.page.value = 1;
+                            getJustEatController.mealzoId.value = "";
+                            getJustEatController.mealzoName.value = value;
+                            getJustEatController.getJustOn();
+                          }
                         },
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
@@ -235,13 +275,23 @@ class _JustEatOnState extends State<JustEatOn> {
                       height: 58,
                       child: ElevatedButton(
                         onPressed: () {
-                          getJustEatController.page.value = 1;
-                          getJustEatController.mealzoId.value =
-                              searchController.text;
-                          getJustEatController.getJustOn();
+                          if (searchType == SearchType.id) {
+                            getJustEatController.page.value = 1;
+                            getJustEatController.mealzoName.value = "";
+
+                            getJustEatController.mealzoId.value =
+                                searchController.text;
+                            getJustEatController.getJustOn();
+                          } else if (searchType == SearchType.name) {
+                            getJustEatController.page.value = 1;
+                            getJustEatController.mealzoId.value = "";
+                            getJustEatController.mealzoName.value =
+                                searchController.text;
+                            getJustEatController.getJustOn();
+                          }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade600,
+                          backgroundColor: Colors.deepOrange[400],
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(

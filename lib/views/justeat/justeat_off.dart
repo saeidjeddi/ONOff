@@ -6,9 +6,9 @@ import 'package:onofflive/components/widgets.dart';
 import 'package:onofflive/controller/count_controller.dart';
 import 'package:onofflive/controller/justeat_controller.dart';
 import 'package:onofflive/controller/userInfo_controller.dart';
-import 'package:onofflive/views/filter_choice/filter_choice_screen.dart' show FilterChoiceScreen;
+import 'package:onofflive/views/filter_choice/filter_choice_screen.dart'
+    show FilterChoiceScreen;
 import 'package:onofflive/views/login_screen.dart';
-import 'package:onofflive/views/main_screen.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
@@ -18,6 +18,8 @@ class JustEatOff extends StatefulWidget {
   @override
   State<JustEatOff> createState() => _JustEatOffState();
 }
+
+enum SearchType { id, name }
 
 class _JustEatOffState extends State<JustEatOff> {
   final UserInfoController userInfoController = Get.put(UserInfoController());
@@ -192,7 +194,6 @@ class _JustEatOffState extends State<JustEatOff> {
                 ),
 
                 SizedBox(height: 16),
-
               ],
             ),
           ),
@@ -207,16 +208,53 @@ class _JustEatOffState extends State<JustEatOff> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: Row(
+                  children: [
+                    Radio<SearchType>(
+                      value: SearchType.id,
+                      groupValue: searchType,
+                      activeColor: const Color.fromARGB(255, 255, 107, 1),
+                      onChanged: (value) {
+                        setState(() {
+                          searchType = value!;
+                        });
+                      },
+                    ),
+                    const Text('by Id'),
+                    Radio<SearchType>(
+                      value: SearchType.name,
+                      groupValue: searchType,
+                      activeColor: const Color.fromARGB(255, 255, 107, 1),
+                      onChanged: (value) {
+                        setState(() {
+                          searchType = value!;
+                        });
+                      },
+                    ),
+                    const Text('by Shop Name'),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
                 child: Row(
                   children: [
                     Expanded(
                       child: TextField(
                         controller: searchController,
                         onSubmitted: (value) {
-                          getJustEatController.page.value = 1;
-                          getJustEatController.mealzoId.value = value;
-                          getJustEatController.getJustOff();
+                          if (searchType == SearchType.id) {
+                            getJustEatController.page.value = 1;
+                            getJustEatController.mealzoName.value = "";
+                            getJustEatController.mealzoId.value = value;
+                            getJustEatController.getJustOff();
+                          } else if (searchType == SearchType.name) {
+                            getJustEatController.page.value = 1;
+                            getJustEatController.mealzoId.value = "";
+                            getJustEatController.mealzoName.value = value;
+                            getJustEatController.getJustOff();
+                          }
                         },
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
@@ -235,13 +273,23 @@ class _JustEatOffState extends State<JustEatOff> {
                       height: 58,
                       child: ElevatedButton(
                         onPressed: () {
-                         getJustEatController.page.value = 1;
-                          getJustEatController.mealzoId.value =
-                              searchController.text;
-                          getJustEatController.getJustOff();
+                          if (searchType == SearchType.id) {
+                            getJustEatController.page.value = 1;
+                            getJustEatController.mealzoName.value = "";
+
+                            getJustEatController.mealzoId.value =
+                                searchController.text;
+                            getJustEatController.getJustOff();
+                          } else if (searchType == SearchType.name) {
+                            getJustEatController.page.value = 1;
+                            getJustEatController.mealzoId.value = "";
+                            getJustEatController.mealzoName.value =
+                                searchController.text;
+                            getJustEatController.getJustOff();
+                          }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade600,
+                          backgroundColor: Colors.deepOrange[400],
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
@@ -306,7 +354,7 @@ class _JustEatOffState extends State<JustEatOff> {
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-               
+
                 itemCount: getJustEatController.listjust.length,
                 itemBuilder: (context, index) {
                   final item = getJustEatController.listjust[index];
@@ -328,14 +376,14 @@ class _JustEatOffState extends State<JustEatOff> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                 
                           Padding(
                             padding: const EdgeInsets.all(12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(
                                       width: size.width * .4,
@@ -348,15 +396,15 @@ class _JustEatOffState extends State<JustEatOff> {
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
-
-                                      
                                     ),
 
-
-                             Text("Id : ${item.mealzo}" , style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),)
+                                    Text(
+                                      "Id : ${item.mealzo}",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(height: 4),
@@ -478,9 +526,7 @@ class _JustEatOffState extends State<JustEatOff> {
                         child: Center(
                           child: Text(
                             'page: ${getJustEatController.postInfo.value.currentPage} Of ${getJustEatController.postInfo.value.totalPages} >',
-                            style: TextStyle(
-                              color:  Colors.white,
-                            ),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ),

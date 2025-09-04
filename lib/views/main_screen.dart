@@ -665,64 +665,67 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
 
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: searchController,
-                      onSubmitted: (value) {
-                        if (searchType == SearchType.id) {
-                          statusController.mealzoId.value = value;
-                          statusController.getStatusMealzoId();
-                        } else {
-                          statusController.mealzoName.value = value;
-                          statusController.getStatusMealzoName();
-                        }
-                      },
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search, color: Colors.grey),
-                        hintText: 'Search Shop',
-
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            bottomLeft: Radius.circular(8),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(4, 12, 4, 4),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: searchController,
+                        onSubmitted: (value) {
+                          if (searchType == SearchType.id) {
+                            statusController.mealzoId.value = value;
+                            statusController.getStatusMealzoId();
+                          } else {
+                            statusController.mealzoName.value = value;
+                            statusController.getStatusMealzoName();
+                          }
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.search, color: Colors.grey),
+                          hintText: 'Search Shop',
+                
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(8),
+                              bottomLeft: Radius.circular(8),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 58,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (searchType == SearchType.id) {
-                          statusController.page.value = 1;
-                          statusController.mealzoId.value =
-                              searchController.text;
-                          statusController.getStatusMealzoId();
-                        } else if (searchType == SearchType.name) {
-                          statusController.page.value = 1;
-                          statusController.mealzoName.value =
-                              searchController.text;
-                          statusController.getStatusMealzoName();
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey.shade600,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
+                    SizedBox(
+                      height: 58,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (searchType == SearchType.id) {
+                            statusController.page.value = 1;
+                            statusController.mealzoId.value =
+                                searchController.text;
+                            statusController.getStatusMealzoId();
+                          } else if (searchType == SearchType.name) {
+                            statusController.page.value = 1;
+                            statusController.mealzoName.value =
+                                searchController.text;
+                            statusController.getStatusMealzoName();
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.deepOrange[400],
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(8),
+                              bottomRight: Radius.circular(8),
+                            ),
                           ),
+                          padding: EdgeInsets.symmetric(horizontal: 20),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Text('Search'),
                       ),
-                      child: Text('Search'),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
 
               // -------

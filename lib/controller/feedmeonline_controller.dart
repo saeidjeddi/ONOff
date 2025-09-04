@@ -9,6 +9,7 @@ class FeedMeOnlineController extends GetxController {
   Rx<PostInfo> postInfo = PostInfo().obs;
   RxInt page = RxInt(1);
   RxString mealzoId = ''.obs;
+  RxString mealzoName = ''.obs;
 
   getFeedMeOnlineOn() async {
     loding.value = true;
@@ -16,7 +17,7 @@ class FeedMeOnlineController extends GetxController {
     listFeedme.clear();
 
     var response = await DioServices().getMethodNotToken(
-      '${ApiUrl.getFeedMeOnline}?page=$page&mealzoId=$mealzoId&isopen=1',
+      '${ApiUrl.getFeedMeOnline}?page=$page&mealzoId=$mealzoId&mealzoName=$mealzoName&isopen=1',
     );
 
     if (response.statusCode == 200) {
@@ -37,7 +38,7 @@ class FeedMeOnlineController extends GetxController {
     listFeedme.clear();
 
     var response = await DioServices().getMethodNotToken(
-      '${ApiUrl.getFeedMeOnline}?page=$page&mealzoId=$mealzoId&isopen=0',
+      '${ApiUrl.getFeedMeOnline}?page=$page&mealzoId=$mealzoId&mealzoName=$mealzoName&isopen=0',
     );
 
     if (response.statusCode == 200) {

@@ -8,7 +8,6 @@ import 'package:onofflive/controller/foodhub_controller.dart';
 import 'package:onofflive/controller/userInfo_controller.dart';
 import 'package:onofflive/views/filter_choice/filter_choice_screen.dart' show FilterChoiceScreen;
 import 'package:onofflive/views/login_screen.dart';
-import 'package:onofflive/views/main_screen.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
@@ -18,6 +17,9 @@ class FoodhubOff extends StatefulWidget {
   @override
   State<FoodhubOff> createState() => _FoodhubOffState();
 }
+
+
+enum SearchType { id, name }
 
 class _FoodhubOffState extends State<FoodhubOff> {
   final UserInfoController userInfoController = Get.put(UserInfoController());
@@ -207,18 +209,60 @@ class _FoodhubOffState extends State<FoodhubOff> {
         return SingleChildScrollView(
           child: Column(
             children: [
+
+
+
+
+
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                              child: Row(
+                                              children: [
+                                                Radio<SearchType>(
+                                                  value: SearchType.id,
+                                                  groupValue: searchType,
+                                                  activeColor: const Color.fromARGB(255, 255, 107, 1),
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      searchType = value!;
+                                                    });
+                                                  },
+                                                ),
+                                                const Text('by Id'),
+                                                Radio<SearchType>(
+                                                  value: SearchType.name,
+                                                  groupValue: searchType,
+                                                  activeColor: const Color.fromARGB(255, 255, 107, 1),
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      searchType = value!;
+                                                    });
+                                                  },
+                                                ),
+                                                const Text('by Shop Name'),
+                                              ],
+                                            ),
+                            ),
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
                 child: Row(
                   children: [
                     Expanded(
                       child: TextField(
                         controller: searchController,
                         onSubmitted: (value) {
+                          if (searchType == SearchType.id){
                           getfoodhubController.page.value = 1;
-
+                          getfoodhubController.mealzoName.value = '';
                           getfoodhubController.mealzoId.value = value;
                           getfoodhubController.getFoodHubOff();
+                          } else {
+                            getfoodhubController.page.value = 1;
+                            getfoodhubController.mealzoId.value = '';
+                            getfoodhubController.mealzoName.value = value;
+                            getfoodhubController.getFoodHubOff();
+                          }
+
                         },
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
@@ -237,14 +281,22 @@ class _FoodhubOffState extends State<FoodhubOff> {
                       height: 58,
                       child: ElevatedButton(
                         onPressed: () {
-                          getfoodhubController.page.value = 1;
 
-                          getfoodhubController.mealzoId.value =
-                              searchController.text;
+                          if (searchType == SearchType.id){
+                          getfoodhubController.page.value = 1;
+                          getfoodhubController.mealzoName.value = '';
+                          getfoodhubController.mealzoId.value = searchController.text;
                           getfoodhubController.getFoodHubOff();
+                          } else {
+                            getfoodhubController.page.value = 1;
+                            getfoodhubController.mealzoId.value = '';
+                            getfoodhubController.mealzoName.value = searchController.text;
+                            getfoodhubController.getFoodHubOff();
+                          }
+
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade600,
+                          backgroundColor: Colors.deepOrange[400],
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
