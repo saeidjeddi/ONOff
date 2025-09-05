@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -11,6 +12,7 @@ import 'package:onofflive/views/login_screen.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -19,6 +21,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 enum SearchType { id, name }
+
+enum PieChartType { open, close }
 
 class _HomeScreenState extends State<HomeScreen> {
   final CountController countController = Get.put(CountController());
@@ -30,7 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final box = GetStorage();
 
   SearchType searchType = SearchType.id;
+  PieChartType pieChartType = PieChartType.open;
 
+  int touchedIndex = -1;
 
 
 
@@ -603,6 +609,158 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+
+              SizedBox(height: size.height / 40),
+
+
+
+Padding(
+  padding: const EdgeInsets.all(8.0),
+  child: Container(
+    height: 400,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: const BorderRadius.all(Radius.circular(16)),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.2),
+          spreadRadius: 2,
+          blurRadius: 5,
+          offset: const Offset(0, 3),
+        ),
+      ],
+    ),
+    child: Column(
+      children: [
+        Row(
+          children: [
+            Radio<PieChartType>(
+              value: PieChartType.open,
+              groupValue: pieChartType,
+              activeColor: const Color.fromARGB(255, 255, 107, 1),
+              onChanged: (value) {
+                setState(() {
+                  pieChartType = value!;
+                });
+              },
+            ),
+            const Text('Open'),
+            Radio<PieChartType>(
+              value: PieChartType.close,
+              groupValue: pieChartType,
+              activeColor: const Color.fromARGB(255, 255, 107, 1),
+              onChanged: (value) {
+                setState(() {
+                  pieChartType = value!;
+                });
+              },
+            ),
+            const Text('Close'),
+          ],
+        ),
+        Expanded(
+          child: PieChart(
+            PieChartData(
+              pieTouchData: PieTouchData(
+                touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                  setState(() {
+                    if (!event.isInterestedForInteractions ||
+                        pieTouchResponse == null ||
+                        pieTouchResponse.touchedSection == null) {
+                      touchedIndex = -1;
+                      return;
+                    }
+                    touchedIndex =
+                        pieTouchResponse.touchedSection!.touchedSectionIndex;
+                  });
+                },
+              ),
+              borderData: FlBorderData(show: false),
+              sectionsSpace: 0,
+              centerSpaceRadius: 40,
+              sections: showingSections(),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 16,
+                      height: 16,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.blue,
+                      ),
+                    ),
+                    const Text('Food Hub'),
+                                        const SizedBox(width: 4),
+
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      width: 16,
+                      height: 16,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.red,
+                      ),
+                    ),
+                    const Text('Just Eat'),
+                                        const SizedBox(width: 4),
+
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      width: 16,
+                      height: 16,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.green,
+                      ),
+                    ),
+                    const Text('Feed Me Online'),
+                                        const SizedBox(width:4),
+
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      width: 16,
+                      height: 16,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.orange,
+                      ),
+                    ),
+                    const Text('Mealzo'),
+
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: size.height /40,)
+      ],
+    ),
+  ),
+),
+
+
+
+
 
               SizedBox(height: size.height / 40),
               Row(
@@ -1638,4 +1796,98 @@ SizedBox(height: size.height *0.1,)
       }),
     );
   }
+
+List<PieChartSectionData> showingSections() {
+  final total = (pieChartType == PieChartType.open)
+      ? (countController.countInfo.value.foodhub.onD +
+          countController.countInfo.value.justeat.onD +
+          countController.countInfo.value.feedmeonline.onD +
+          countController.countInfo.value.mealzo.onD)
+      : (countController.countInfo.value.foodhub.off +
+          countController.countInfo.value.justeat.off +
+          countController.countInfo.value.feedmeonline.off +
+          countController.countInfo.value.mealzo.off);
+
+  int getPercent(int value) {
+    if (total == 0) return 0;
+    return ((value / total) * 100).clamp(0, 100).toInt();
+  }
+
+  return List.generate(4, (i) {
+    final isTouched = i == touchedIndex;
+    final double radius = isTouched ? 70 : 60;
+
+    switch (i) {
+      case 0:
+        final percent = getPercent(pieChartType == PieChartType.open
+            ? countController.countInfo.value.foodhub.onD
+            : countController.countInfo.value.foodhub.off);
+        return PieChartSectionData(
+          color: Colors.blue,
+          value: percent.toDouble(),
+          radius: radius,
+          title: '$percent%',
+          titleStyle: const TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+          ),
+          badgeWidget: Image.asset(ConstImage.foodhubPng, width: 30),
+          badgePositionPercentageOffset: 1.2,
+        );
+      case 1:
+        final percent = getPercent(pieChartType == PieChartType.open
+            ? countController.countInfo.value.justeat.onD
+            : countController.countInfo.value.justeat.off);
+        return PieChartSectionData(
+          color: Colors.red,
+          value: percent.toDouble(),
+          radius: radius,
+          title: '$percent%',
+          titleStyle: const TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+          ),
+          badgeWidget: Image.asset(ConstImage.justeatPng, width: 30),
+          badgePositionPercentageOffset: 1.2,
+        );
+      case 2:
+        final percent = getPercent(pieChartType == PieChartType.open
+            ? countController.countInfo.value.feedmeonline.onD
+            : countController.countInfo.value.feedmeonline.off);
+        return PieChartSectionData(
+          color: Colors.green,
+          value: percent.toDouble(),
+          radius: radius,
+          title: '$percent%',
+          titleStyle: const TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+          ),
+          badgeWidget: Image.asset(ConstImage.feedmeonlineJpg, width: 30),
+          badgePositionPercentageOffset: 1.2,
+        );
+      case 3:
+        final percent = getPercent(pieChartType == PieChartType.open
+            ? countController.countInfo.value.mealzo.onD
+            : countController.countInfo.value.mealzo.off);
+        return PieChartSectionData(
+          color: Colors.orange,
+          value: percent.toDouble(),
+          radius: radius,
+          title: '$percent%',
+          titleStyle: const TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+          ),
+          badgeWidget: Image.asset(ConstImage.mealzo, width: 30),
+          badgePositionPercentageOffset: 1.2,
+        );
+      default:
+        throw Error();
+    }
+  });
+}
+
+
+
 }
